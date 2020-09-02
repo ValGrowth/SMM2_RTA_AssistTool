@@ -29,7 +29,7 @@ namespace SMM2_RTA_AssistTool {
         private bool mProcessing = false;	// キャプチャしたデータの処理中フラグ
 
 		private VideoAnalyzer mVideoAnalyzer = new VideoAnalyzer();
-		private GameState mGameState = new GameState();
+		private VideoGameState mVideoGameState = new VideoGameState();
 
 		public VideoChecker(Form1 form1) {
 			mForm1 = form1;
@@ -265,13 +265,13 @@ namespace SMM2_RTA_AssistTool {
 
 		private void UpdateGameState(Bitmap bitmap)
         {
-			mGameState.mLevelCode = mVideoAnalyzer.DetectLevelCode(bitmap);
-			mGameState.mCoinNum = mVideoAnalyzer.DetectCoinNum(bitmap);
+			mVideoGameState.mLevelNo = mVideoAnalyzer.DetectLevelNo(bitmap);
+			mVideoGameState.mCoinNum = mVideoAnalyzer.DetectCoinNum(bitmap);
 		}
 
-		public GameState GetGameState()
+		public VideoGameState GetVideoGameState()
         {
-			return mGameState;
+			return mVideoGameState;
 		}
 
 	}

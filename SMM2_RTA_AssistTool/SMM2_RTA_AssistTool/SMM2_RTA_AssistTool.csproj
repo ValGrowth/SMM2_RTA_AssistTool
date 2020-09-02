@@ -91,6 +91,7 @@
     <Compile Include="VideoChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VideoGameState.cs" />
     <EmbeddedResource Include="ChooseDeviceWindow.resx">
       <DependentUpon>ChooseDeviceWindow.cs</DependentUpon>
     </EmbeddedResource>

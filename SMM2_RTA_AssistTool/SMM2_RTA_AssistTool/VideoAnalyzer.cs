@@ -10,9 +10,9 @@ namespace SMM2_RTA_AssistTool
     class VideoAnalyzer
     {
 
-        // コースのコードを取得する。
+        // コースのNo.を取得する。
         // ナンバリングや犬、緑キノなど
-        public string DetectLevelCode(Bitmap bitmap)
+        public string DetectLevelNo(Bitmap bitmap)
         {
             // TODO:
             return "";

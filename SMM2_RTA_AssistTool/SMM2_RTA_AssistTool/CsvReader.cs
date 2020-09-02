@@ -61,7 +61,6 @@ namespace SMM2_RTA_AssistTool
                     }
                     System.Console.WriteLine();
                 }
-                System.Console.ReadKey();
             }
 
             return dataList;

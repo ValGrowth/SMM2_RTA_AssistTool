@@ -23,6 +23,7 @@ namespace SMM2_RTA_AssistTool {
 		//AudioChecker mAudioChecker = null;
 
 		GameState mGameState = new GameState();
+		List<GameState> mGameStateHistory = new List<GameState>();
 
 		private IGraphBuilder graphBuilder; //基本的なフィルタグラフマネージャ
 		private ICaptureGraphBuilder2 captureGraphBuilder;//ビデオキャプチャ＆編集用のメソッドを備えたキャプチャグラフビルダ
@@ -55,12 +56,19 @@ namespace SMM2_RTA_AssistTool {
 				return;
 			}
 
+			ResetRun();
 			updateDisplay();
 			
 			while (true) {
 	            await update();
 			}
         }
+
+		public void ResetRun()
+        {
+			mGameState.Reset();
+			mGameStateHistory.Clear();
+		}
 
 		private bool directShowInitialize() {
 
@@ -206,21 +214,25 @@ namespace SMM2_RTA_AssistTool {
 				return Task.Run(() => Thread.Sleep(100));
 			}
 
+			// TODO: 前回発見時点から5秒待つ
+			// TODO: GameStateをHistoryで持ち、前コースのコイン差を計算する
+
 			if (!CheckBox_Pause.Checked)
             {
-				// ゲームの状態が変化した
-				if (mVideoChecker.GetGameState().mLevelCode != mGameState.mLevelCode
-					&& mVideoChecker.GetGameState().mLevelCode != "")
-                {
-					// TODO:
+				VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 
+				// コースのプレイ開始を検出した
+				if (videoGameState.mLevelNo != "")
+                {
+					mGameState.updateLevel(videoGameState.mLevelNo);
 					updateDisplay();
 				}
-				if (mVideoChecker.GetGameState().mCoinNum != mGameState.mCoinNum
-					&& mVideoChecker.GetGameState().mCoinNum != -1)
-                {
-					// TODO:
 
+				// 所持コイン枚数が変化した
+				if (videoGameState.mCoinNum >= 0)
+                {
+					mGameState.updateCoin(videoGameState.mCoinNum);
+					mGameStateHistory.Add(mGameState);
 					updateDisplay();
 				}
 			}
@@ -232,6 +244,8 @@ namespace SMM2_RTA_AssistTool {
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 			TextBox_DeathCount.Text = DeathCountManager.Instance.DeathCount.ToString();
+
+			// TODO: コース名とコイン枚数を表示する
 		}
 		
 		private void closeToolStripMenuItem1_Click(object sender, EventArgs e) {
