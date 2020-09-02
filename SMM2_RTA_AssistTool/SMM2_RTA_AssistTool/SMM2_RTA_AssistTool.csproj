@@ -54,6 +54,7 @@
     <Compile Include="ChooseDeviceWindow.Designer.cs">
       <DependentUpon>ChooseDeviceWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="CsvReader.cs" />
     <Compile Include="DeathCountSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +62,8 @@
       <DependentUpon>DeathCountSetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DeathCountManager.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="LevelData.cs" />
     <Compile Include="MainSetting.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -84,6 +87,7 @@
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SMMMessageBox.cs" />
+    <Compile Include="VideoAnalyzer.cs" />
     <Compile Include="VideoChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,10 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SettingManualJp.txt" />
-    <Content Include="SettingManualEn.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

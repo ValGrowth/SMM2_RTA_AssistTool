@@ -28,7 +28,8 @@ namespace SMM2_RTA_AssistTool {
         private byte[] mFrameArray;//キャプチャしたフレームデータ用の配列
         private bool mProcessing = false;	// キャプチャしたデータの処理中フラグ
 
-		private List<KeyValuePair<double, bool>> mVideoHistories = new List<KeyValuePair<double, bool>>();
+		private VideoAnalyzer mVideoAnalyzer = new VideoAnalyzer();
+		private GameState mGameState = new GameState();
 
 		public VideoChecker(Form1 form1) {
 			mForm1 = form1;
@@ -237,8 +238,8 @@ namespace SMM2_RTA_AssistTool {
 				Bitmap bitmap = new Bitmap(width, height, -stride, PixelFormat.Format24bppRgb, (IntPtr) addr);
 				gcHandle.Free();
 
-				bool dead = isDead(bitmap);
-				mVideoHistories.Add(new KeyValuePair<double, bool>(SampleTime, dead));
+				// ゲームの状態を分析して更新
+				UpdateGameState(bitmap);
 
 /*
 				Image pre = null;
@@ -261,52 +262,16 @@ namespace SMM2_RTA_AssistTool {
 				SMMMessageBox.Show("エラー：映像のフレームのキャプチャ（Grab）に失敗しました。Error: Failed to capture the frame of video.(Grab) " + e.ToString(), SMMMessageBoxIcon.Error);
 			}
 		}
-		
-		// 蓄積した過去のデータのうち、古いものを捨てる
-		public void OptimizeHistory() {
-			double maxSampleTime = -1.0;
-			for (int i = mVideoHistories.Count - 1; i >= 0; --i) {
-				KeyValuePair<double, bool> data = mVideoHistories[i];
-				if (maxSampleTime < 0) {
-					maxSampleTime = data.Key;
-				}
-				if (data.Key < maxSampleTime - DeathSetting.Instance.PastTimeRange) {
-					mVideoHistories.RemoveAt(i);
-				}
-			}
+
+		private void UpdateGameState(Bitmap bitmap)
+        {
+			mGameState.mLevelCode = mVideoAnalyzer.DetectLevelCode(bitmap);
+			mGameState.mCoinNum = mVideoAnalyzer.DetectCoinNum(bitmap);
 		}
 
-		// 画像での死亡判定
-		public bool isDead(Bitmap bitmap) {
-			for (int x = 0; x < bitmap.Size.Width; ++x) {
-				for (int y = 0; y < bitmap.Size.Height; ++y) {
-					Color color = bitmap.GetPixel(x, y);
-					if (color.R > DeathSetting.Instance.DeadPixelValueThreshold || 
-						color.G > DeathSetting.Instance.DeadPixelValueThreshold ||
-						color.B > DeathSetting.Instance.DeadPixelValueThreshold) {
-						return false;
-					}
-				}
-			}
-
-			return true;
-		}
-
-		// 映像での死亡判定
-		public bool isDead() {
-
-			if (mVideoHistories.Count == 0) {
-				return false;
-			}
-
-			// 過去の数件分のどれかのデータにおいて死んでいるか
-			foreach (KeyValuePair<double, bool> data in mVideoHistories) {
-				if (data.Value) {
-					return true;
-				}
-			}
-
-			return false;
+		public GameState GetGameState()
+        {
+			return mGameState;
 		}
 
 	}

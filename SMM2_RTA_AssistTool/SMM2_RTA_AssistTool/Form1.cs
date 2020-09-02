@@ -20,7 +20,9 @@ namespace SMM2_RTA_AssistTool {
 		private DateTime lastDeadTime = DateTime.MinValue;
 
 		VideoChecker mVideoChecker = null;
-		AudioChecker mAudioChecker = null;
+		//AudioChecker mAudioChecker = null;
+
+		GameState mGameState = new GameState();
 
 		private IGraphBuilder graphBuilder; //基本的なフィルタグラフマネージャ
 		private ICaptureGraphBuilder2 captureGraphBuilder;//ビデオキャプチャ＆編集用のメソッドを備えたキャプチャグラフビルダ
@@ -63,7 +65,7 @@ namespace SMM2_RTA_AssistTool {
 		private bool directShowInitialize() {
 
 			mVideoChecker = new VideoChecker(this);
-			mAudioChecker = new AudioChecker(this);
+			//mAudioChecker = new AudioChecker(this);
 
 
             // 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
@@ -98,11 +100,11 @@ namespace SMM2_RTA_AssistTool {
 				return false;
 			}
 
-			ret = mAudioChecker.AddAudioFilters(graphBuilder, captureGraphBuilder);
-			if (!ret) {
-				SMMMessageBox.Show("エラー：音声入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any audio devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
-				return false;
-			}
+			//ret = mAudioChecker.AddAudioFilters(graphBuilder, captureGraphBuilder);
+			//if (!ret) {
+			//	SMMMessageBox.Show("エラー：音声入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any audio devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
+			//	return false;
+			//}
 
 			// 7. プレビュー映像（レンダラフィルタの出力）の出力場所を設定する.
 
@@ -181,7 +183,7 @@ namespace SMM2_RTA_AssistTool {
 				}
 
 				mVideoChecker.CloseInterfaces();
-				mAudioChecker.CloseInterfaces();
+				//mAudioChecker.CloseInterfaces();
 
 			}
 			catch(Exception e)
@@ -196,47 +198,34 @@ namespace SMM2_RTA_AssistTool {
 			if (mVideoChecker != null) {
 				mVideoChecker.update();
 			}
-			if (mAudioChecker != null) {
-				mAudioChecker.update();
-			}
+			//if (mAudioChecker != null) {
+			//	mAudioChecker.update();
+			//}
 
-			if (mVideoChecker == null || mAudioChecker == null) {
+			if (mVideoChecker == null/* || mAudioChecker == null*/) {
 				return Task.Run(() => Thread.Sleep(100));
 			}
 
-			mVideoChecker.OptimizeHistory();
-			mAudioChecker.OptimizeHistory();
+			if (!CheckBox_Pause.Checked)
+            {
+				// ゲームの状態が変化した
+				if (mVideoChecker.GetGameState().mLevelCode != mGameState.mLevelCode
+					&& mVideoChecker.GetGameState().mLevelCode != "")
+                {
+					// TODO:
 
-			if (isDead()) {
+					updateDisplay();
+				}
+				if (mVideoChecker.GetGameState().mCoinNum != mGameState.mCoinNum
+					&& mVideoChecker.GetGameState().mCoinNum != -1)
+                {
+					// TODO:
 
-				lastDeadTime = DateTime.Now;
-
-				Console.WriteLine("dead");
-
-				// 死亡をカウントして保存する
-				DeathCountManager.Instance.addDeathCount(1);
-				DeathCountManager.Instance.saveToFile();
-				updateDisplay();
-
+					updateDisplay();
+				}
 			}
 
-            return Task.Run(() => Thread.Sleep(100));
-		}
-
-		private bool isDead() {
-			if (DateTime.Now - lastDeadTime < DeathSetting.Instance.DeadSpan) {
-				return false;
-			}
-			if (!mVideoChecker.isDead()) {
-				return false;
-			}
-			if (!mAudioChecker.isDead()) {
-				return false;
-			}
-			if (CheckBox_Pause.Checked) {
-				return false;
-			}
-			return true;
+			return Task.Run(() => Thread.Sleep(100));
 		}
 
 		private void updateDisplay() {
