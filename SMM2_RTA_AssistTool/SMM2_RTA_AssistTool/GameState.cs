@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,39 +9,37 @@ namespace SMM2_RTA_AssistTool
 {
     class GameState
     {
+
+        public enum STATE { 
+            CASTLE,
+            LEVEL_PLAYING,
+        };
+
         private string mLevelNo;
         private int mSerialIdx;
-        private int mCoinNum;
+        private int mCurCoinNum;
+        private int mCumulativeCoinNum;
+        private STATE mState;
 
-        private IDictionary<string, LevelData> mLevelDataList = new Dictionary<string, LevelData>();
+        public int GetCurCoinNum() { return mCurCoinNum; }
+        public int GetCumulativeCoinNum() { return mCumulativeCoinNum; }
+        public STATE GetState() { return mState; }
 
         public GameState()
         {
-            Init();
             Reset();
-        }
-
-        private void Init()
-        {
-            // TODO: 別のシングルトンクラスに分ける
-            List<List<string>> csvData = CsvReader.ReadCsv("LevelData.csv", true);
-
-            foreach (List<string> line in csvData)
-            {
-                LevelData levelData = new LevelData(line);
-                mLevelDataList.Add(levelData.mLevelCode, levelData);
-            }
-
         }
 
         public void Reset()
         {
             mLevelNo = "";
             mSerialIdx = 0;
-            mCoinNum = 0;
+            mCurCoinNum = 0;
+            mCumulativeCoinNum = 0;
+            mState = STATE.CASTLE;
         }
 
-        private string getLevelCode()
+        private string GetLevelCode()
         {
             if (mLevelNo == "" || mSerialIdx <= 0)
             {
@@ -49,7 +48,7 @@ namespace SMM2_RTA_AssistTool
             return mLevelNo + "_" + mSerialIdx;
         }
 
-        public void updateLevel(string levelNo)
+        public void UpdateLevel(string levelNo)
         {
             if (levelNo == mLevelNo)
             {
@@ -59,31 +58,60 @@ namespace SMM2_RTA_AssistTool
                 mLevelNo = levelNo;
                 mSerialIdx = 1;
             }
-            mCoinNum = -1; // コースプレイ中は-1
+            mCurCoinNum = -1; // コースプレイ中は-1
+            mState = STATE.LEVEL_PLAYING;
         }
 
-        public void updateCoin(int coin)
+        public void UpdateCoin(int coin)
         {
-            mCoinNum = coin;
+            mCurCoinNum = coin;
+            mCumulativeCoinNum += mCurCoinNum;
+            mState = STATE.CASTLE;
         }
 
-        public int getCurCoinDiff()
+        public int GetCurCoinDiff()
+        {
+            if (mCurCoinNum < 0)
+            {
+                return -1;
+            }
+            LevelData levelData = GetLevelData();
+            if (levelData == null)
+            {
+                return -1;
+            }
+            int coinDiff = mCurCoinNum - levelData.mTotalCoin;
+            return coinDiff;
+        }
+
+        public int GetCumulativeCoinDiff()
+        {
+            if (mCurCoinNum < 0)
+            {
+                return -1;
+            }
+            LevelData levelData = GetLevelData();
+            if (levelData == null)
+            {
+                return -1;
+            }
+            int coinDiff = mCumulativeCoinNum - levelData.mCumulativeCoin;
+            return coinDiff;
+        }
+
+        public LevelData GetLevelData()
         {
             if (mLevelNo == "")
             {
-                return -1;
+                return null;
             }
-            if (mCoinNum < 0)
-            {
-                return -1;
-            }
-            string curLevelCode = getLevelCode();
+            string curLevelCode = GetLevelCode();
             if (curLevelCode == "")
             {
-                return -1;
+                return null;
             }
-            int coinDiff = mCoinNum - mLevelDataList[curLevelCode].mTotalCoin;
-            return coinDiff;
+            LevelData levelData = LevelManager.Instance.GetLevelData(curLevelCode);
+            return levelData;
         }
 
     }

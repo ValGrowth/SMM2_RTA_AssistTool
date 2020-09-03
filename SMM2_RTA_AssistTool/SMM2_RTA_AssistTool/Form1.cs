@@ -17,8 +17,6 @@ using static SMM2_RTA_AssistTool.SMMMessageBox;
 namespace SMM2_RTA_AssistTool {
 	public partial class Form1 : Form {
 
-		private DateTime lastDeadTime = DateTime.MinValue;
-
 		VideoChecker mVideoChecker = null;
 		//AudioChecker mAudioChecker = null;
 
@@ -57,7 +55,7 @@ namespace SMM2_RTA_AssistTool {
 			}
 
 			ResetRun();
-			updateDisplay();
+			UpdateDisplay();
 			
 			while (true) {
 	            await update();
@@ -68,6 +66,7 @@ namespace SMM2_RTA_AssistTool {
         {
 			mGameState.Reset();
 			mGameStateHistory.Clear();
+			mGameStateHistory.Add(mGameState);
 		}
 
 		private bool directShowInitialize() {
@@ -210,42 +209,61 @@ namespace SMM2_RTA_AssistTool {
 			//	mAudioChecker.update();
 			//}
 
-			if (mVideoChecker == null/* || mAudioChecker == null*/) {
-				return Task.Run(() => Thread.Sleep(100));
-			}
+			if (mVideoChecker != null/* && mAudioChecker != null*/)
+			{
 
-			// TODO: 前回発見時点から5秒待つ
-			// TODO: GameStateをHistoryで持ち、前コースのコイン差を計算する
+				if (!CheckBox_Pause.Checked)
+				{
+					VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 
-			if (!CheckBox_Pause.Checked)
-            {
-				VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
-
-				// コースのプレイ開始を検出した
-				if (videoGameState.mLevelNo != "")
-                {
-					mGameState.updateLevel(videoGameState.mLevelNo);
-					updateDisplay();
-				}
-
-				// 所持コイン枚数が変化した
-				if (videoGameState.mCoinNum >= 0)
-                {
-					mGameState.updateCoin(videoGameState.mCoinNum);
-					mGameStateHistory.Add(mGameState);
-					updateDisplay();
+					// コースのプレイ開始を検出した
+					if (mGameState.GetState() == GameState.STATE.CASTLE)
+                    {
+						if (videoGameState.mLevelNo != "")
+						{
+							mGameState.UpdateLevel(videoGameState.mLevelNo);
+							UpdateDisplay();
+						}
+					} else if (mGameState.GetState() == GameState.STATE.LEVEL_PLAYING)
+                    {
+						// 所持コイン枚数が変化した
+						if (videoGameState.mCoinNum >= 0)
+						{
+							mGameState.UpdateCoin(videoGameState.mCoinNum);
+							mGameStateHistory.Add(mGameState);
+							UpdateDisplay();
+						}
+					}
 				}
 			}
 
 			return Task.Run(() => Thread.Sleep(100));
 		}
 
-		private void updateDisplay() {
+		private void UpdateDisplay() {
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 			TextBox_DeathCount.Text = DeathCountManager.Instance.DeathCount.ToString();
 
-			// TODO: コース名とコイン枚数を表示する
+			const int DISP_NUM = 2;
+			for (int i = 0; i < DISP_NUM; ++i)
+            {
+				int index = mGameStateHistory.Count - (DISP_NUM - i);
+				if (index < 0)
+                {
+					continue;
+                }
+				GameState state = mGameStateHistory[i];
+				LevelData levelData = state.GetLevelData();
+				string levelName = levelData.mJpTitle; // コース名
+				int gotCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
+				int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
+				int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
+				int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
+
+				// TODO: コース名とコイン枚数を表示する
+				// 獲得コイン(+-差)　累計コイン(+-差)
+			}
 		}
 		
 		private void closeToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -278,7 +296,7 @@ namespace SMM2_RTA_AssistTool {
 		private void deathCountToolStripMenuItem_Click(object sender, EventArgs e) {
 			DeathCountSetForm form = new DeathCountSetForm();
 			form.ShowDialog(this);
-			updateDisplay();
+			UpdateDisplay();
 		}
 
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {

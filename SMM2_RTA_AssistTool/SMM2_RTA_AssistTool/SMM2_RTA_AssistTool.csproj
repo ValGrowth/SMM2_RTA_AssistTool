@@ -64,6 +64,7 @@
     <Compile Include="DeathCountManager.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="LevelData.cs" />
+    <Compile Include="LevelManager.cs" />
     <Compile Include="MainSetting.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

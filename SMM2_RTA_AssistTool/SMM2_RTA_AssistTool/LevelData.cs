@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,11 @@ namespace SMM2_RTA_AssistTool
         public string mLevelCode;
         public string mJpTitle;
         public string mEnTitle;
-        public int mReward;
-        public int mInLevelCoin;
-        public int mTotalCoin;
-
+        public int mReward; // 報酬コイン枚数
+        public int mInLevelCoin; // コース内コイン枚数
+        public int mTotalCoin; // Reward + InLevelCoin
+        public int mCumulativeCoin; // 累計コイン枚数
+        public Bitmap mTitleImage; // タイトルが表示される画面の画像
 
         public LevelData()
         {
@@ -28,6 +30,8 @@ namespace SMM2_RTA_AssistTool
             mReward = 0;
             mInLevelCoin = 0;
             mTotalCoin = 0;
+            mCumulativeCoin = 0;
+            mTitleImage = null;
         }
 
         public LevelData(List<string> list)
@@ -52,6 +56,12 @@ namespace SMM2_RTA_AssistTool
                 mInLevelCoin = 0;
             }
             mTotalCoin = mReward + mInLevelCoin;
+            if (!int.TryParse(list[6], out mCumulativeCoin))
+            {
+                mCumulativeCoin = 0;
+            }
+            string pictPath = "./Image/Level/" + list[7];
+            mTitleImage = new Bitmap(pictPath);
         }
     }
 }
