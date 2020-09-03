@@ -1,21 +1,17 @@
-﻿using System;
+﻿using DirectShowLib;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
-using System.IO;
-using System.Runtime.InteropServices;
-
-using DirectShowLib;
 using static SMM2_RTA_AssistTool.SMMMessageBox;
 
-namespace SMM2_RTA_AssistTool {
-	public partial class Form1 : Form {
+namespace SMM2_RTA_AssistTool
+{
+	public partial class Form1 : Form
+	{
 
 		VideoChecker mVideoChecker = null;
 		//AudioChecker mAudioChecker = null;
@@ -38,52 +34,56 @@ namespace SMM2_RTA_AssistTool {
 		public const int WM_GRAPHNOTIFY = 0x00008001;//DirectShowイベントの発生を表すWindows メッセージ.
 
 
-		public Form1() {
+		public Form1()
+		{
 			InitializeComponent();
 		}
 
-		private async void Form1_Load(object sender, EventArgs e) {
+		private async void Form1_Load(object sender, EventArgs e)
+		{
 
 			DeathSetting.Instance.initialize();
 			MainSetting.Instance.initialize();
 			OptionSetting.Instance.initialize();
-			DeathCountManager.Instance.initialize();
 			bool ret = directShowInitialize();
-			if (!ret) {
+			if (!ret)
+			{
 				Close();
 				return;
 			}
 
 			ResetRun();
 			UpdateDisplay();
-			
-			while (true) {
-	            await update();
+
+			while (true)
+			{
+				await update();
 			}
-        }
+		}
 
 		public void ResetRun()
-        {
+		{
 			mGameState.Reset();
 			mGameStateHistory.Clear();
 			mGameStateHistory.Add(mGameState);
 		}
 
-		private bool directShowInitialize() {
+		private bool directShowInitialize()
+		{
 
 			mVideoChecker = new VideoChecker(this);
 			//mAudioChecker = new AudioChecker(this);
 
 
-            // 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
+			// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
 
 			//graphBuilderを作成．
 			graphBuilder = GraphFactory.MakeGraphBuilder();
 
 			//各種インタフェースを取得．
-			mediaControl = (IMediaControl) graphBuilder;
-			videoWindow = (IVideoWindow) graphBuilder;
-			mediaEvent = (IMediaEventEx) graphBuilder;
+			mediaControl = (IMediaControl)graphBuilder;
+			videoWindow = (IVideoWindow)graphBuilder;
+			mediaEvent = (IMediaEventEx)graphBuilder;
 
 
 			// 4. キャプチャグラフビルダと，サンプルグラバフィルタ（個々のビデオデータを取得するフィルタ）を作成する．
@@ -95,14 +95,15 @@ namespace SMM2_RTA_AssistTool {
 
 			//captureGraphBuilder（キャプチャグラフビルダ）をgraphBuilder（フィルタグラフマネージャ）に追加．
 			result = captureGraphBuilder.SetFiltergraph(graphBuilder);
-			if(result < 0) Marshal.ThrowExceptionForHR(result);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 
 
 			// 1. デバイスを取得し、2. キャプチャデバイスをソースフィルタに対応づける．
 			// 6. 各フィルタの接続を行い，入力画像のキャプチャとプレビューの準備を行う．
 			bool ret = false;
 			ret = mVideoChecker.AddVideoFilters(graphBuilder, captureGraphBuilder);
-			if (!ret) {
+			if (!ret)
+			{
 				SMMMessageBox.Show("エラー：映像入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any video devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
 				return false;
 			}
@@ -116,38 +117,39 @@ namespace SMM2_RTA_AssistTool {
 			// 7. プレビュー映像（レンダラフィルタの出力）の出力場所を設定する.
 
 			//プレビュー映像を表示するパネルを指定．
-			result = videoWindow.put_Owner(this.panel1.Handle); 
-			if(result < 0) Marshal.ThrowExceptionForHR(result); 
+			result = videoWindow.put_Owner(this.panel1.Handle);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 			//ビデオ表示領域のスタイルを指定．
 			result = videoWindow.put_WindowStyle(WindowStyle.Child | WindowStyle.ClipChildren);
-			if(result < 0) Marshal.ThrowExceptionForHR(result);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 			//ビデオパネルのサイズを変更する．
 			Rectangle rect = this.panel1.ClientRectangle;
-			videoWindow.SetWindowPosition(0,0,rect.Right,rect.Bottom); 
+			videoWindow.SetWindowPosition(0, 0, rect.Right, rect.Bottom);
 
 			//レンダラフィルタの出力を可視化する．
 			result = videoWindow.put_Visible(OABool.True);
-			if(result < 0) Marshal.ThrowExceptionForHR(result);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 
 
 
-            // 8. DirectShowイベントを，Windowsメッセージを通して通知するための設定を行う．
-            
-            // mediaEvent(DirectShowイベント)をWM_GRAPHNOTIFY(Windowsメッセージ)に対応付ける． 
-            result= mediaEvent.SetNotifyWindow(this.Handle, WM_GRAPHNOTIFY, IntPtr.Zero);
-            if(result < 0) Marshal.ThrowExceptionForHR(result);
+			// 8. DirectShowイベントを，Windowsメッセージを通して通知するための設定を行う．
 
-            
-            
-            // 9. プレビューを開始する．
+			// mediaEvent(DirectShowイベント)をWM_GRAPHNOTIFY(Windowsメッセージ)に対応付ける． 
+			result = mediaEvent.SetNotifyWindow(this.Handle, WM_GRAPHNOTIFY, IntPtr.Zero);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 
-            result = mediaControl.Run();
-            if(result < 0) Marshal.ThrowExceptionForHR(result); 
+
+
+			// 9. プレビューを開始する．
+
+			result = mediaControl.Run();
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 
 			return true;
 		}
 
-		private void Form1_FormClosed_1(object sender, FormClosedEventArgs e) {
+		private void Form1_FormClosed_1(object sender, FormClosedEventArgs e)
+		{
 			//// 閉じるときの処理
 			CloseInterfaces();
 		}
@@ -157,33 +159,33 @@ namespace SMM2_RTA_AssistTool {
 		{
 			try
 			{
-				if(mediaControl != null)
+				if (mediaControl != null)
 				{
 					mediaControl.Stop();
 					Thread.Sleep(100);
 					mediaControl = null;
 				}
 
-				if(mediaEvent != null)
+				if (mediaEvent != null)
 				{
 					mediaEvent.SetNotifyWindow(IntPtr.Zero, WM_GRAPHNOTIFY, IntPtr.Zero);
 					mediaEvent = null;
 				}
 
-				if(videoWindow != null)
+				if (videoWindow != null)
 				{
 					videoWindow.put_Visible(OABool.False);
 					videoWindow.put_Owner(IntPtr.Zero);
 					videoWindow = null;
 				}
 
-				if(captureGraphBuilder != null)
+				if (captureGraphBuilder != null)
 				{
 					Marshal.ReleaseComObject(captureGraphBuilder);
 					captureGraphBuilder = null;
 				}
 
-				if(graphBuilder != null)
+				if (graphBuilder != null)
 				{
 					Marshal.ReleaseComObject(graphBuilder);
 					graphBuilder = null;
@@ -193,16 +195,18 @@ namespace SMM2_RTA_AssistTool {
 				//mAudioChecker.CloseInterfaces();
 
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				SMMMessageBox.Show("エラー：インタフェースの終了に失敗しました。Error: An error ocouured when closing video interface. " + e.ToString(), SMMMessageBoxIcon.Error);
 			}
 		}
 
-		private Task update() {
+		private Task update()
+		{
 
-            // サンプルグラバーのコールバックメソッド を有効にし，サンプリングを開始する．
-			if (mVideoChecker != null) {
+			// サンプルグラバーのコールバックメソッド を有効にし，サンプリングを開始する．
+			if (mVideoChecker != null)
+			{
 				mVideoChecker.update();
 			}
 			//if (mAudioChecker != null) {
@@ -218,14 +222,15 @@ namespace SMM2_RTA_AssistTool {
 
 					// コースのプレイ開始を検出した
 					if (mGameState.GetState() == GameState.STATE.CASTLE)
-                    {
+					{
 						if (videoGameState.mLevelNo != "")
 						{
 							mGameState.UpdateLevel(videoGameState.mLevelNo);
 							UpdateDisplay();
 						}
-					} else if (mGameState.GetState() == GameState.STATE.LEVEL_PLAYING)
-                    {
+					}
+					else if (mGameState.GetState() == GameState.STATE.LEVEL_PLAYING)
+					{
 						// 所持コイン枚数が変化した
 						if (videoGameState.mCoinNum >= 0)
 						{
@@ -240,19 +245,19 @@ namespace SMM2_RTA_AssistTool {
 			return Task.Run(() => Thread.Sleep(100));
 		}
 
-		private void UpdateDisplay() {
+		private void UpdateDisplay()
+		{
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
-			TextBox_DeathCount.Text = DeathCountManager.Instance.DeathCount.ToString();
 
 			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
-            {
+			{
 				int index = mGameStateHistory.Count - (DISP_NUM - i);
 				if (index < 0)
-                {
+				{
 					continue;
-                }
+				}
 				GameState state = mGameStateHistory[i];
 				LevelData levelData = state.GetLevelData();
 				string levelName = levelData.mJpTitle; // コース名
@@ -263,43 +268,56 @@ namespace SMM2_RTA_AssistTool {
 
 				// TODO: コース名とコイン枚数を表示する
 				// 獲得コイン(+-差)　累計コイン(+-差)
+
+				string curCoinSign = (curCoinDiff >= 0) ? "+" : "-";
+				TextBox_CurCoin.Text = gotCoin.ToString();
+				TextBox_CurCoinDiff.Text = curCoinSign + curCoinDiff;
+				if (curCoinDiff >= 0)
+				{
+					TextBox_CurCoinDiff.ForeColor = Color.LimeGreen;
+				} else
+				{
+					TextBox_CurCoinDiff.ForeColor = Color.Red;
+				}
 			}
 		}
-		
-		private void closeToolStripMenuItem1_Click(object sender, EventArgs e) {
+
+		private void closeToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
 			this.Close();
 		}
 
-		private void resetConfigToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void resetConfigToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			SettingForm settingForm = new SettingForm();
 			settingForm.ShowDialog(this);
 		}
 
-		private void CheckBox_PreviewVideo_CheckedChanged(object sender, EventArgs e) {
+		private void CheckBox_PreviewVideo_CheckedChanged(object sender, EventArgs e)
+		{
 			MainSetting.Instance.PreviewVideo = CheckBox_PreviewVideo.Checked ? 1 : 0;
 			MainSetting.Instance.saveToFile();
 
 			//レンダラフィルタの出力の可視化設定を変更．
-			if (MainSetting.Instance.PreviewVideo == 1) {
+			if (MainSetting.Instance.PreviewVideo == 1)
+			{
 				result = videoWindow.put_Visible(OABool.True);
-			} else {
+			}
+			else
+			{
 				result = videoWindow.put_Visible(OABool.False);
 			}
-			if(result < 0) Marshal.ThrowExceptionForHR(result);
+			if (result < 0) Marshal.ThrowExceptionForHR(result);
 		}
 
-		private void CheckBox_PlayAudio_CheckedChanged(object sender, EventArgs e) {
+		private void CheckBox_PlayAudio_CheckedChanged(object sender, EventArgs e)
+		{
 			MainSetting.Instance.PlayAudio = CheckBox_PlayAudio.Checked ? 1 : 0;
 			MainSetting.Instance.saveToFile();
 		}
 
-		private void deathCountToolStripMenuItem_Click(object sender, EventArgs e) {
-			DeathCountSetForm form = new DeathCountSetForm();
-			form.ShowDialog(this);
-			UpdateDisplay();
-		}
-
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			OptionForm form = new OptionForm();
 			form.ShowDialog(this);
 		}

@@ -55,7 +55,7 @@ namespace SMM2_RTA_AssistTool {
 			}
 
 			// まずオプションの設定値を取得する
-			if (OptionSetting.Instance.EnableDefaultDevices == 1) { // デフォルトのデバイス選択が有効
+			//if (OptionSetting.Instance.EnableDefaultDevices == 1) { // デフォルトのデバイス選択が有効
 				string optionDeviceName = "";
 				foreach (string deviceName in deviceNames) {
 					string defaultDeviceName = GetDefaultDeviceName(deviceType);
@@ -70,7 +70,7 @@ namespace SMM2_RTA_AssistTool {
 						return device;
 					}
 				}
-			}
+			//}
 
 			// オプションの設定値が現在の選択肢に無ければ機器選択ウィンドウを表示する
 			ChooseDeviceWindow chooseDeviceWindow = new ChooseDeviceWindow(deviceNames, deviceType);

@@ -55,13 +55,6 @@
       <DependentUpon>ChooseDeviceWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="CsvReader.cs" />
-    <Compile Include="DeathCountSetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeathCountSetForm.Designer.cs">
-      <DependentUpon>DeathCountSetForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DeathCountManager.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="LevelData.cs" />
     <Compile Include="LevelManager.cs" />
@@ -95,9 +88,6 @@
     <Compile Include="VideoGameState.cs" />
     <EmbeddedResource Include="ChooseDeviceWindow.resx">
       <DependentUpon>ChooseDeviceWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DeathCountSetForm.resx">
-      <DependentUpon>DeathCountSetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

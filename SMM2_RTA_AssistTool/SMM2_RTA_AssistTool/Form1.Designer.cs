@@ -24,19 +24,19 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TextBox_DeathCount = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deathCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckBox_PreviewVideo = new System.Windows.Forms.CheckBox();
             this.CheckBox_PlayAudio = new System.Windows.Forms.CheckBox();
             this.CheckBox_Pause = new System.Windows.Forms.CheckBox();
+            this.TextBox_CurCoin = new System.Windows.Forms.Label();
+            this.TextBox_CurCoinDiff = new System.Windows.Forms.Label();
+            this.TextBox_LeftBracket1 = new System.Windows.Forms.Label();
+            this.TextBox_RightBracket1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,28 +49,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(525, 308);
             this.panel1.TabIndex = 2;
-            // 
-            // TextBox_DeathCount
-            // 
-            this.TextBox_DeathCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBox_DeathCount.Font = new System.Drawing.Font("MS UI Gothic", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.TextBox_DeathCount.Location = new System.Drawing.Point(377, 356);
-            this.TextBox_DeathCount.Name = "TextBox_DeathCount";
-            this.TextBox_DeathCount.ReadOnly = true;
-            this.TextBox_DeathCount.Size = new System.Drawing.Size(155, 36);
-            this.TextBox_DeathCount.TabIndex = 3;
-            this.TextBox_DeathCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(282, 370);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "DeathCount";
             // 
             // menuStrip1
             // 
@@ -94,39 +72,23 @@
             // closeToolStripMenuItem1
             // 
             this.closeToolStripMenuItem1.Name = "closeToolStripMenuItem1";
-            this.closeToolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
+            this.closeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem1.Text = "Close";
             this.closeToolStripMenuItem1.Click += new System.EventHandler(this.closeToolStripMenuItem1_Click);
             // 
             // configToolStripMenuItem
             // 
             this.configToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetConfigToolStripMenuItem,
-            this.deathCountToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
             this.configToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.configToolStripMenuItem.Text = "Setting";
             // 
-            // resetConfigToolStripMenuItem
-            // 
-            this.resetConfigToolStripMenuItem.Name = "resetConfigToolStripMenuItem";
-            this.resetConfigToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.resetConfigToolStripMenuItem.Text = "Parameters...";
-            this.resetConfigToolStripMenuItem.Click += new System.EventHandler(this.resetConfigToolStripMenuItem_Click);
-            // 
-            // deathCountToolStripMenuItem
-            // 
-            this.deathCountToolStripMenuItem.Name = "deathCountToolStripMenuItem";
-            this.deathCountToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.deathCountToolStripMenuItem.Text = "DeathCount";
-            this.deathCountToolStripMenuItem.Click += new System.EventHandler(this.deathCountToolStripMenuItem_Click);
-            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.optionsToolStripMenuItem.Text = "Options...";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Text = "Devices";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
@@ -173,16 +135,61 @@
             this.CheckBox_Pause.Text = "Pause";
             this.CheckBox_Pause.UseVisualStyleBackColor = true;
             // 
+            // TextBox_CurCoin
+            // 
+            this.TextBox_CurCoin.AutoSize = true;
+            this.TextBox_CurCoin.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TextBox_CurCoin.Location = new System.Drawing.Point(164, 366);
+            this.TextBox_CurCoin.Name = "TextBox_CurCoin";
+            this.TextBox_CurCoin.Size = new System.Drawing.Size(46, 16);
+            this.TextBox_CurCoin.TabIndex = 11;
+            this.TextBox_CurCoin.Text = "label1";
+            // 
+            // TextBox_CurCoinDiff
+            // 
+            this.TextBox_CurCoinDiff.AutoSize = true;
+            this.TextBox_CurCoinDiff.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TextBox_CurCoinDiff.Location = new System.Drawing.Point(235, 366);
+            this.TextBox_CurCoinDiff.Name = "TextBox_CurCoinDiff";
+            this.TextBox_CurCoinDiff.Size = new System.Drawing.Size(46, 16);
+            this.TextBox_CurCoinDiff.TabIndex = 12;
+            this.TextBox_CurCoinDiff.Text = "label1";
+            this.TextBox_CurCoinDiff.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TextBox_LeftBracket1
+            // 
+            this.TextBox_LeftBracket1.AutoSize = true;
+            this.TextBox_LeftBracket1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TextBox_LeftBracket1.Location = new System.Drawing.Point(216, 366);
+            this.TextBox_LeftBracket1.Name = "TextBox_LeftBracket1";
+            this.TextBox_LeftBracket1.Size = new System.Drawing.Size(13, 16);
+            this.TextBox_LeftBracket1.TabIndex = 13;
+            this.TextBox_LeftBracket1.Text = "(";
+            this.TextBox_LeftBracket1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TextBox_RightBracket1
+            // 
+            this.TextBox_RightBracket1.AutoSize = true;
+            this.TextBox_RightBracket1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TextBox_RightBracket1.Location = new System.Drawing.Point(287, 366);
+            this.TextBox_RightBracket1.Name = "TextBox_RightBracket1";
+            this.TextBox_RightBracket1.Size = new System.Drawing.Size(13, 16);
+            this.TextBox_RightBracket1.TabIndex = 14;
+            this.TextBox_RightBracket1.Text = ")";
+            this.TextBox_RightBracket1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 419);
+            this.Controls.Add(this.TextBox_RightBracket1);
+            this.Controls.Add(this.TextBox_LeftBracket1);
+            this.Controls.Add(this.TextBox_CurCoinDiff);
+            this.Controls.Add(this.TextBox_CurCoin);
             this.Controls.Add(this.CheckBox_Pause);
             this.Controls.Add(this.CheckBox_PlayAudio);
             this.Controls.Add(this.CheckBox_PreviewVideo);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.TextBox_DeathCount);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -200,19 +207,19 @@
 
 		#endregion
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.TextBox TextBox_DeathCount;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem resetConfigToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem1;
 		private System.Windows.Forms.CheckBox CheckBox_PreviewVideo;
-		private System.Windows.Forms.ToolStripMenuItem deathCountToolStripMenuItem;
 		private System.Windows.Forms.CheckBox CheckBox_PlayAudio;
 		private System.Windows.Forms.CheckBox CheckBox_Pause;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-	}
+        private System.Windows.Forms.Label TextBox_CurCoin;
+        private System.Windows.Forms.Label TextBox_CurCoinDiff;
+        private System.Windows.Forms.Label TextBox_LeftBracket1;
+        private System.Windows.Forms.Label TextBox_RightBracket1;
+    }
 }
 
