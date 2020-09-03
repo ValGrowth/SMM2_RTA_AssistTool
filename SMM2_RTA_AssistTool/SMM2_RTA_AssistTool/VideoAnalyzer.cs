@@ -16,7 +16,7 @@ namespace SMM2_RTA_AssistTool
 		{
 			for (int i = 0; i < 10; ++i)
 			{
-				string path = "./Image/Number/" + i + ".png";
+				string path = "./Images/Numbers/" + i + ".png";
 				mNumberImages[i] = new Bitmap(path);
 			}
 		}

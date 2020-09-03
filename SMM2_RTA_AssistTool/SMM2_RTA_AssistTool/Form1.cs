@@ -258,7 +258,7 @@ namespace SMM2_RTA_AssistTool
 				{
 					continue;
 				}
-				GameState state = mGameStateHistory[i];
+				GameState state = mGameStateHistory[index];
 				LevelData levelData = state.GetLevelData();
 				string levelName = levelData.mJpTitle; // コース名
 				int gotCoin = state.GetCurCoinNum(); // 実際に獲得したコイン

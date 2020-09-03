@@ -24,7 +24,7 @@ namespace SMM2_RTA_AssistTool {
 
 		private void Init()
 		{
-			List<List<string>> csvData = CsvReader.ReadCsv("LevelData.csv", true);
+			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true);
 
 			foreach (List<string> line in csvData)
 			{
