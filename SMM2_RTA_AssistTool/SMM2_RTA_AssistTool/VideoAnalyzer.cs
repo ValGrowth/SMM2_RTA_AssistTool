@@ -66,12 +66,12 @@ namespace SMM2_RTA_AssistTool
 		// 獲得コイン枚数を取得する
 		public int DetectCoinNum(Bitmap gameImage)
 		{
-			// TODO: コイン枚数表示部付近だけ調べれば良い（報酬なしの場合の位置に注意）
+			// コイン枚数表示部付近だけ調べれば良い
 			// 報酬コイン
-			int rxmin = 200;
-			int rxmax = 1600;
-			int rymin = 200;
-			int rymax = 800;
+			int rxmin = 900;
+			int rxmax = 1100;
+			int rymin = 600;
+			int rymax = 625;
 
 			IDictionary<int, int> rFoundNumbers = new SortedDictionary<int, int>();
 			for (int ay = rymin; ay < rymax; ++ay)
@@ -101,10 +101,10 @@ namespace SMM2_RTA_AssistTool
 			}
 
 			// 報酬ありの場合のコース内コイン
-			int ixmin1 = 200;
-			int ixmax1 = 1600;
-			int iymin1 = 200;
-			int iymax1 = 800;
+			int ixmin1 = 900;
+			int ixmax1 = 1100;
+			int iymin1 = 375;
+			int iymax1 = 400;
 
 			IDictionary<int, int> iFoundNumbers1 = new SortedDictionary<int, int>();
 			for (int ay = iymin1; ay < iymax1; ++ay)
@@ -137,10 +137,10 @@ namespace SMM2_RTA_AssistTool
 			if (iFoundNumbers1.Count == 0)
 			{
 				// 報酬なしの場合のコース内コイン
-				int ixmin2 = 200;
-				int ixmax2 = 1600;
-				int iymin2 = 200;
-				int iymax2 = 800;
+				int ixmin2 = 900;
+				int ixmax2 = 1100;
+				int iymin2 = 525;
+				int iymax2 = 550;
 
 				for (int ay = iymin2; ay < iymax2; ++ay)
 				{
