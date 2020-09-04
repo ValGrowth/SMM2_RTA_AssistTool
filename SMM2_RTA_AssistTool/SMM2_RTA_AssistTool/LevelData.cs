@@ -60,7 +60,7 @@ namespace SMM2_RTA_AssistTool
             {
                 mCumulativeCoin = 0;
             }
-            string pictPath = "./Image/Level/" + list[7];
+            string pictPath = "./Images/Levels/" + list[7];
             mTitleImage = new Bitmap(pictPath);
         }
     }
