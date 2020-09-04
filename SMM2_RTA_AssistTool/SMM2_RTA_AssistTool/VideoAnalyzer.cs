@@ -72,23 +72,28 @@ namespace SMM2_RTA_AssistTool
 			int rxmin = 900;
 			int rxmax = 1100;
 			int rymin = 600;
-			int rymax = 625;
+			int rymax = 650;
 
+			bool[] rFoundTable = new bool[1920];
 			IDictionary<int, int> rFoundNumbers = new SortedDictionary<int, int>();
 			for (int ay = rymin; ay < rymax; ++ay)
 			{
 				for (int ax = rxmin; ax < rxmax; ++ax)
 				{
+					if (rFoundTable[ax])
+					{
+						continue;
+					}
 					for (int num = 0; num < 10; ++num)
 					{
 						bool result = TestNumber(gameImage, ax, ay, num);
 						if (result)
 						{
-							if (rFoundNumbers.ContainsKey(ax))
-							{
-								throw new Exception("同じ場所で複数の数字が検出されました。");
-							}
 							rFoundNumbers[ax] = num;
+							for (int dx = -10; dx <= 10; ++dx)
+							{
+								rFoundTable[ax + dx] = true;
+							}
 						}
 					}
 				}
@@ -105,23 +110,28 @@ namespace SMM2_RTA_AssistTool
 			int ixmin1 = 900;
 			int ixmax1 = 1100;
 			int iymin1 = 375;
-			int iymax1 = 400;
+			int iymax1 = 425;
 
+			bool[] iFoundTable1 = new bool[1920];
 			IDictionary<int, int> iFoundNumbers1 = new SortedDictionary<int, int>();
 			for (int ay = iymin1; ay < iymax1; ++ay)
 			{
 				for (int ax = ixmin1; ax < ixmax1; ++ax)
 				{
+					if (iFoundTable1[ax])
+					{
+						continue;
+					}
 					for (int num = 0; num < 10; ++num)
 					{
 						bool result = TestNumber(gameImage, ax, ay, num);
 						if (result)
 						{
-							if (iFoundNumbers1.ContainsKey(ax))
-							{
-								throw new Exception("同じ場所で複数の数字が検出されました。");
-							}
 							iFoundNumbers1[ax] = num;
+							for (int dx = -10; dx <= 10; ++dx)
+							{
+								iFoundTable1[ax + dx] = true;
+							}
 						}
 					}
 				}
@@ -134,6 +144,7 @@ namespace SMM2_RTA_AssistTool
 				coinInLevel += data.Value;
 			}
 
+			bool[] iFoundTable2 = new bool[1920];
 			IDictionary<int, int> iFoundNumbers2 = new SortedDictionary<int, int>();
 			if (iFoundNumbers1.Count == 0)
 			{
@@ -141,22 +152,26 @@ namespace SMM2_RTA_AssistTool
 				int ixmin2 = 900;
 				int ixmax2 = 1100;
 				int iymin2 = 525;
-				int iymax2 = 550;
+				int iymax2 = 575;
 
 				for (int ay = iymin2; ay < iymax2; ++ay)
 				{
 					for (int ax = ixmin2; ax < ixmax2; ++ax)
 					{
+						if (iFoundTable2[ax])
+						{
+							continue;
+						}
 						for (int num = 0; num < 10; ++num)
 						{
 							bool result = TestNumber(gameImage, ax, ay, num);
 							if (result)
 							{
-								if (iFoundNumbers2.ContainsKey(ax))
-								{
-									throw new Exception("同じ場所で複数の数字が検出されました。");
-								}
 								iFoundNumbers2[ax] = num;
+								for (int dx = -10; dx <= 10; ++dx)
+								{
+									iFoundTable2[ax + dx] = true;
+								}
 							}
 						}
 					}
@@ -181,11 +196,24 @@ namespace SMM2_RTA_AssistTool
 		private bool TestNumber(FastBitmap image, int ax, int ay, int num)
 		{
 			FastBitmap numImage = mNumberImages[num];
-			for (int dy = 0; dy < numImage.Height; ++dy)
+			int totalPixel = numImage.Height * numImage.Width / 4;
+			int allowPixel = (int)(totalPixel * (1.0 - 0.98));
+			int count = 0;
+			for (int dy = 0; dy < numImage.Height; dy += 2)
 			{
-				for (int dx = 0; dx < numImage.Width; ++dx)
+				for (int dx = 0; dx < numImage.Width; dx += 2)
 				{
-					if (image.GetPixel(ax + dx, ay + dy) != numImage.GetPixel(dx, dy))
+					int diff = 0;
+					Color ac = image.GetPixel(ax + dx, ay + dy);
+					Color bc = numImage.GetPixel(dx, dy);
+					diff += Math.Abs(ac.R - bc.R);
+					diff += Math.Abs(ac.G - bc.G);
+					diff += Math.Abs(ac.B - bc.B);
+					if (diff >= 150)
+					{
+						++count;
+					}
+					if (count > allowPixel)
 					{
 						return false;
 					}

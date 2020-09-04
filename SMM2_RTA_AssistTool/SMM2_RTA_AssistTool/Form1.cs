@@ -74,6 +74,7 @@ namespace SMM2_RTA_AssistTool
 			mVideoChecker = new VideoChecker(this);
 			//mAudioChecker = new AudioChecker(this);
 
+			//mVideoChecker.Test();
 
 			// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
 
