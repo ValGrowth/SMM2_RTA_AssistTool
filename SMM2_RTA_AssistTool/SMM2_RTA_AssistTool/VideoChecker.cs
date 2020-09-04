@@ -238,8 +238,11 @@ namespace SMM2_RTA_AssistTool {
 				Bitmap bitmap = new Bitmap(width, height, -stride, PixelFormat.Format24bppRgb, (IntPtr) addr);
 				gcHandle.Free();
 
+				// 画像を高速に扱えるオブジェクトに格納
+				FastBitmap bitmapPlus = new FastBitmap(bitmap);
+
 				// ゲームの状態を分析して更新
-				UpdateGameState(bitmap);
+				UpdateGameState(bitmapPlus);
 
 /*
 				Image pre = null;
@@ -263,7 +266,7 @@ namespace SMM2_RTA_AssistTool {
 			}
 		}
 
-		private void UpdateGameState(Bitmap bitmap)
+		private void UpdateGameState(FastBitmap bitmap)
         {
 			mVideoGameState.mLevelNo = mVideoAnalyzer.DetectLevelNo(bitmap);
 			mVideoGameState.mCoinNum = mVideoAnalyzer.DetectCoinNum(bitmap);

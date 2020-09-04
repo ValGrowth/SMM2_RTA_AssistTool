@@ -10,19 +10,20 @@ namespace SMM2_RTA_AssistTool
 	class VideoAnalyzer
 	{
 
-		Bitmap[] mNumberImages = new Bitmap[10];
+		FastBitmap[] mNumberImages = new FastBitmap[10];
 
 		public VideoAnalyzer()
 		{
 			for (int i = 0; i < 10; ++i)
 			{
 				string path = "./Images/Numbers/" + i + ".png";
-				mNumberImages[i] = new Bitmap(path);
+				Bitmap image = new Bitmap(path);
+				mNumberImages[i] = new FastBitmap(image);
 			}
 		}
 
 		// コースNo.を取得する。
-		public string DetectLevelNo(Bitmap gameImage)
+		public string DetectLevelNo(FastBitmap gameImage)
 		{
 			int xmin = 200;
 			int xmax = 1600;
@@ -31,7 +32,7 @@ namespace SMM2_RTA_AssistTool
 
 			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
 			{
-				Bitmap levelImage = level.mTitleImage;
+				FastBitmap levelImage = level.mTitleImage;
 				bool same = true;
 				if (levelImage.Height != gameImage.Height || levelImage.Width != gameImage.Width)
 				{
@@ -64,7 +65,7 @@ namespace SMM2_RTA_AssistTool
 		}
 
 		// 獲得コイン枚数を取得する
-		public int DetectCoinNum(Bitmap gameImage)
+		public int DetectCoinNum(FastBitmap gameImage)
 		{
 			// コイン枚数表示部付近だけ調べれば良い
 			// 報酬コイン
@@ -177,9 +178,9 @@ namespace SMM2_RTA_AssistTool
 			return reward + coinInLevel;
 		}
 
-		private bool TestNumber(Bitmap image, int ax, int ay, int num)
+		private bool TestNumber(FastBitmap image, int ax, int ay, int num)
 		{
-			Bitmap numImage = mNumberImages[num];
+			FastBitmap numImage = mNumberImages[num];
 			for (int dy = 0; dy < numImage.Height; ++dy)
 			{
 				for (int dx = 0; dx < numImage.Width; ++dx)
