@@ -74,8 +74,6 @@ namespace SMM2_RTA_AssistTool
 			mVideoChecker = new VideoChecker(this);
 			//mAudioChecker = new AudioChecker(this);
 
-			//mVideoChecker.Test();
-
 			// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
 
 			//graphBuilderを作成．
@@ -251,6 +249,12 @@ namespace SMM2_RTA_AssistTool
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
+			LevelData curLevelData = mGameState.GetLevelData();
+			if (curLevelData != null)
+			{
+				Label_LevelTitle.Text = curLevelData.mJpTitle;
+			}
+
 			const int DISP_NUM = 1;
 			for (int i = 0; i < DISP_NUM; ++i)
 			{
@@ -271,22 +275,22 @@ namespace SMM2_RTA_AssistTool
 						// 獲得コイン(+-差)　累計コイン(+-差)
 
 						string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
-						TextBox_CurCoin.Text = gotCoin.ToString();
-						TextBox_CurCoinDiff.Text = curCoinSign + curCoinDiff;
+						Label_CurCoin.Text = gotCoin.ToString();
+						Label_CurCoinDiff.Text = curCoinSign + curCoinDiff;
 						if (curCoinDiff >= 0)
 						{
-							TextBox_CurCoinDiff.ForeColor = Color.LimeGreen;
+							Label_CurCoinDiff.ForeColor = Color.LimeGreen;
 						}
 						else
 						{
-							TextBox_CurCoinDiff.ForeColor = Color.Red;
+							Label_CurCoinDiff.ForeColor = Color.Red;
 						}
 					}
 					else
 					{
-						TextBox_CurCoin.Text = "-";
-						TextBox_CurCoinDiff.Text = "-";
-						TextBox_CurCoinDiff.ForeColor = Color.Black;
+						Label_CurCoin.Text = "-";
+						Label_CurCoinDiff.Text = "-";
+						Label_CurCoinDiff.ForeColor = Color.Black;
 					}
 				}
 			}

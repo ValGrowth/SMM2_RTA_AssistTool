@@ -10,6 +10,7 @@ namespace SMM2_RTA_AssistTool
 	class VideoAnalyzer
 	{
 
+		Bitmap[] mNumberImagesOriginal = new Bitmap[10];
 		FastBitmap[] mNumberImages = new FastBitmap[10];
 
 		public VideoAnalyzer()
@@ -17,47 +18,56 @@ namespace SMM2_RTA_AssistTool
 			for (int i = 0; i < 10; ++i)
 			{
 				string path = "./Images/Numbers/" + i + ".png";
-				Bitmap image = new Bitmap(path);
-				mNumberImages[i] = new FastBitmap(image);
+				mNumberImagesOriginal[i] = new Bitmap(path);
+				mNumberImages[i] = new FastBitmap(mNumberImagesOriginal[i]);
 			}
 		}
 
 		// コースNo.を取得する。
 		public string DetectLevelNo(FastBitmap gameImage)
 		{
-			int xmin = 200;
-			int xmax = 1600;
-			int ymin = 200;
-			int ymax = 800;
+			// タイトル文字の場所だけ比較すればよい
+			int xmin = 800;
+			int xmax = 1100;
+			int ymin = 150;
+			int ymax = 200;
 
 			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
 			{
 				FastBitmap levelImage = level.mTitleImage;
-				bool same = true;
 				if (levelImage.Height != gameImage.Height || levelImage.Width != gameImage.Width)
 				{
-					same = false;
+					continue;
 				} else
 				{
-					// TODO: タイトル文字の場所だけ比較すればよい
-					for (int y = ymin; y < ymax; ++y)
+					int count = 0;
+					int totalPixel = (ymax - ymin) * (xmax - xmin) / 4;
+					int allowPixel = (int)(totalPixel * (1.0 - 0.9));
+					bool same = true;
+					for (int y = ymin; y < ymax; y += 2)
 					{
-						for (int x = xmin; x < xmax; ++x)
+						for (int x = xmin; x < xmax; x += 2)
 						{
-							if (levelImage.GetPixel(x, y) != gameImage.GetPixel(x, y))
+							int diff = 0;
+							Color ac = levelImage.GetPixel(x, y);
+							Color bc = gameImage.GetPixel(x, y);
+							diff += Math.Abs(ac.R - bc.R);
+							diff += Math.Abs(ac.G - bc.G);
+							diff += Math.Abs(ac.B - bc.B);
+							if (diff >= 150)
+							{
+								++count;
+							}
+							if (count > allowPixel)
 							{
 								same = false;
-								break;
 							}
 						}
-						if (!same)
-						{
-							break;
-						}
 					}
-				}
-				if (same)
-				{
+					if (!same)
+					{
+						continue;
+					}
 					return level.mLevelNo;
 				}
 			}
@@ -197,7 +207,7 @@ namespace SMM2_RTA_AssistTool
 		{
 			FastBitmap numImage = mNumberImages[num];
 			int totalPixel = numImage.Height * numImage.Width / 4;
-			int allowPixel = (int)(totalPixel * (1.0 - 0.98));
+			int allowPixel = (int)(totalPixel * (1.0 - 0.9));
 			int count = 0;
 			for (int dy = 0; dy < numImage.Height; dy += 2)
 			{

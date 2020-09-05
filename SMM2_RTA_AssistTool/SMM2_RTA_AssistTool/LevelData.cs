@@ -18,6 +18,7 @@ namespace SMM2_RTA_AssistTool
         public int mInLevelCoin; // コース内コイン枚数
         public int mTotalCoin; // Reward + InLevelCoin
         public int mCumulativeCoin; // 累計コイン枚数
+        public Bitmap mImage;
         public FastBitmap mTitleImage; // タイトルが表示される画面の画像
 
         public LevelData()
@@ -31,6 +32,7 @@ namespace SMM2_RTA_AssistTool
             mInLevelCoin = 0;
             mTotalCoin = 0;
             mCumulativeCoin = 0;
+            mImage = null;
             mTitleImage = null;
         }
 
@@ -61,8 +63,8 @@ namespace SMM2_RTA_AssistTool
                 mCumulativeCoin = 0;
             }
             string imagePath = "./Images/Levels/" + list[7];
-            Bitmap image = new Bitmap(imagePath);
-            mTitleImage = new FastBitmap(image);
+            mImage = new Bitmap(imagePath);
+            mTitleImage = new FastBitmap(mImage);
         }
     }
 }
