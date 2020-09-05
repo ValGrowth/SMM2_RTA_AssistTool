@@ -251,34 +251,43 @@ namespace SMM2_RTA_AssistTool
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
-			const int DISP_NUM = 2;
+			const int DISP_NUM = 1;
 			for (int i = 0; i < DISP_NUM; ++i)
 			{
 				int index = mGameStateHistory.Count - (DISP_NUM - i);
-				if (index < 0)
+				if (index >= 0)
 				{
-					continue;
-				}
-				GameState state = mGameStateHistory[index];
-				LevelData levelData = state.GetLevelData();
-				string levelName = levelData.mJpTitle; // コース名
-				int gotCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
-				int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
-				int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
-				int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
+					GameState state = mGameStateHistory[index];
+					LevelData levelData = state.GetLevelData();
+					if (levelData != null)
+					{
+						string levelName = levelData.mJpTitle; // コース名
+						int gotCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
+						int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
+						int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
+						int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
 
-				// TODO: コース名とコイン枚数を表示する
-				// 獲得コイン(+-差)　累計コイン(+-差)
+						// TODO: コース名とコイン枚数を表示する
+						// 獲得コイン(+-差)　累計コイン(+-差)
 
-				string curCoinSign = (curCoinDiff >= 0) ? "+" : "-";
-				TextBox_CurCoin.Text = gotCoin.ToString();
-				TextBox_CurCoinDiff.Text = curCoinSign + curCoinDiff;
-				if (curCoinDiff >= 0)
-				{
-					TextBox_CurCoinDiff.ForeColor = Color.LimeGreen;
-				} else
-				{
-					TextBox_CurCoinDiff.ForeColor = Color.Red;
+						string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
+						TextBox_CurCoin.Text = gotCoin.ToString();
+						TextBox_CurCoinDiff.Text = curCoinSign + curCoinDiff;
+						if (curCoinDiff >= 0)
+						{
+							TextBox_CurCoinDiff.ForeColor = Color.LimeGreen;
+						}
+						else
+						{
+							TextBox_CurCoinDiff.ForeColor = Color.Red;
+						}
+					}
+					else
+					{
+						TextBox_CurCoin.Text = "-";
+						TextBox_CurCoinDiff.Text = "-";
+						TextBox_CurCoinDiff.ForeColor = Color.Black;
+					}
 				}
 			}
 		}
