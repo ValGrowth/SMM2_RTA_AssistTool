@@ -146,6 +146,11 @@ namespace SMM2_RTA_AssistTool {
 
 		public int update() {
 
+			if (mVideoSampleGrabber == null)
+			{
+				return -1;
+			}
+
 			try	
 			{
 				//ビデオデータのサンプリングに利用するコールバック メソッドを指定する．

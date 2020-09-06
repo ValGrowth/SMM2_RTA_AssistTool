@@ -43,10 +43,7 @@ namespace SMM2_RTA_AssistTool
             {
                 mSerialIdx = -1;
             }
-            mLevelCode = "";
-            if (mSerialIdx > 0) {
-                mLevelCode = mLevelNo + "_" + mSerialIdx;
-            }
+            mLevelCode = GetLevelCode(mLevelNo, mSerialIdx);
             mJpTitle = list[2];
             mEnTitle = list[3];
             if (!int.TryParse(list[4], out mReward))
@@ -66,5 +63,23 @@ namespace SMM2_RTA_AssistTool
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
         }
+
+        public static string GetLevelCode(string levelNo, int serialIdx)
+        {
+            if (levelNo == "" || serialIdx <= 0)
+            {
+                return "";
+            }
+            if (serialIdx == 1)
+            {
+                return levelNo;
+            }
+            else if (serialIdx >= 2)
+            {
+                return levelNo + "-" + serialIdx;
+            }
+            return "";
+        }
+
     }
 }

@@ -73,7 +73,13 @@ namespace SMM2_RTA_AssistTool
             if (_img != null && _bmp != null)
             {
                 // Bitmapに直接アクセスするためのオブジェクト開放(UnlockBits)
-                _bmp.UnlockBits(_img);
+                try
+				{
+                    _bmp.UnlockBits(_img);
+                } catch (System.ArgumentException e)
+				{
+                    // 無視
+				}
                 _img = null;
             }
             mLockFlg = false;

@@ -43,14 +43,49 @@ namespace SMM2_RTA_AssistTool
 		// コースNo.を取得する。
 		public string DetectLevelNo(FastBitmap gameImage)
 		{
+			int chxmin = 150;
+			int chxmax = 500;
+			int chymin = 100;
+			int chymax = 200;
+			for (int y = chymin; y < chymax; y += 5)
+			{
+				for (int x = chxmin; x < chxmax; x += 5)
+				{
+					Color color = gameImage.GetPixel(x, y);
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
+					{
+						return "";
+					}
+				}
+			}
+
+			int ch2xmin = 100;
+			int ch2xmax = 600;
+			int ch2ymin = 400;
+			int ch2ymax = 700;
+			for (int y = ch2ymin; y < ch2ymax; y += 5)
+			{
+				for (int x = ch2xmin; x < ch2xmax; x += 5)
+				{
+					Color color = gameImage.GetPixel(x, y);
+					if (Math.Abs(color.R - 0) + Math.Abs(color.G - 0) + Math.Abs(color.B - 0) > 150)
+					{
+						return "";
+					}
+				}
+			}
+
 			// タイトル文字の場所だけ比較すればよい
 			int xmin = 800;
 			int xmax = 1100;
 			int ymin = 150;
 			int ymax = 200;
 
+			List<int> diffs = new List<int>();
+			int levelIdx = 0;
 			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
 			{
+				diffs.Add(0);
 				FastBitmap levelImage = level.mTitleImage;
 				if (levelImage.Height != gameImage.Height || levelImage.Width != gameImage.Width)
 				{
@@ -58,9 +93,6 @@ namespace SMM2_RTA_AssistTool
 				} else
 				{
 					int count = 0;
-					int totalPixel = (ymax - ymin) * (xmax - xmin) / 4;
-					int allowPixel = (int)(totalPixel * (1.0 - 0.9));
-					bool same = true;
 					for (int y = ymin; y < ymax; y += 2)
 					{
 						for (int x = xmin; x < xmax; x += 2)
@@ -75,20 +107,25 @@ namespace SMM2_RTA_AssistTool
 							{
 								++count;
 							}
-							if (count > allowPixel)
-							{
-								same = false;
-							}
 						}
 					}
-					if (!same)
-					{
-						continue;
-					}
-					return level.mLevelNo;
+					diffs[levelIdx] = count;
 				}
+				++levelIdx;
 			}
-			return "";
+			string ret = "";
+			int minCount = 99999999;
+			levelIdx = 0;
+			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
+			{
+				if (diffs[levelIdx] < minCount)
+				{
+					minCount = diffs[levelIdx];
+					ret = level.mLevelNo;
+				}
+				++levelIdx;
+			}
+			return ret;
 		}
 
 		// 獲得コイン枚数を取得する

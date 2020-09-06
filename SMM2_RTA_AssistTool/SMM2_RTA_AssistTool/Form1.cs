@@ -16,7 +16,7 @@ namespace SMM2_RTA_AssistTool
 		VideoChecker mVideoChecker = null;
 		//AudioChecker mAudioChecker = null;
 
-		GameState mGameState = new GameState();
+		//GameState mGameState = new GameState();
 		List<GameState> mGameStateHistory = new List<GameState>();
 
 		private IGraphBuilder graphBuilder; //基本的なフィルタグラフマネージャ
@@ -63,9 +63,9 @@ namespace SMM2_RTA_AssistTool
 
 		public void ResetRun()
 		{
-			mGameState.Reset();
+			//mGameState.Reset();
 			mGameStateHistory.Clear();
-			mGameStateHistory.Add(mGameState);
+			UpdateDisplay();
 		}
 
 		private bool directShowInitialize()
@@ -219,22 +219,24 @@ namespace SMM2_RTA_AssistTool
 				{
 					VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 
+					GameState curState = mGameStateHistory.Count == 0 ? null : mGameStateHistory[mGameStateHistory.Count - 1];
+
 					// コースのプレイ開始を検出した
-					if (mGameState.GetState() == GameState.STATE.CASTLE)
+					if (curState == null || curState.GetState() == GameState.STATE.CASTLE)
 					{
 						if (videoGameState.mLevelNo != "")
 						{
-							mGameState.UpdateLevel(videoGameState.mLevelNo);
+							mGameStateHistory.Add(new GameState());
+							mGameStateHistory[mGameStateHistory.Count - 1].UpdateLevel(videoGameState.mLevelNo);
 							UpdateDisplay();
 						}
 					}
-					else if (mGameState.GetState() == GameState.STATE.LEVEL_PLAYING)
+					else if (curState != null && curState.GetState() == GameState.STATE.LEVEL_PLAYING)
 					{
 						// 所持コイン枚数が変化した
 						if (videoGameState.mCoinNum >= 0)
 						{
-							mGameState.UpdateCoin(videoGameState.mCoinNum);
-							mGameStateHistory.Add(mGameState);
+							curState.UpdateCoin(videoGameState.mCoinNum);
 							UpdateDisplay();
 						}
 					}
@@ -249,49 +251,99 @@ namespace SMM2_RTA_AssistTool
 			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
-			LevelData curLevelData = mGameState.GetLevelData();
-			if (curLevelData != null)
-			{
-				Label_LevelTitle.Text = curLevelData.mJpTitle;
-			}
+			Dictionary<string, Label> labels = new Dictionary<string, Label>();
+			labels.Add(Label_LevelCode1.Name, Label_LevelCode1);
+			labels.Add(Label_LevelTitle1.Name, Label_LevelTitle1);
+			labels.Add(Label_ChartCoin1.Name, Label_ChartCoin1);
+			labels.Add(Label_CurCoin1.Name, Label_CurCoin1);
+			labels.Add(Label_CurDiff1.Name, Label_CurDiff1);
+			labels.Add(Label_TotalCoin1.Name, Label_TotalCoin1);
+			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 
-			const int DISP_NUM = 1;
+			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
+			labels.Add(Label_LevelTitle2.Name, Label_LevelTitle2);
+			labels.Add(Label_ChartCoin2.Name, Label_ChartCoin2);
+			labels.Add(Label_CurCoin2.Name, Label_CurCoin2);
+			labels.Add(Label_CurDiff2.Name, Label_CurDiff2);
+			labels.Add(Label_TotalCoin2.Name, Label_TotalCoin2);
+			labels.Add(Label_TotalDiff2.Name, Label_TotalDiff2);
+
+
+			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
 			{
-				int index = mGameStateHistory.Count - (DISP_NUM - i);
+				int index = mGameStateHistory.Count - DISP_NUM + i;
+				bool found = false;
 				if (index >= 0)
 				{
 					GameState state = mGameStateHistory[index];
 					LevelData levelData = state.GetLevelData();
 					if (levelData != null)
 					{
+						found = true;
+
+						string levelCode = levelData.mLevelCode;
 						string levelName = levelData.mJpTitle; // コース名
-						int gotCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
-						int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
-						int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
-						int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
+						int chartCoin = levelData.mInLevelCoin;
+						labels["Label_LevelCode" + (i + 1)].Text = levelCode;
+						labels["Label_LevelTitle" + (i + 1)].Text = levelName;
+						labels["Label_ChartCoin" + (i + 1)].Text = chartCoin.ToString();
 
-						// TODO: コース名とコイン枚数を表示する
-						// 獲得コイン(+-差)　累計コイン(+-差)
-
-						string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
-						Label_CurCoin.Text = gotCoin.ToString();
-						Label_CurCoinDiff.Text = curCoinSign + curCoinDiff;
-						if (curCoinDiff >= 0)
+						int curCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
+						if (curCoin >= 0)
 						{
-							Label_CurCoinDiff.ForeColor = Color.LimeGreen;
+							int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
+							int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
+							int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
+
+							string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
+							string cumulativeCoinSign = (cumulativeCoinDiff >= 0) ? "+" : "";
+							labels["Label_CurCoin" + (i + 1)].Text = curCoin.ToString();
+							labels["Label_CurDiff" + (i + 1)].Text = curCoinSign + curCoinDiff.ToString();
+							labels["Label_TotalCoin" + (i + 1)].Text = gotCumulativeCoin.ToString();
+							labels["Label_TotalDiff" + (i + 1)].Text = cumulativeCoinSign + cumulativeCoinDiff.ToString();
+
+							if (curCoinDiff >= 0)
+							{
+								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.LimeGreen;
+							}
+							else
+							{
+								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Red;
+							}
+							if (cumulativeCoinDiff >= 0)
+							{
+								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.LimeGreen;
+							}
+							else
+							{
+								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Red;
+							}
 						}
 						else
 						{
-							Label_CurCoinDiff.ForeColor = Color.Red;
+							labels["Label_CurCoin" + (i + 1)].Text = "-";
+							labels["Label_CurDiff" + (i + 1)].Text = "-";
+							labels["Label_TotalCoin" + (i + 1)].Text = "-";
+							labels["Label_TotalDiff" + (i + 1)].Text = "-";
+
+							labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
+							labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
 						}
 					}
-					else
-					{
-						Label_CurCoin.Text = "-";
-						Label_CurCoinDiff.Text = "-";
-						Label_CurCoinDiff.ForeColor = Color.Black;
-					}
+				}
+				if (!found)
+				{
+					labels["Label_LevelCode" + (i + 1)].Text = "-";
+					labels["Label_LevelTitle" + (i + 1)].Text = "-";
+					labels["Label_ChartCoin" + (i + 1)].Text = "-";
+					labels["Label_CurCoin" + (i + 1)].Text = "-";
+					labels["Label_CurDiff" + (i + 1)].Text = "-";
+					labels["Label_TotalCoin" + (i + 1)].Text = "-";
+					labels["Label_TotalDiff" + (i + 1)].Text = "-";
+
+					labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
+					labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
 				}
 			}
 		}
@@ -334,6 +386,11 @@ namespace SMM2_RTA_AssistTool
 		{
 			OptionForm form = new OptionForm();
 			form.ShowDialog(this);
+		}
+
+		private void Button_Reset_Click(object sender, EventArgs e)
+		{
+			ResetRun();
 		}
 	}
 }
