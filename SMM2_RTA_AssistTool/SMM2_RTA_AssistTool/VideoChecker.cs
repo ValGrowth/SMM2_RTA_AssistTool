@@ -276,7 +276,9 @@ namespace SMM2_RTA_AssistTool {
 		private void UpdateGameState(FastBitmap bitmap)
         {
 			mVideoGameState.mLevelNo = mVideoAnalyzer.DetectLevelNo(bitmap);
-			mVideoGameState.mCoinNum = mVideoAnalyzer.DetectCoinNum(bitmap);
+			Tuple<int, int> coins = mVideoAnalyzer.DetectCoinNum(bitmap);
+			mVideoGameState.mReward = coins.Item1;
+			mVideoGameState.mInLevelCoinNum = coins.Item2;
 		}
 
 		public VideoGameState GetVideoGameState()

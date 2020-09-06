@@ -84,6 +84,7 @@
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SMMMessageBox.cs" />
+    <Compile Include="Timer.cs" />
     <Compile Include="VideoAnalyzer.cs" />
     <Compile Include="VideoChecker.cs" />
     <Compile Include="Program.cs" />

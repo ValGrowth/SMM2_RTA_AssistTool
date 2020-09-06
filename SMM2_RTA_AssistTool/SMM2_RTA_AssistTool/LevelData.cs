@@ -45,7 +45,15 @@ namespace SMM2_RTA_AssistTool
             }
             mLevelCode = GetLevelCode(mLevelNo, mSerialIdx);
             mJpTitle = list[2];
+            if (mJpTitle.StartsWith("\"") && mJpTitle.EndsWith("\""))
+            {
+                mJpTitle = mJpTitle.Substring(1, mJpTitle.Length - 2);
+            }
             mEnTitle = list[3];
+            if (mEnTitle.StartsWith("\"") && mEnTitle.EndsWith("\""))
+            {
+                mEnTitle = mEnTitle.Substring(1, mEnTitle.Length - 2);
+            }
             if (!int.TryParse(list[4], out mReward))
             {
                 mReward = 0;

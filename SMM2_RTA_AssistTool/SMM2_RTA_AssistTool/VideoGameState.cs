@@ -9,7 +9,8 @@ namespace SMM2_RTA_AssistTool
     class VideoGameState
     {
         public string mLevelNo;
-        public int mCoinNum;
+        public int mReward;
+        public int mInLevelCoinNum;
 
         public VideoGameState()
         {
@@ -19,7 +20,8 @@ namespace SMM2_RTA_AssistTool
         public void Reset()
         {
             mLevelNo = "";
-            mCoinNum = 0;
+            mReward = 0;
+            mInLevelCoinNum = 0;
         }
 
     }

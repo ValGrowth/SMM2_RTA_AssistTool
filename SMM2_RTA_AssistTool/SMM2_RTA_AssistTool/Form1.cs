@@ -227,16 +227,27 @@ namespace SMM2_RTA_AssistTool
 						if (videoGameState.mLevelNo != "")
 						{
 							mGameStateHistory.Add(new GameState());
-							mGameStateHistory[mGameStateHistory.Count - 1].UpdateLevel(videoGameState.mLevelNo);
+							string lastLevelNo = "";
+							int lastSerialIdx = -1;
+							int lastCumulativeCoinNum = 0;
+							if (mGameStateHistory.Count >= 2)
+							{
+								GameState prev = mGameStateHistory[mGameStateHistory.Count - 2];
+								lastLevelNo = prev.GetLevelData().mLevelNo;
+								lastSerialIdx = prev.GetSerialIdx();
+								lastCumulativeCoinNum = prev.GetCumulativeCoinNum();
+							}
+							mGameStateHistory[mGameStateHistory.Count - 1].UpdateLevel(
+								videoGameState.mLevelNo, lastLevelNo, lastSerialIdx, lastCumulativeCoinNum);
 							UpdateDisplay();
 						}
 					}
 					else if (curState != null && curState.GetState() == GameState.STATE.LEVEL_PLAYING)
 					{
 						// 所持コイン枚数が変化した
-						if (videoGameState.mCoinNum >= 0)
+						if (videoGameState.mReward >= 0 || videoGameState.mInLevelCoinNum >= 0)
 						{
-							curState.UpdateCoin(videoGameState.mCoinNum);
+							curState.UpdateCoin(videoGameState.mReward, videoGameState.mInLevelCoinNum);
 							UpdateDisplay();
 						}
 					}

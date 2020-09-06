@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,11 @@ namespace SMM2_RTA_AssistTool
 		List<List<List<Color>>> mNumRGBs = new List<List<List<Color>>>();
 		int mNumMaxHeight;
 		int mNumMaxWidth;
+
+		private long mLastCheckPassLevelNo = 0;
+		private long mLastCheckPassCoinNum = 0;
+		private long mCheckPassCountLevelNo = 0;
+		private long mCheckPassCountCoinNum = 0;
 
 		public VideoAnalyzer()
 		{
@@ -57,6 +63,21 @@ namespace SMM2_RTA_AssistTool
 						return "";
 					}
 				}
+			}
+
+			long nowTime = Timer.GetUnixTime(DateTime.Now);
+			if (mCheckPassCountLevelNo == 1)
+			{
+				if (nowTime - mLastCheckPassLevelNo <= 1000)
+				{
+					return "";
+				}
+				mCheckPassCountLevelNo = 0;
+			} else
+			{
+				mCheckPassCountLevelNo = 1;
+				mLastCheckPassLevelNo = nowTime;
+				return "";
 			}
 
 			int ch2xmin = 100;
@@ -129,8 +150,12 @@ namespace SMM2_RTA_AssistTool
 		}
 
 		// 獲得コイン枚数を取得する
-		public int DetectCoinNum(FastBitmap gameImage)
+		public Tuple<int, int> DetectCoinNum(FastBitmap gameImage)
 		{
+			if (gameImage.Height != 1080 || gameImage.Width != 1920)
+			{
+				return new Tuple<int, int>(-1, -1);
+			}
 			int chxmin = 500;
 			int chxmax = 550;
 			int chymin = 500;
@@ -142,9 +167,25 @@ namespace SMM2_RTA_AssistTool
 					Color color = gameImage.GetPixel(x, y);
 					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
 					{
-						return -1;
+						return new Tuple<int, int>(-1, -1);
 					}
 				}
+			}
+
+			long nowTime = Timer.GetUnixTime(DateTime.Now);
+			if (mCheckPassCountCoinNum == 1)
+			{
+				if (nowTime - mLastCheckPassCoinNum <= 1000)
+				{
+					return new Tuple<int, int>(-1, -1);
+				}
+				mCheckPassCountCoinNum = 0;
+			}
+			else
+			{
+				mCheckPassCountCoinNum = 1;
+				mLastCheckPassCoinNum = nowTime;
+				return new Tuple<int, int>(-1, -1);
 			}
 
 			// コイン枚数表示部付近だけ調べれば良い
@@ -258,10 +299,10 @@ namespace SMM2_RTA_AssistTool
 
 			if (rFoundNumbers.Count == 0 && iFoundNumbers1.Count == 0 && iFoundNumbers2.Count == 0)
 			{
-				return -1;
+				return new Tuple<int, int>(-1, -1);
 			}
 
-			return reward + coinInLevel;
+			return new Tuple<int, int>(reward, coinInLevel);
 		}
 
 		private int TestNumber(FastBitmap image, int ax, int ay)

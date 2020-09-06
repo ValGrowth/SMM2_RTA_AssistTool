@@ -23,6 +23,7 @@ namespace SMM2_RTA_AssistTool
 
 		public int GetCurCoinNum() { return mCurCoinNum; }
 		public int GetCumulativeCoinNum() { return mCumulativeCoinNum; }
+		public int GetSerialIdx() { return mSerialIdx; }
 		public STATE GetState() { return mState; }
 
 		public GameState()
@@ -44,24 +45,25 @@ namespace SMM2_RTA_AssistTool
 			return LevelData.GetLevelCode(mLevelNo, mSerialIdx);
 		}
 
-		public void UpdateLevel(string levelNo)
+		public void UpdateLevel(string levelNo, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
 		{
-			if (levelNo == mLevelNo)
+			if (levelNo == lastLevelNo)
 			{
-				mSerialIdx += 1;
+				mSerialIdx = lastSerialIdx + 1;
 			} else
 			{
 				mLevelNo = levelNo;
 				mSerialIdx = 1;
 			}
 			mCurCoinNum = -1; // コースプレイ中は-1
+			mCumulativeCoinNum = cumulativeCoinNum;
 			mState = STATE.LEVEL_PLAYING;
 		}
 
-		public void UpdateCoin(int coin)
+		public void UpdateCoin(int reward, int inLevelCoin)
 		{
-			mCurCoinNum = coin;
-			mCumulativeCoinNum += mCurCoinNum;
+			mCurCoinNum = inLevelCoin;
+			mCumulativeCoinNum += reward + inLevelCoin;
 			mState = STATE.CASTLE;
 		}
 
@@ -76,7 +78,7 @@ namespace SMM2_RTA_AssistTool
 			{
 				return -1;
 			}
-			int coinDiff = mCurCoinNum - levelData.mTotalCoin;
+			int coinDiff = mCurCoinNum - levelData.mInLevelCoin;
 			return coinDiff;
 		}
 
