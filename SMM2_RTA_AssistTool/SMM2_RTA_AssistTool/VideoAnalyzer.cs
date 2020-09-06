@@ -94,6 +94,22 @@ namespace SMM2_RTA_AssistTool
 		// 獲得コイン枚数を取得する
 		public int DetectCoinNum(FastBitmap gameImage)
 		{
+			int chxmin = 500;
+			int chxmax = 550;
+			int chymin = 500;
+			int chymax = 600;
+			for (int y = chymin; y < chymax; y += 5)
+			{
+				for (int x = chxmin; x < chxmax; x += 5)
+				{
+					Color color = gameImage.GetPixel(x, y);
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
+					{
+						return -1;
+					}
+				}
+			}
+
 			// コイン枚数表示部付近だけ調べれば良い
 			// 報酬コイン
 			int rxmin = 900;
