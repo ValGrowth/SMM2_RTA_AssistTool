@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,14 +13,30 @@ namespace SMM2_RTA_AssistTool
 
 		Bitmap[] mNumberImagesOriginal = new Bitmap[10];
 		FastBitmap[] mNumberImages = new FastBitmap[10];
+		List<List<List<Color>>> mNumRGBs = new List<List<List<Color>>>();
+		int mNumMaxHeight;
+		int mNumMaxWidth;
 
 		public VideoAnalyzer()
 		{
+			mNumMaxHeight = 0;
+			mNumMaxWidth = 0;
 			for (int i = 0; i < 10; ++i)
 			{
 				string path = "./Images/Numbers/" + i + ".png";
 				mNumberImagesOriginal[i] = new Bitmap(path);
 				mNumberImages[i] = new FastBitmap(mNumberImagesOriginal[i]);
+					mNumRGBs.Add(new List<List<Color>>());
+				for (int y = 0; y < mNumberImages[i].Height; ++y)
+				{
+					mNumRGBs[i].Add(new List<Color>());
+					for (int x = 0; x < mNumberImages[i].Width; ++x)
+					{
+						mNumRGBs[i][y].Add(mNumberImages[i].GetPixel(x, y));
+					}
+				}
+				mNumMaxHeight = Math.Max(mNumMaxHeight, mNumberImages[i].Height);
+				mNumMaxWidth = Math.Max(mNumMaxWidth, mNumberImages[i].Width);
 			}
 		}
 
@@ -94,16 +111,13 @@ namespace SMM2_RTA_AssistTool
 					{
 						continue;
 					}
-					for (int num = 0; num < 10; ++num)
+					int num = TestNumber(gameImage, ax, ay);
+					if (num != -1)
 					{
-						bool result = TestNumber(gameImage, ax, ay, num);
-						if (result)
+						rFoundNumbers[ax] = num;
+						for (int dx = -10; dx <= 10; ++dx)
 						{
-							rFoundNumbers[ax] = num;
-							for (int dx = -10; dx <= 10; ++dx)
-							{
-								rFoundTable[ax + dx] = true;
-							}
+							rFoundTable[ax + dx] = true;
 						}
 					}
 				}
@@ -132,16 +146,13 @@ namespace SMM2_RTA_AssistTool
 					{
 						continue;
 					}
-					for (int num = 0; num < 10; ++num)
+					int num = TestNumber(gameImage, ax, ay);
+					if (num != -1)
 					{
-						bool result = TestNumber(gameImage, ax, ay, num);
-						if (result)
+						iFoundNumbers1[ax] = num;
+						for (int dx = -10; dx <= 10; ++dx)
 						{
-							iFoundNumbers1[ax] = num;
-							for (int dx = -10; dx <= 10; ++dx)
-							{
-								iFoundTable1[ax + dx] = true;
-							}
+							iFoundTable1[ax + dx] = true;
 						}
 					}
 				}
@@ -172,16 +183,13 @@ namespace SMM2_RTA_AssistTool
 						{
 							continue;
 						}
-						for (int num = 0; num < 10; ++num)
+						int num = TestNumber(gameImage, ax, ay);
+						if (num != -1)
 						{
-							bool result = TestNumber(gameImage, ax, ay, num);
-							if (result)
+							iFoundNumbers2[ax] = num;
+							for (int dx = -10; dx <= 10; ++dx)
 							{
-								iFoundNumbers2[ax] = num;
-								for (int dx = -10; dx <= 10; ++dx)
-								{
-									iFoundTable2[ax + dx] = true;
-								}
+								iFoundTable2[ax + dx] = true;
 							}
 						}
 					}
@@ -203,33 +211,47 @@ namespace SMM2_RTA_AssistTool
 			return reward + coinInLevel;
 		}
 
-		private bool TestNumber(FastBitmap image, int ax, int ay, int num)
+		private int TestNumber(FastBitmap image, int ax, int ay)
 		{
-			FastBitmap numImage = mNumberImages[num];
-			int totalPixel = numImage.Height * numImage.Width / 4;
+			int totalPixel = mNumMaxHeight * mNumMaxWidth / 4;
 			int allowPixel = (int)(totalPixel * (1.0 - 0.9));
-			int count = 0;
-			for (int dy = 0; dy < numImage.Height; dy += 2)
+			int[] counts = new int[10];
+			List<int> numbers = new List<int>();
+			for (int i = 0; i < 10; ++i)
 			{
-				for (int dx = 0; dx < numImage.Width; dx += 2)
+				counts[i] = 0;
+				numbers.Add(i);
+			}
+			for (int dy = 0; dy < mNumMaxHeight; dy += 2)
+			{
+				for (int dx = 0; dx < mNumMaxWidth; dx += 2)
 				{
-					int diff = 0;
 					Color ac = image.GetPixel(ax + dx, ay + dy);
-					Color bc = numImage.GetPixel(dx, dy);
-					diff += Math.Abs(ac.R - bc.R);
-					diff += Math.Abs(ac.G - bc.G);
-					diff += Math.Abs(ac.B - bc.B);
-					if (diff >= 150)
+					for (int i = numbers.Count - 1; i >= 0; --i)
 					{
-						++count;
-					}
-					if (count > allowPixel)
-					{
-						return false;
+						int num = numbers[i];
+						Color bc = mNumRGBs[num][dy][dx];
+						int diff = 0;
+						diff += Math.Abs(ac.R - bc.R);
+						diff += Math.Abs(ac.G - bc.G);
+						diff += Math.Abs(ac.B - bc.B);
+						if (diff >= 150)
+						{
+							++counts[num];
+						}
+						if (counts[num] > allowPixel)
+						{
+							numbers.RemoveAt(i);
+							if (numbers.Count == 0)
+							{
+								return -1;
+							}
+						}
 					}
 				}
 			}
-			return true;
+			numbers.Sort((a, b) => counts[b] - counts[a]);
+			return numbers[0];
 		}
 
 	}
