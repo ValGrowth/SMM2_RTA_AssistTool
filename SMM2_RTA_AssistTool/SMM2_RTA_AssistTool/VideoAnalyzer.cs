@@ -202,13 +202,13 @@ namespace SMM2_RTA_AssistTool
 				return new Tuple<int, int>(-1, -1);
 			}
 
-			// TODO: 先にRewardありかどうかを検出する
+			// 先にRewardありかどうかを検出する
 
 			bool hasReward = true;
-			int chrxmin = 500; // TODO:
-			int chrxmax = 550; // TODO:
-			int chrymin = 500; // TODO:
-			int chrymax = 600; // TODO:
+			int chrxmin = 600;
+			int chrxmax = 1200;
+			int chrymin = 250;
+			int chrymax = 300;
 			for (int y = chrymin; y < chrymax; y += 5)
 			{
 				for (int x = chrxmin; x < chrxmax; x += 5)
@@ -328,14 +328,15 @@ namespace SMM2_RTA_AssistTool
 		// ２値画像で比較するバージョン
 		private int TestNumber(FastBitmap image, int ax, int ay)
 		{
-			int totalPixel = mNumMaxHeight * mNumMaxWidth / 4;
-			int allowPixel = (int)(totalPixel * (1.0 - 0.9));
+			int[] allowPixel = new int[10];
 			int[] counts = new int[10];
 			List<int> numbers = new List<int>();
 			for (int i = 0; i < 10; ++i)
 			{
 				counts[i] = 0;
 				numbers.Add(i);
+				int totalPixel = mNumberImages[i].Height * mNumberImages[i].Width / 4;
+				allowPixel[i] = (int)(totalPixel * (1.0 - 0.8));
 			}
 			for (int dy = 0; dy < mNumMaxHeight; dy += 2)
 			{
@@ -346,12 +347,16 @@ namespace SMM2_RTA_AssistTool
 					for (int i = numbers.Count - 1; i >= 0; --i)
 					{
 						int num = numbers[i];
+						if (dy >= mNumberImages[num].Height || dx >= mNumberImages[num].Width)
+						{
+							continue;
+						}
 						bool bcFlg = mNumBinFlgs[num][dy][dx];
 						if (acFlg != bcFlg)
 						{
 							++counts[num];
 						}
-						if (counts[num] > allowPixel)
+						if (counts[num] > allowPixel[num])
 						{
 							numbers.RemoveAt(i);
 							if (numbers.Count == 0)

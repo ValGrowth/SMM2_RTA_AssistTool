@@ -47,12 +47,12 @@ namespace SMM2_RTA_AssistTool
 
 		public void UpdateLevel(string levelNo, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
 		{
+			mLevelNo = levelNo;
 			if (levelNo == lastLevelNo)
 			{
 				mSerialIdx = lastSerialIdx + 1;
 			} else
 			{
-				mLevelNo = levelNo;
 				mSerialIdx = 1;
 			}
 			mCurCoinNum = -1; // コースプレイ中は-1
