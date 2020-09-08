@@ -16,7 +16,6 @@ namespace SMM2_RTA_AssistTool
 		VideoChecker mVideoChecker = null;
 		//AudioChecker mAudioChecker = null;
 
-		//GameState mGameState = new GameState();
 		List<GameState> mGameStateHistory = new List<GameState>();
 
 		private IGraphBuilder graphBuilder; //基本的なフィルタグラフマネージャ
@@ -63,7 +62,6 @@ namespace SMM2_RTA_AssistTool
 
 		public void ResetRun()
 		{
-			//mGameState.Reset();
 			mGameStateHistory.Clear();
 			UpdateDisplay();
 		}
@@ -73,6 +71,8 @@ namespace SMM2_RTA_AssistTool
 
 			mVideoChecker = new VideoChecker(this);
 			//mAudioChecker = new AudioChecker(this);
+
+			//mVideoChecker.Test();
 
 			// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
 

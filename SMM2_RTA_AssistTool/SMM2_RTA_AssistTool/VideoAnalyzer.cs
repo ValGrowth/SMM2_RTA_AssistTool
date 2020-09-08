@@ -13,11 +13,16 @@ namespace SMM2_RTA_AssistTool
 	class VideoAnalyzer
 	{
 		private const int BIN_THRESH = 128;
+		private const int X_SPAN = 20;
+		private const int SCAN_INTERVAL = 2;
+		private const int SCAN_INTERVAL2 = SCAN_INTERVAL * SCAN_INTERVAL;
 
 		private Bitmap[] mNumberImagesOriginal = new Bitmap[10];
 		private FastBitmap[] mNumberImages = new FastBitmap[10];
 		private List<List<List<Color>>> mNumRGBs = new List<List<List<Color>>>();
 		private List<List<List<bool>>> mNumBinFlgs = new List<List<List<bool>>>();
+		private int[] mNumTotalPixel = new int[10];
+		private int[] mNumAllowPixel = new int[10];
 		private int mNumMaxHeight;
 		private int mNumMaxWidth;
 
@@ -57,6 +62,8 @@ namespace SMM2_RTA_AssistTool
 				}
 				mNumMaxHeight = Math.Max(mNumMaxHeight, mNumberImages[i].Height);
 				mNumMaxWidth = Math.Max(mNumMaxWidth, mNumberImages[i].Width);
+				mNumTotalPixel[i] = mNumberImages[i].Height * mNumberImages[i].Width / SCAN_INTERVAL2;
+				mNumAllowPixel[i] = (int)(mNumTotalPixel[i] * (1.0 - 0.8));
 			}
 		}
 
@@ -202,7 +209,7 @@ namespace SMM2_RTA_AssistTool
 				return new Tuple<int, int>(-1, -1);
 			}
 
-			// 先にRewardありかどうかを検出する
+			// 先にRewardがあるかどうかを検出する
 
 			bool hasReward = true;
 			int chrxmin = 600;
@@ -230,8 +237,8 @@ namespace SMM2_RTA_AssistTool
 			int reward = 0;
 			int coinInLevel = 0;
 
-			IDictionary<int, int> rFoundNumbers = new SortedDictionary<int, int>();
-			IDictionary<int, int> iFoundNumbers = new SortedDictionary<int, int>();
+			bool rewardFound = false;
+			bool coinInLevelFound = false;
 
 			if (hasReward)
 			{
@@ -242,23 +249,13 @@ namespace SMM2_RTA_AssistTool
 				int rymin = 600;
 				int rymax = 650;
 
-				for (int ax = rxmin; ax < rxmax; ++ax)
+				reward = IdentifyNumbers(gameImage, rxmin, rxmax, rymin, rymax);
+				if (reward >= 0)
 				{
-					for (int ay = rymin; ay < rymax; ++ay)
-					{
-						int num = TestNumber(gameImage, ax, ay);
-						if (num != -1)
-						{
-							rFoundNumbers[ax] = num;
-							ax += 10;
-						}
-					}
-				}
-
-				foreach (KeyValuePair<int, int> data in rFoundNumbers)
+					rewardFound = true;
+				} else
 				{
-					reward *= 10;
-					reward += data.Value;
+					reward = 0;
 				}
 
 				// 報酬ありの場合のコース内コイン
@@ -267,25 +264,18 @@ namespace SMM2_RTA_AssistTool
 				int iymin1 = 375;
 				int iymax1 = 425;
 
-				for (int ax = ixmin1; ax < ixmax1; ++ax)
+				coinInLevel = IdentifyNumbers(gameImage, ixmin1, ixmax1, iymin1, iymax1);
+				if (coinInLevel >= 0)
 				{
-					for (int ay = iymin1; ay < iymax1; ++ay)
-					{
-						int num = TestNumber(gameImage, ax, ay);
-						if (num != -1)
-						{
-							iFoundNumbers[ax] = num;
-							ax += 10;
-						}
-					}
+					coinInLevelFound = true;
+				}
+				else
+				{
+					coinInLevel = 0;
 				}
 
-				foreach (KeyValuePair<int, int> data in iFoundNumbers)
-				{
-					coinInLevel *= 10;
-					coinInLevel += data.Value;
-				}
-			} else
+			}
+			else
 			{
 				// 報酬なしの場合のコース内コイン
 				int ixmin2 = 900;
@@ -293,31 +283,22 @@ namespace SMM2_RTA_AssistTool
 				int iymin2 = 525;
 				int iymax2 = 575;
 
-				for (int ax = ixmin2; ax < ixmax2; ++ax)
+				coinInLevel = IdentifyNumbers(gameImage, ixmin2, ixmax2, iymin2, iymax2);
+				if (coinInLevel >= 0)
 				{
-					for (int ay = iymin2; ay < iymax2; ++ay)
-					{
-						int num = TestNumber(gameImage, ax, ay);
-						if (num != -1)
-						{
-							iFoundNumbers[ax] = num;
-							ax += 10;
-						}
-					}
+					coinInLevelFound = true;
+				}
+				else
+				{
+					coinInLevel = 0;
 				}
 
-				coinInLevel = 0;
-				foreach (KeyValuePair<int, int> data in iFoundNumbers)
-				{
-					coinInLevel *= 10;
-					coinInLevel += data.Value;
-				}
 			}
 
 			Console.WriteLine("Reward: " + reward);
 			Console.WriteLine("Coin in Level: " + coinInLevel);
 
-			if (rFoundNumbers.Count == 0 && iFoundNumbers.Count == 0)
+			if (!rewardFound && !coinInLevelFound)
 			{
 				return new Tuple<int, int>(-1, -1);
 			}
@@ -325,22 +306,86 @@ namespace SMM2_RTA_AssistTool
 			return new Tuple<int, int>(reward, coinInLevel);
 		}
 
-		// ２値画像で比較するバージョン
-		private int TestNumber(FastBitmap image, int ax, int ay)
+		// 数字列を識別する
+		private int IdentifyNumbers(FastBitmap gameImage, int xmin, int xmax, int ymin, int ymax)
 		{
-			int[] allowPixel = new int[10];
+			List<Tuple<int, int, double>> tempFoundNumbers = new List<Tuple<int, int, double>>(); // x座標、数字、一致度
+			for (int ax = xmin; ax < xmax; ++ax)
+			{
+				for (int ay = ymin; ay < ymax; ++ay)
+				{
+					Tuple<int, double> numInfo = TestNumber(gameImage, ax, ay);
+					if (numInfo.Item1 != -1)
+					{
+						tempFoundNumbers.Add(new Tuple<int, int, double>(ax, numInfo.Item1, numInfo.Item2));
+					}
+				}
+			}
+
+			IDictionary<int, int> foundNumbers = new SortedDictionary<int, int>();
+			bool[] xCheck = new bool[xmax - xmin];
+			if (tempFoundNumbers.Count > 0)
+			{
+				// 一致度が高い順に並び替え
+				tempFoundNumbers.Sort((a, b) => a.Item3 < b.Item3 ? 1 : (a.Item3 > b.Item3 ? -1 : 0));
+
+				// 一致度が高い順に数字を選ぶ
+				int idx = 0;
+				while (true)
+				{
+					while (idx < tempFoundNumbers.Count && xCheck[tempFoundNumbers[idx].Item1 - xmin])
+					{
+						++idx;
+					}
+					if (idx >= tempFoundNumbers.Count)
+					{
+						break;
+					}
+					int x = tempFoundNumbers[idx].Item1;
+					int num = tempFoundNumbers[idx].Item2;
+					foundNumbers[x] = num;
+					++idx;
+
+					for (int dx = -X_SPAN; dx < X_SPAN; ++dx)
+					{
+						if (x + dx < xmin || x + dx >= xmax)
+						{
+							continue;
+						}
+						xCheck[x + dx - xmin] = true;
+					}
+				}
+			}
+
+			if (foundNumbers.Count == 0)
+			{
+				return -1;
+			}
+
+			int coinNum = 0;
+			foreach (KeyValuePair<int, int> data in foundNumbers)
+			{
+				coinNum *= 10;
+				coinNum += data.Value;
+			}
+
+			return coinNum;
+		}
+
+		// 最も一致度の高い数字を検出する
+		// ２値画像で比較するバージョン
+		private Tuple<int, double> TestNumber(FastBitmap image, int ax, int ay)
+		{
 			int[] counts = new int[10];
 			List<int> numbers = new List<int>();
 			for (int i = 0; i < 10; ++i)
 			{
 				counts[i] = 0;
 				numbers.Add(i);
-				int totalPixel = mNumberImages[i].Height * mNumberImages[i].Width / 4;
-				allowPixel[i] = (int)(totalPixel * (1.0 - 0.8));
 			}
-			for (int dy = 0; dy < mNumMaxHeight; dy += 2)
+			for (int dy = 0; dy < mNumMaxHeight; dy += SCAN_INTERVAL)
 			{
-				for (int dx = 0; dx < mNumMaxWidth; dx += 2)
+				for (int dx = 0; dx < mNumMaxWidth; dx += SCAN_INTERVAL)
 				{
 					Color ac = image.GetPixel(ax + dx, ay + dy);
 					bool acFlg = CalcBinFlg(ac);
@@ -356,25 +401,35 @@ namespace SMM2_RTA_AssistTool
 						{
 							++counts[num];
 						}
-						if (counts[num] > allowPixel[num])
+						if (counts[num] > mNumAllowPixel[num])
 						{
 							numbers.RemoveAt(i);
 							if (numbers.Count == 0)
 							{
-								return -1;
+								return new Tuple<int, double>(-1, -1);
 							}
 						}
 					}
 				}
 			}
-			numbers.Sort((a, b) => counts[b] - counts[a]);
-			return numbers[0];
+			double maxSimilarity = -1.0;
+			int bestNum = -1;
+			foreach (int num in numbers)
+			{
+				double similarity = 1.0 - ((double)counts[num] / mNumTotalPixel[num]);
+				if (similarity > maxSimilarity)
+				{
+					maxSimilarity = similarity;
+					bestNum = num;
+				}
+			}
+			return new Tuple<int, double>(bestNum, maxSimilarity);
 		}
 
 		// RGB画素値を使って比較するバージョン
 		//private int TestNumber(FastBitmap image, int ax, int ay)
 		//{
-		//	int totalPixel = mNumMaxHeight * mNumMaxWidth / 4;
+		//	int totalPixel = mNumMaxHeight * mNumMaxWidth / SCAN_INTERVAL2;
 		//	int allowPixel = (int)(totalPixel * (1.0 - 0.9));
 		//	int[] counts = new int[10];
 		//	List<int> numbers = new List<int>();
@@ -383,9 +438,9 @@ namespace SMM2_RTA_AssistTool
 		//		counts[i] = 0;
 		//		numbers.Add(i);
 		//	}
-		//	for (int dy = 0; dy < mNumMaxHeight; dy += 2)
+		//	for (int dy = 0; dy < mNumMaxHeight; dy += SCAN_INTERVAL)
 		//	{
-		//		for (int dx = 0; dx < mNumMaxWidth; dx += 2)
+		//		for (int dx = 0; dx < mNumMaxWidth; dx += SCAN_INTERVAL)
 		//		{
 		//			Color ac = image.GetPixel(ax + dx, ay + dy);
 		//			for (int i = numbers.Count - 1; i >= 0; --i)

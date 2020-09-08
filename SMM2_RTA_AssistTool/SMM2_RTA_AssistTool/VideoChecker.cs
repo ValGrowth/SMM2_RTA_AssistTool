@@ -35,6 +35,17 @@ namespace SMM2_RTA_AssistTool {
 			mForm1 = form1;
 		}
 
+		//public void Test()
+		//{
+		//	Bitmap b = new Bitmap("./Images/Sample/fail.png");
+		//	FastBitmap f = new FastBitmap(b);
+		//	while (true) {
+		//		Tuple<int, int> a = mVideoAnalyzer.DetectCoinNum(f);
+		//		Console.WriteLine("Reward: " + a.Item1);
+		//		Console.WriteLine("InLevel: " + a.Item2);
+		//	}
+		//}
+
 		//COMやインタフェースの解放を行う
 		public void CloseInterfaces()
 		{
