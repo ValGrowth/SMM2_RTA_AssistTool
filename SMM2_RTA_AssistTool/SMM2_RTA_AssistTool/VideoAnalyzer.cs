@@ -26,8 +26,8 @@ namespace SMM2_RTA_AssistTool
 		private int mNumMaxHeight;
 		private int mNumMaxWidth;
 
-		private long mLastCheckPassLevelNo = 0;
-		private long mLastCheckPassCoinNum = 0;
+		private long mLastLevelNoCheckTime = 0;
+		private long mLastCoinCheckTime = 0;
 		private long mCheckPassCountLevelNo = 0;
 		private long mCheckPassCountCoinNum = 0;
 
@@ -87,17 +87,24 @@ namespace SMM2_RTA_AssistTool
 			}
 
 			long nowTime = Timer.GetUnixTime(DateTime.Now);
+			if (nowTime - mLastLevelNoCheckTime > 5000)
+			{
+				// ５秒以上経過していたらタイマーリセット
+				mCheckPassCountLevelNo = 0;
+			}
 			if (mCheckPassCountLevelNo == 1)
 			{
-				if (nowTime - mLastCheckPassLevelNo <= 1000)
+				if (nowTime - mLastLevelNoCheckTime <= 1500)
 				{
+					// 映像が安定するまで待つ
 					return "";
 				}
 				mCheckPassCountLevelNo = 0;
 			} else
 			{
+				// 映像が安定するまで待つ処理を開始
 				mCheckPassCountLevelNo = 1;
-				mLastCheckPassLevelNo = nowTime;
+				mLastLevelNoCheckTime = nowTime;
 				return "";
 			}
 
@@ -194,18 +201,25 @@ namespace SMM2_RTA_AssistTool
 			}
 
 			long nowTime = Timer.GetUnixTime(DateTime.Now);
+			if (nowTime - mLastCoinCheckTime > 5000)
+			{
+				// ５秒以上経過していたらタイマーリセット
+				mCheckPassCountCoinNum = 0;
+			}
 			if (mCheckPassCountCoinNum == 1)
 			{
-				if (nowTime - mLastCheckPassCoinNum <= 1000)
+				if (nowTime - mLastCoinCheckTime <= 1000)
 				{
+					// コインが動くモーションが終わるまで待つ
 					return new Tuple<int, int>(-1, -1);
 				}
 				mCheckPassCountCoinNum = 0;
 			}
 			else
 			{
+				// コインが動くモーションを待つ処理を開始
 				mCheckPassCountCoinNum = 1;
-				mLastCheckPassCoinNum = nowTime;
+				mLastCoinCheckTime = nowTime;
 				return new Tuple<int, int>(-1, -1);
 			}
 
