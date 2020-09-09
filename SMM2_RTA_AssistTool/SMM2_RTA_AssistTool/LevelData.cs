@@ -18,10 +18,12 @@ namespace SMM2_RTA_AssistTool
         public int mInLevelCoin; // コース内コイン枚数
         public int mTotalCoin; // Reward + InLevelCoin
         public int mCumulativeCoin; // 累計コイン枚数
+        public int mNeededCoin; // 城建設で消費するコイン
         public Bitmap mImage;
         public FastBitmap mTitleImage; // タイトルが表示される画面の画像
         public string mCastleList; // 城建設リスト（名称とコマンド）
         public string mLevelSelectCommand; // コース選択コマンド
+        public int mAllowedLoss; // 許されたコインロス
 
         public LevelData()
         {
@@ -34,10 +36,12 @@ namespace SMM2_RTA_AssistTool
             mInLevelCoin = 0;
             mTotalCoin = 0;
             mCumulativeCoin = 0;
+            mNeededCoin = 0;
             mImage = null;
             mTitleImage = null;
             mCastleList = "";
             mLevelSelectCommand = "";
+            mAllowedLoss = 0;
         }
 
         public LevelData(List<string> list)
@@ -63,9 +67,13 @@ namespace SMM2_RTA_AssistTool
             {
                 mCumulativeCoin = 0;
             }
-            mCastleList = list[7];
-            mLevelSelectCommand = list[8];
-            string imagePath = "./Images/Levels/" + list[9];
+            if (!int.TryParse(list[7], out mNeededCoin))
+            {
+                mNeededCoin = 0;
+            }
+            mCastleList = list[8];
+            mLevelSelectCommand = list[9];
+            string imagePath = "./Images/Levels/" + list[10];
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
         }

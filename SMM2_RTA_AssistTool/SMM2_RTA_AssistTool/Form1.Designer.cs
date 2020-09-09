@@ -71,6 +71,13 @@
 			this.Label_LevelSelectCommandText = new System.Windows.Forms.Label();
 			this.Label_CastleList = new System.Windows.Forms.Label();
 			this.Label_LevelSelectCommand = new System.Windows.Forms.Label();
+			this.Label_HeaderNeeded = new System.Windows.Forms.Label();
+			this.Label_RB2_3 = new System.Windows.Forms.Label();
+			this.Label_LB2_3 = new System.Windows.Forms.Label();
+			this.Label_NeededDiff2 = new System.Windows.Forms.Label();
+			this.Label_RB1_3 = new System.Windows.Forms.Label();
+			this.Label_LB1_3 = new System.Windows.Forms.Label();
+			this.Label_NeededDiff1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -88,7 +95,7 @@
             this.configToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(805, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(899, 24);
 			this.menuStrip1.TabIndex = 7;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -234,7 +241,7 @@
 			// 
 			this.Label_HeaderChartCoin.AutoSize = true;
 			this.Label_HeaderChartCoin.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_HeaderChartCoin.Location = new System.Drawing.Point(462, 32);
+			this.Label_HeaderChartCoin.Location = new System.Drawing.Point(461, 32);
 			this.Label_HeaderChartCoin.Name = "Label_HeaderChartCoin";
 			this.Label_HeaderChartCoin.Size = new System.Drawing.Size(42, 24);
 			this.Label_HeaderChartCoin.TabIndex = 18;
@@ -255,7 +262,7 @@
 			// 
 			this.Label_HeaderCurCoin.AutoSize = true;
 			this.Label_HeaderCurCoin.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_HeaderCurCoin.Location = new System.Drawing.Point(523, 32);
+			this.Label_HeaderCurCoin.Location = new System.Drawing.Point(522, 32);
 			this.Label_HeaderCurCoin.Name = "Label_HeaderCurCoin";
 			this.Label_HeaderCurCoin.Size = new System.Drawing.Size(42, 24);
 			this.Label_HeaderCurCoin.TabIndex = 20;
@@ -562,9 +569,9 @@
 			this.Label_CastleList.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Label_CastleList.Location = new System.Drawing.Point(563, 165);
 			this.Label_CastleList.Name = "Label_CastleList";
-			this.Label_CastleList.Size = new System.Drawing.Size(147, 48);
+			this.Label_CastleList.Size = new System.Drawing.Size(138, 48);
 			this.Label_CastleList.TabIndex = 47;
-			this.Label_CastleList.Text = "西館２階（None）\r\n本館２階（右２）";
+			this.Label_CastleList.Text = "西館２階\r\n本館２階（右２）";
 			this.Label_CastleList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// Label_LevelSelectCommand
@@ -578,11 +585,95 @@
 			this.Label_LevelSelectCommand.Text = "右２下３";
 			this.Label_LevelSelectCommand.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// Label_HeaderNeeded
+			// 
+			this.Label_HeaderNeeded.AutoSize = true;
+			this.Label_HeaderNeeded.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_HeaderNeeded.Location = new System.Drawing.Point(793, 32);
+			this.Label_HeaderNeeded.Name = "Label_HeaderNeeded";
+			this.Label_HeaderNeeded.Size = new System.Drawing.Size(42, 24);
+			this.Label_HeaderNeeded.TabIndex = 49;
+			this.Label_HeaderNeeded.Text = "必須";
+			this.Label_HeaderNeeded.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// Label_RB2_3
+			// 
+			this.Label_RB2_3.AutoSize = true;
+			this.Label_RB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_RB2_3.Location = new System.Drawing.Point(851, 61);
+			this.Label_RB2_3.Name = "Label_RB2_3";
+			this.Label_RB2_3.Size = new System.Drawing.Size(17, 24);
+			this.Label_RB2_3.TabIndex = 52;
+			this.Label_RB2_3.Text = ")";
+			this.Label_RB2_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_LB2_3
+			// 
+			this.Label_LB2_3.AutoSize = true;
+			this.Label_LB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_LB2_3.Location = new System.Drawing.Point(794, 61);
+			this.Label_LB2_3.Name = "Label_LB2_3";
+			this.Label_LB2_3.Size = new System.Drawing.Size(17, 24);
+			this.Label_LB2_3.TabIndex = 51;
+			this.Label_LB2_3.Text = "(";
+			this.Label_LB2_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_NeededDiff2
+			// 
+			this.Label_NeededDiff2.AutoSize = true;
+			this.Label_NeededDiff2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_NeededDiff2.Location = new System.Drawing.Point(805, 61);
+			this.Label_NeededDiff2.Name = "Label_NeededDiff2";
+			this.Label_NeededDiff2.Size = new System.Drawing.Size(43, 24);
+			this.Label_NeededDiff2.TabIndex = 50;
+			this.Label_NeededDiff2.Text = "+23";
+			this.Label_NeededDiff2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_RB1_3
+			// 
+			this.Label_RB1_3.AutoSize = true;
+			this.Label_RB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_RB1_3.Location = new System.Drawing.Point(851, 88);
+			this.Label_RB1_3.Name = "Label_RB1_3";
+			this.Label_RB1_3.Size = new System.Drawing.Size(17, 24);
+			this.Label_RB1_3.TabIndex = 55;
+			this.Label_RB1_3.Text = ")";
+			this.Label_RB1_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_LB1_3
+			// 
+			this.Label_LB1_3.AutoSize = true;
+			this.Label_LB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_LB1_3.Location = new System.Drawing.Point(794, 88);
+			this.Label_LB1_3.Name = "Label_LB1_3";
+			this.Label_LB1_3.Size = new System.Drawing.Size(17, 24);
+			this.Label_LB1_3.TabIndex = 54;
+			this.Label_LB1_3.Text = "(";
+			this.Label_LB1_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_NeededDiff1
+			// 
+			this.Label_NeededDiff1.AutoSize = true;
+			this.Label_NeededDiff1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_NeededDiff1.Location = new System.Drawing.Point(805, 88);
+			this.Label_NeededDiff1.Name = "Label_NeededDiff1";
+			this.Label_NeededDiff1.Size = new System.Drawing.Size(43, 24);
+			this.Label_NeededDiff1.TabIndex = 53;
+			this.Label_NeededDiff1.Text = "+23";
+			this.Label_NeededDiff1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(805, 474);
+			this.ClientSize = new System.Drawing.Size(899, 474);
+			this.Controls.Add(this.Label_RB1_3);
+			this.Controls.Add(this.Label_LB1_3);
+			this.Controls.Add(this.Label_NeededDiff1);
+			this.Controls.Add(this.Label_RB2_3);
+			this.Controls.Add(this.Label_LB2_3);
+			this.Controls.Add(this.Label_NeededDiff2);
+			this.Controls.Add(this.Label_HeaderNeeded);
 			this.Controls.Add(this.Label_LevelSelectCommand);
 			this.Controls.Add(this.Label_CastleList);
 			this.Controls.Add(this.Label_LevelSelectCommandText);
@@ -688,6 +779,13 @@
 		private System.Windows.Forms.Label Label_LevelSelectCommandText;
 		private System.Windows.Forms.Label Label_CastleList;
 		private System.Windows.Forms.Label Label_LevelSelectCommand;
+		private System.Windows.Forms.Label Label_HeaderNeeded;
+		private System.Windows.Forms.Label Label_RB2_3;
+		private System.Windows.Forms.Label Label_LB2_3;
+		private System.Windows.Forms.Label Label_NeededDiff2;
+		private System.Windows.Forms.Label Label_RB1_3;
+		private System.Windows.Forms.Label Label_LB1_3;
+		private System.Windows.Forms.Label Label_NeededDiff1;
 	}
 }
 

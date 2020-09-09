@@ -26,11 +26,22 @@ namespace SMM2_RTA_AssistTool {
 		{
 			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true, true);
 
+			int coin = 0;
 			foreach (List<string> line in csvData)
 			{
 				LevelData levelData = new LevelData(line);
 				mLevelDataList.Add(levelData.mLevelCode, levelData);
+				coin += levelData.mReward + levelData.mInLevelCoin - levelData.mNeededCoin;
+				levelData.mAllowedLoss = coin;
+				foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
+				{
+					if (pr.Value.mAllowedLoss > coin)
+					{
+						pr.Value.mAllowedLoss = coin;
+					}
+				}
 			}
+
 		}
 
 		public LevelData GetLevelData(string levelCode)
