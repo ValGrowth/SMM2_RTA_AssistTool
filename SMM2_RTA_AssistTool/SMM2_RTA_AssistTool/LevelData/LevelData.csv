@@ -1,12 +1,12 @@
 LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,Castle,LevelCommand,TitlePictPath
-1,1,坂道こえてゴールを目指せ！,A Downhill Battle,100,51,151,土台,,1.png
-3,1,"Hello, 3DWorld!","Hello, 3D World!",100,82,333,,下２,3.png
+1,1,坂道こえてゴールを目指せ！,A Downhill Battle,100,51,151,土台,下２,1.png
+3,1,"Hello, 3DWorld!","Hello, 3D World!",100,82,333,,下１,3.png
 4,1,さばくの太陽 あっちこっち,Under the Angry Sun,150,100,583,西１F,下１,4.png
-5,1,行ったり来たり お化けやしき,The Mystery of the Haunted Manor,150,86,819,,？,5.png
-6,1,地下室でコイン集めて,Underground Coin Collecting,200,40,1059,,下１,6.png
-10,1,おくから登場！ マグナムキラー,Banzai Bill Ambush,150,68,1277,,右１,10.png
+5,1,行ったり来たり お化けやしき,The Mystery of the Haunted Manor,150,86,819,,下１,5.png
+6,1,地下室でコイン集めて,Underground Coin Collecting,200,40,1059,,右１,6.png
+10,1,おくから登場！ マグナムキラー,Banzai Bill Ambush,150,68,1277,,下１,10.png
 11,1,シーソーを かたむけて,Seesaw Catapults,150,73,1500,,下１,11.png
-12,1,もぐってビックリ！ さかさマリオ,Tunnel to the Dark Side of the Moon,150,65,1715,本館１F,下１,12.png
+12,1,もぐってビックリ！ さかさマリオ,Tunnel to the Dark Side of the Moon,150,65,1715,本館１F,,12.png
 Dog,1,つるつるにげ切れ ブランコクレーン,Swinging Claw Escape,200,97,2012,東１F,,Dog.png
 7,1,ブランコクレーンのアスレチック場,Swinging Claw Ropes Course,150,52,2214,,,7.png
 9,1,4つのカギを求めて,The Keymaster,200,46,2460,,,9.png

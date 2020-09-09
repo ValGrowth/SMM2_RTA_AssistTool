@@ -265,7 +265,7 @@ namespace SMM2_RTA_AssistTool
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
 			Dictionary<string, Label> labels = new Dictionary<string, Label>();
-			labels.Add(Label_Idx1.Name, Label_Idx1);
+			labels.Add(Label_Idx2.Name, Label_Idx2);
 			labels.Add(Label_LevelCode1.Name, Label_LevelCode1);
 			labels.Add(Label_LevelTitle1.Name, Label_LevelTitle1);
 			labels.Add(Label_ChartCoin1.Name, Label_ChartCoin1);
@@ -274,7 +274,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalCoin1.Name, Label_TotalCoin1);
 			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 
-			labels.Add(Label_Idx2.Name, Label_Idx2);
+			labels.Add(Label_Idx1.Name, Label_Idx1);
 			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
 			labels.Add(Label_LevelTitle2.Name, Label_LevelTitle2);
 			labels.Add(Label_ChartCoin2.Name, Label_ChartCoin2);
@@ -453,10 +453,6 @@ namespace SMM2_RTA_AssistTool
 				foreach (GameState g in mGameStateHistory)
 				{
 					string str = "";
-					if (count > 0)
-					{
-						str += ",";
-					}
 					str += "\"" + g.GetAllSerialIdx() + "\"";
 					str += ",\"" + g.GetLevelData().mLevelNo + "\"";
 					str += ",\"" + g.GetSerialIdx() + "\"";

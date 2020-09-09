@@ -64,7 +64,7 @@ namespace SMM2_RTA_AssistTool
 				mNumMaxHeight = Math.Max(mNumMaxHeight, mNumberImages[i].Height);
 				mNumMaxWidth = Math.Max(mNumMaxWidth, mNumberImages[i].Width);
 				mNumTotalPixel[i] = mNumberImages[i].Height * mNumberImages[i].Width / SCAN_INTERVAL2;
-				mNumAllowPixel[i] = (int)(mNumTotalPixel[i] * NUM_RATE_THRESH);
+				mNumAllowPixel[i] = (int)(mNumTotalPixel[i] * (1.0 - NUM_RATE_THRESH));
 			}
 		}
 

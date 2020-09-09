@@ -63,8 +63,8 @@
 			this.Label_LevelCode2 = new System.Windows.Forms.Label();
 			this.Button_CSVOutput = new System.Windows.Forms.Button();
 			this.Label_HeaderIdx = new System.Windows.Forms.Label();
-			this.Label_Idx1 = new System.Windows.Forms.Label();
 			this.Label_Idx2 = new System.Windows.Forms.Label();
+			this.Label_Idx1 = new System.Windows.Forms.Label();
 			this.Button_CSVLoad = new System.Windows.Forms.Button();
 			this.Label_CSVMessage = new System.Windows.Forms.Label();
 			this.Label_CastleListText = new System.Windows.Forms.Label();
@@ -145,7 +145,7 @@
 			this.CheckBox_PlayAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.CheckBox_PlayAudio.AutoSize = true;
 			this.CheckBox_PlayAudio.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(149, 434);
+			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(9, 462);
 			this.CheckBox_PlayAudio.Name = "CheckBox_PlayAudio";
 			this.CheckBox_PlayAudio.Size = new System.Drawing.Size(106, 28);
 			this.CheckBox_PlayAudio.TabIndex = 9;
@@ -471,7 +471,7 @@
 			// Button_CSVOutput
 			// 
 			this.Button_CSVOutput.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Button_CSVOutput.Location = new System.Drawing.Point(371, 434);
+			this.Button_CSVOutput.Location = new System.Drawing.Point(271, 434);
 			this.Button_CSVOutput.Name = "Button_CSVOutput";
 			this.Button_CSVOutput.Size = new System.Drawing.Size(104, 28);
 			this.Button_CSVOutput.TabIndex = 0;
@@ -490,32 +490,32 @@
 			this.Label_HeaderIdx.Text = "連番";
 			this.Label_HeaderIdx.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// Label_Idx1
-			// 
-			this.Label_Idx1.AutoSize = true;
-			this.Label_Idx1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_Idx1.Location = new System.Drawing.Point(12, 61);
-			this.Label_Idx1.Name = "Label_Idx1";
-			this.Label_Idx1.Size = new System.Drawing.Size(30, 24);
-			this.Label_Idx1.TabIndex = 41;
-			this.Label_Idx1.Text = "60";
-			this.Label_Idx1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// Label_Idx2
 			// 
 			this.Label_Idx2.AutoSize = true;
 			this.Label_Idx2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_Idx2.Location = new System.Drawing.Point(12, 85);
+			this.Label_Idx2.Location = new System.Drawing.Point(12, 61);
 			this.Label_Idx2.Name = "Label_Idx2";
 			this.Label_Idx2.Size = new System.Drawing.Size(30, 24);
-			this.Label_Idx2.TabIndex = 42;
+			this.Label_Idx2.TabIndex = 41;
 			this.Label_Idx2.Text = "60";
 			this.Label_Idx2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_Idx1
+			// 
+			this.Label_Idx1.AutoSize = true;
+			this.Label_Idx1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_Idx1.Location = new System.Drawing.Point(12, 85);
+			this.Label_Idx1.Name = "Label_Idx1";
+			this.Label_Idx1.Size = new System.Drawing.Size(30, 24);
+			this.Label_Idx1.TabIndex = 42;
+			this.Label_Idx1.Text = "60";
+			this.Label_Idx1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// Button_CSVLoad
 			// 
 			this.Button_CSVLoad.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Button_CSVLoad.Location = new System.Drawing.Point(261, 434);
+			this.Button_CSVLoad.Location = new System.Drawing.Point(161, 434);
 			this.Button_CSVLoad.Name = "Button_CSVLoad";
 			this.Button_CSVLoad.Size = new System.Drawing.Size(104, 28);
 			this.Button_CSVLoad.TabIndex = 43;
@@ -527,7 +527,7 @@
 			// 
 			this.Label_CSVMessage.AutoSize = true;
 			this.Label_CSVMessage.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_CSVMessage.Location = new System.Drawing.Point(481, 439);
+			this.Label_CSVMessage.Location = new System.Drawing.Point(381, 439);
 			this.Label_CSVMessage.Name = "Label_CSVMessage";
 			this.Label_CSVMessage.Size = new System.Drawing.Size(80, 18);
 			this.Label_CSVMessage.TabIndex = 44;
@@ -538,29 +538,29 @@
 			// 
 			this.Label_CastleListText.AutoSize = true;
 			this.Label_CastleListText.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_CastleListText.Location = new System.Drawing.Point(563, 120);
+			this.Label_CastleListText.Location = new System.Drawing.Point(563, 131);
 			this.Label_CastleListText.Name = "Label_CastleListText";
-			this.Label_CastleListText.Size = new System.Drawing.Size(106, 24);
+			this.Label_CastleListText.Size = new System.Drawing.Size(138, 24);
 			this.Label_CastleListText.TabIndex = 45;
-			this.Label_CastleListText.Text = "城建設リスト";
+			this.Label_CastleListText.Text = "【城建設リスト】";
 			this.Label_CastleListText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// Label_LevelSelectCommandText
 			// 
 			this.Label_LevelSelectCommandText.AutoSize = true;
 			this.Label_LevelSelectCommandText.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LevelSelectCommandText.Location = new System.Drawing.Point(565, 239);
+			this.Label_LevelSelectCommandText.Location = new System.Drawing.Point(565, 244);
 			this.Label_LevelSelectCommandText.Name = "Label_LevelSelectCommandText";
-			this.Label_LevelSelectCommandText.Size = new System.Drawing.Size(122, 24);
+			this.Label_LevelSelectCommandText.Size = new System.Drawing.Size(154, 24);
 			this.Label_LevelSelectCommandText.TabIndex = 46;
-			this.Label_LevelSelectCommandText.Text = "コース選択手順";
+			this.Label_LevelSelectCommandText.Text = "【コース選択手順】";
 			this.Label_LevelSelectCommandText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// Label_CastleList
 			// 
 			this.Label_CastleList.AutoSize = true;
 			this.Label_CastleList.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_CastleList.Location = new System.Drawing.Point(563, 144);
+			this.Label_CastleList.Location = new System.Drawing.Point(563, 165);
 			this.Label_CastleList.Name = "Label_CastleList";
 			this.Label_CastleList.Size = new System.Drawing.Size(147, 48);
 			this.Label_CastleList.TabIndex = 47;
@@ -571,7 +571,7 @@
 			// 
 			this.Label_LevelSelectCommand.AutoSize = true;
 			this.Label_LevelSelectCommand.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LevelSelectCommand.Location = new System.Drawing.Point(565, 263);
+			this.Label_LevelSelectCommand.Location = new System.Drawing.Point(565, 273);
 			this.Label_LevelSelectCommand.Name = "Label_LevelSelectCommand";
 			this.Label_LevelSelectCommand.Size = new System.Drawing.Size(74, 24);
 			this.Label_LevelSelectCommand.TabIndex = 48;
@@ -590,8 +590,8 @@
 			this.Controls.Add(this.Button_CSVOutput);
 			this.Controls.Add(this.Button_CSVLoad);
 			this.Controls.Add(this.Label_CSVMessage);
-			this.Controls.Add(this.Label_Idx2);
 			this.Controls.Add(this.Label_Idx1);
+			this.Controls.Add(this.Label_Idx2);
 			this.Controls.Add(this.Label_HeaderIdx);
 			this.Controls.Add(this.Label_LevelCode2);
 			this.Controls.Add(this.Label_LevelCode1);
@@ -680,8 +680,8 @@
 		private System.Windows.Forms.Label Label_LevelCode2;
 		private System.Windows.Forms.Button Button_CSVOutput;
 		private System.Windows.Forms.Label Label_HeaderIdx;
-		private System.Windows.Forms.Label Label_Idx1;
 		private System.Windows.Forms.Label Label_Idx2;
+		private System.Windows.Forms.Label Label_Idx1;
 		private System.Windows.Forms.Button Button_CSVLoad;
 		private System.Windows.Forms.Label Label_CSVMessage;
 		private System.Windows.Forms.Label Label_CastleListText;
