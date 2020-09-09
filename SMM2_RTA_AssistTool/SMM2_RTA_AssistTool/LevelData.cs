@@ -20,6 +20,8 @@ namespace SMM2_RTA_AssistTool
         public int mCumulativeCoin; // 累計コイン枚数
         public Bitmap mImage;
         public FastBitmap mTitleImage; // タイトルが表示される画面の画像
+        public string mCastleList; // 城建設リスト（名称とコマンド）
+        public string mLevelSelectCommand; // コース選択コマンド
 
         public LevelData()
         {
@@ -34,6 +36,8 @@ namespace SMM2_RTA_AssistTool
             mCumulativeCoin = 0;
             mImage = null;
             mTitleImage = null;
+            mCastleList = "";
+            mLevelSelectCommand = "";
         }
 
         public LevelData(List<string> list)
@@ -45,15 +49,7 @@ namespace SMM2_RTA_AssistTool
             }
             mLevelCode = GetLevelCode(mLevelNo, mSerialIdx);
             mJpTitle = list[2];
-            if (mJpTitle.StartsWith("\"") && mJpTitle.EndsWith("\""))
-            {
-                mJpTitle = mJpTitle.Substring(1, mJpTitle.Length - 2);
-            }
             mEnTitle = list[3];
-            if (mEnTitle.StartsWith("\"") && mEnTitle.EndsWith("\""))
-            {
-                mEnTitle = mEnTitle.Substring(1, mEnTitle.Length - 2);
-            }
             if (!int.TryParse(list[4], out mReward))
             {
                 mReward = 0;
@@ -67,7 +63,9 @@ namespace SMM2_RTA_AssistTool
             {
                 mCumulativeCoin = 0;
             }
-            string imagePath = "./Images/Levels/" + list[7];
+            mCastleList = list[7];
+            mLevelSelectCommand = list[8];
+            string imagePath = "./Images/Levels/" + list[9];
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
         }

@@ -9,7 +9,7 @@ namespace SMM2_RTA_AssistTool
 {
     class CsvReader
     {
-        public static List<List<string>> ReadCsv(string fileName, bool hasHeader)
+        public static List<List<string>> ReadCsv(string fileName, bool hasHeader, bool removeDoubleQuote)
         {
             List<List<string>> dataList = new List<List<string>>();
 
@@ -52,14 +52,31 @@ namespace SMM2_RTA_AssistTool
                         }
                     }
 
+                    if (removeDoubleQuote)
+                    {
+                        for (int i = 0; i < lists.Count; ++i)
+                        {
+                            if (lists[i].StartsWith("\"") && lists[i].EndsWith("\""))
+                            {
+                                lists[i] = lists[i].Substring(1, lists[i].Length - 2);
+                            }
+                        }
+                    }
+
                     dataList.Add(lists);
 
-                    // コンソールに出力する
-                    foreach (string list in lists)
+                    // 「改行」をもとに戻す
+                    for (int i = 0; i < lists.Count; ++i)
                     {
-                        System.Console.Write("{0} ", list);
+                        lists[i] = lists[i].Replace("改行", "\n");
                     }
-                    System.Console.WriteLine();
+
+                    // コンソールに出力する
+                    //foreach (string list in lists)
+                    //{
+                    //    System.Console.Write("{0} ", list);
+                    //}
+                    //System.Console.WriteLine();
                 }
             }
 

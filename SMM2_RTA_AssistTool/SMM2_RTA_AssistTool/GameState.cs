@@ -46,6 +46,40 @@ namespace SMM2_RTA_AssistTool
 			mState = STATE.CASTLE;
 		}
 
+		public void SetFromCSVLine(List<string> list)
+		{
+			Reset();
+
+			if (!int.TryParse(list[0], out mAllSerialIdx))
+			{
+				mAllSerialIdx = -1;
+			}
+			mLevelNo = list[1];
+			if (!int.TryParse(list[2], out mSerialIdx))
+			{
+				mSerialIdx = -1;
+			}
+			if (!int.TryParse(list[5], out mCurReward))
+			{
+				mCurReward = -1;
+			}
+			if (!int.TryParse(list[7], out mCurCoinNum))
+			{
+				mCurCoinNum = -1;
+			}
+			if (!int.TryParse(list[9], out mCumulativeCoinNum))
+			{
+				mCumulativeCoinNum = -1;
+			}
+			if (mCurReward == -1)
+			{
+				mState = STATE.LEVEL_PLAYING;
+			} else
+			{
+				mState = STATE.CASTLE;
+			}
+		}
+
 		private string GetLevelCode()
 		{
 			return LevelData.GetLevelCode(mLevelNo, mSerialIdx);

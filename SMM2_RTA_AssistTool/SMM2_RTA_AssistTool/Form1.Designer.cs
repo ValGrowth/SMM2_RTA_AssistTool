@@ -66,6 +66,11 @@
 			this.Label_Idx1 = new System.Windows.Forms.Label();
 			this.Label_Idx2 = new System.Windows.Forms.Label();
 			this.Button_CSVLoad = new System.Windows.Forms.Button();
+			this.Label_CSVMessage = new System.Windows.Forms.Label();
+			this.Label_CastleListText = new System.Windows.Forms.Label();
+			this.Label_LevelSelectCommandText = new System.Windows.Forms.Label();
+			this.Label_CastleList = new System.Windows.Forms.Label();
+			this.Label_LevelSelectCommand = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -153,7 +158,7 @@
 			// 
 			this.CheckBox_Pause.AutoSize = true;
 			this.CheckBox_Pause.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.CheckBox_Pause.Location = new System.Drawing.Point(569, 239);
+			this.CheckBox_Pause.Location = new System.Drawing.Point(569, 351);
 			this.CheckBox_Pause.Name = "CheckBox_Pause";
 			this.CheckBox_Pause.Size = new System.Drawing.Size(75, 28);
 			this.CheckBox_Pause.TabIndex = 10;
@@ -465,9 +470,10 @@
 			// 
 			// Button_CSVOutput
 			// 
-			this.Button_CSVOutput.Location = new System.Drawing.Point(366, 437);
+			this.Button_CSVOutput.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Button_CSVOutput.Location = new System.Drawing.Point(371, 434);
 			this.Button_CSVOutput.Name = "Button_CSVOutput";
-			this.Button_CSVOutput.Size = new System.Drawing.Size(75, 23);
+			this.Button_CSVOutput.Size = new System.Drawing.Size(104, 28);
 			this.Button_CSVOutput.TabIndex = 0;
 			this.Button_CSVOutput.Text = "CSV出力";
 			this.Button_CSVOutput.UseVisualStyleBackColor = true;
@@ -508,24 +514,85 @@
 			// 
 			// Button_CSVLoad
 			// 
-			this.Button_CSVLoad.Location = new System.Drawing.Point(270, 437);
+			this.Button_CSVLoad.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Button_CSVLoad.Location = new System.Drawing.Point(261, 434);
 			this.Button_CSVLoad.Name = "Button_CSVLoad";
-			this.Button_CSVLoad.Size = new System.Drawing.Size(75, 23);
+			this.Button_CSVLoad.Size = new System.Drawing.Size(104, 28);
 			this.Button_CSVLoad.TabIndex = 43;
 			this.Button_CSVLoad.Text = "CSVロード";
 			this.Button_CSVLoad.UseVisualStyleBackColor = true;
 			this.Button_CSVLoad.Click += new System.EventHandler(this.Button_CSVLoad_Click);
+			// 
+			// Label_CSVMessage
+			// 
+			this.Label_CSVMessage.AutoSize = true;
+			this.Label_CSVMessage.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_CSVMessage.Location = new System.Drawing.Point(481, 439);
+			this.Label_CSVMessage.Name = "Label_CSVMessage";
+			this.Label_CSVMessage.Size = new System.Drawing.Size(80, 18);
+			this.Label_CSVMessage.TabIndex = 44;
+			this.Label_CSVMessage.Text = "CSV操作なし";
+			this.Label_CSVMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// Label_CastleListText
+			// 
+			this.Label_CastleListText.AutoSize = true;
+			this.Label_CastleListText.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_CastleListText.Location = new System.Drawing.Point(563, 120);
+			this.Label_CastleListText.Name = "Label_CastleListText";
+			this.Label_CastleListText.Size = new System.Drawing.Size(106, 24);
+			this.Label_CastleListText.TabIndex = 45;
+			this.Label_CastleListText.Text = "城建設リスト";
+			this.Label_CastleListText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// Label_LevelSelectCommandText
+			// 
+			this.Label_LevelSelectCommandText.AutoSize = true;
+			this.Label_LevelSelectCommandText.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_LevelSelectCommandText.Location = new System.Drawing.Point(565, 239);
+			this.Label_LevelSelectCommandText.Name = "Label_LevelSelectCommandText";
+			this.Label_LevelSelectCommandText.Size = new System.Drawing.Size(122, 24);
+			this.Label_LevelSelectCommandText.TabIndex = 46;
+			this.Label_LevelSelectCommandText.Text = "コース選択手順";
+			this.Label_LevelSelectCommandText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// Label_CastleList
+			// 
+			this.Label_CastleList.AutoSize = true;
+			this.Label_CastleList.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_CastleList.Location = new System.Drawing.Point(563, 144);
+			this.Label_CastleList.Name = "Label_CastleList";
+			this.Label_CastleList.Size = new System.Drawing.Size(147, 48);
+			this.Label_CastleList.TabIndex = 47;
+			this.Label_CastleList.Text = "西館２階（None）\r\n本館２階（右２）";
+			this.Label_CastleList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// Label_LevelSelectCommand
+			// 
+			this.Label_LevelSelectCommand.AutoSize = true;
+			this.Label_LevelSelectCommand.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_LevelSelectCommand.Location = new System.Drawing.Point(565, 263);
+			this.Label_LevelSelectCommand.Name = "Label_LevelSelectCommand";
+			this.Label_LevelSelectCommand.Size = new System.Drawing.Size(74, 24);
+			this.Label_LevelSelectCommand.TabIndex = 48;
+			this.Label_LevelSelectCommand.Text = "右２下３";
+			this.Label_LevelSelectCommand.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(805, 474);
+			this.Controls.Add(this.Label_LevelSelectCommand);
+			this.Controls.Add(this.Label_CastleList);
+			this.Controls.Add(this.Label_LevelSelectCommandText);
+			this.Controls.Add(this.Label_CastleListText);
+			this.Controls.Add(this.Button_CSVOutput);
 			this.Controls.Add(this.Button_CSVLoad);
+			this.Controls.Add(this.Label_CSVMessage);
 			this.Controls.Add(this.Label_Idx2);
 			this.Controls.Add(this.Label_Idx1);
 			this.Controls.Add(this.Label_HeaderIdx);
-			this.Controls.Add(this.Button_CSVOutput);
 			this.Controls.Add(this.Label_LevelCode2);
 			this.Controls.Add(this.Label_LevelCode1);
 			this.Controls.Add(this.Label_HeaderLevelCode);
@@ -616,6 +683,11 @@
 		private System.Windows.Forms.Label Label_Idx1;
 		private System.Windows.Forms.Label Label_Idx2;
 		private System.Windows.Forms.Button Button_CSVLoad;
+		private System.Windows.Forms.Label Label_CSVMessage;
+		private System.Windows.Forms.Label Label_CastleListText;
+		private System.Windows.Forms.Label Label_LevelSelectCommandText;
+		private System.Windows.Forms.Label Label_CastleList;
+		private System.Windows.Forms.Label Label_LevelSelectCommand;
 	}
 }
 

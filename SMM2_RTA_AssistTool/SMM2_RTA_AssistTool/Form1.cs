@@ -275,13 +275,13 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 
 			labels.Add(Label_Idx2.Name, Label_Idx2);
+			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
 			labels.Add(Label_LevelTitle2.Name, Label_LevelTitle2);
 			labels.Add(Label_ChartCoin2.Name, Label_ChartCoin2);
 			labels.Add(Label_CurCoin2.Name, Label_CurCoin2);
 			labels.Add(Label_CurDiff2.Name, Label_CurDiff2);
 			labels.Add(Label_TotalCoin2.Name, Label_TotalCoin2);
 			labels.Add(Label_TotalDiff2.Name, Label_TotalDiff2);
-
 
 			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
@@ -320,7 +320,7 @@ namespace SMM2_RTA_AssistTool
 
 							if (curCoinDiff >= 0)
 							{
-								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.LimeGreen;
+								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Green;
 							}
 							else
 							{
@@ -328,7 +328,7 @@ namespace SMM2_RTA_AssistTool
 							}
 							if (cumulativeCoinDiff >= 0)
 							{
-								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.LimeGreen;
+								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Green;
 							}
 							else
 							{
@@ -360,6 +360,26 @@ namespace SMM2_RTA_AssistTool
 
 					labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
 					labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
+				}
+			}
+
+			// 補助コマンド表示
+			{
+				LevelData levelData = null;
+				if (mGameStateHistory.Count > 0)
+				{
+					GameState state = mGameStateHistory[mGameStateHistory.Count - 1];
+					levelData = state.GetLevelData();
+				}
+				if (levelData != null)
+				{
+					Label_CastleList.Text = levelData.mCastleList;
+					Label_LevelSelectCommand.Text = levelData.mLevelSelectCommand;
+				}
+				else
+				{
+					Label_CastleList.Text = "";
+					Label_LevelSelectCommand.Text = "";
 				}
 			}
 		}
@@ -452,13 +472,46 @@ namespace SMM2_RTA_AssistTool
 					++count;
 				}
 				Console.WriteLine("CSV Saved. (" + count + " Lines.)");
+				Label_CSVMessage.Text = "Saved. " + fileName;
 			}
 		}
 
 		private void Button_CSVLoad_Click(object sender, EventArgs e)
 		{
-			// TODO: ファイル選択ウィンドウを開く
-			// TODO: 読み込んでmGameStateHistoryに反映する
+			// ファイル選択ウィンドウを開く
+
+			OpenFileDialog ofd = new OpenFileDialog();
+
+			// 設定する
+			ofd.FileName = "*.csv"; // はじめに「ファイル名」で表示される文字列を指定する
+			ofd.InitialDirectory = "";
+			ofd.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";
+			ofd.FilterIndex = 1; // [ファイルの種類]ではじめに選択されるものを指定する（1番目の「CSVファイル」が選択されているようにする）
+			ofd.Title = "開くファイルを選択してください"; // タイトルを設定する
+			ofd.RestoreDirectory = true; // ダイアログボックスを閉じる前に現在のディレクトリを記憶するようにする
+
+			//ダイアログを表示する
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				//OKボタンがクリックされたとき
+				Console.WriteLine(ofd.FileName);
+
+				List<List<string>> csvData = CsvReader.ReadCsv(ofd.FileName, true, true);
+
+				ResetRun();
+
+				foreach (List<string> line in csvData)
+				{
+					GameState state = new GameState();
+					state.SetFromCSVLine(line);
+					mGameStateHistory.Add(state);
+				}
+
+				UpdateDisplay();
+
+				Label_CSVMessage.Text = "Loaded. " + ofd.FileName;
+			}
+
 		}
 	}
 }
