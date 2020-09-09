@@ -22,7 +22,6 @@ namespace SMM2_RTA_AssistTool {
 		private VideoInfoHeader mVideoInfoHeader; // ビデオイメージのフォーマットを記述する構造体
 
 		private Form1 mForm1;
-		private int result;
 
 		private delegate void CaptureDone(double SampleTime);//静止画キャプチャ終了時の処理を行うデリゲード
         private byte[] mFrameArray;//キャプチャしたフレームデータ用の配列
@@ -94,6 +93,7 @@ namespace SMM2_RTA_AssistTool {
 			amMediaType.subType = MediaSubType.RGB24;
 			amMediaType.formatType = FormatType.VideoInfo; 
 
+			int result;
 			result = mVideoSampleGrabber.SetMediaType(amMediaType);
 			if(result < 0) Marshal.ThrowExceptionForHR(result);
 
@@ -162,7 +162,8 @@ namespace SMM2_RTA_AssistTool {
 				return -1;
 			}
 
-			try	
+			int result = -1;
+			try
 			{
 				//ビデオデータのサンプリングに利用するコールバック メソッドを指定する．
 					//第一引数	 ISampleGrabberCB インターフェイスへのポインタ

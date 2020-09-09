@@ -15,12 +15,16 @@ namespace SMM2_RTA_AssistTool
 			LEVEL_PLAYING,
 		};
 
+		private int mAllSerialIdx;
 		private string mLevelNo;
 		private int mSerialIdx;
+		private int mCurReward;
 		private int mCurCoinNum;
 		private int mCumulativeCoinNum;
 		private STATE mState;
 
+		public int GetAllSerialIdx() { return mAllSerialIdx; }
+		public int GetCurReward() { return mCurReward; }
 		public int GetCurCoinNum() { return mCurCoinNum; }
 		public int GetCumulativeCoinNum() { return mCumulativeCoinNum; }
 		public int GetSerialIdx() { return mSerialIdx; }
@@ -33,8 +37,10 @@ namespace SMM2_RTA_AssistTool
 
 		public void Reset()
 		{
+			mAllSerialIdx = 0;
 			mLevelNo = "";
 			mSerialIdx = 0;
+			mCurReward = 0;
 			mCurCoinNum = 0;
 			mCumulativeCoinNum = 0;
 			mState = STATE.CASTLE;
@@ -47,6 +53,7 @@ namespace SMM2_RTA_AssistTool
 
 		public void UpdateLevel(string levelNo, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
 		{
+			++mAllSerialIdx;
 			mLevelNo = levelNo;
 			if (levelNo == lastLevelNo)
 			{
@@ -55,6 +62,7 @@ namespace SMM2_RTA_AssistTool
 			{
 				mSerialIdx = 1;
 			}
+			mCurReward = -1; // コースプレイ中は-1
 			mCurCoinNum = -1; // コースプレイ中は-1
 			mCumulativeCoinNum = cumulativeCoinNum;
 			mState = STATE.LEVEL_PLAYING;
@@ -62,6 +70,7 @@ namespace SMM2_RTA_AssistTool
 
 		public void UpdateCoin(int reward, int inLevelCoin)
 		{
+			mCurReward = reward;
 			mCurCoinNum = inLevelCoin;
 			mCumulativeCoinNum += reward + inLevelCoin;
 			mState = STATE.CASTLE;

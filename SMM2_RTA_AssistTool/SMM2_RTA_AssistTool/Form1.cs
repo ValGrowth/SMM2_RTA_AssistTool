@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -263,6 +265,7 @@ namespace SMM2_RTA_AssistTool
 			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
 			Dictionary<string, Label> labels = new Dictionary<string, Label>();
+			labels.Add(Label_Idx1.Name, Label_Idx1);
 			labels.Add(Label_LevelCode1.Name, Label_LevelCode1);
 			labels.Add(Label_LevelTitle1.Name, Label_LevelTitle1);
 			labels.Add(Label_ChartCoin1.Name, Label_ChartCoin1);
@@ -271,7 +274,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalCoin1.Name, Label_TotalCoin1);
 			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 
-			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
+			labels.Add(Label_Idx2.Name, Label_Idx2);
 			labels.Add(Label_LevelTitle2.Name, Label_LevelTitle2);
 			labels.Add(Label_ChartCoin2.Name, Label_ChartCoin2);
 			labels.Add(Label_CurCoin2.Name, Label_CurCoin2);
@@ -296,6 +299,7 @@ namespace SMM2_RTA_AssistTool
 						string levelCode = levelData.mLevelCode;
 						string levelName = levelData.mJpTitle; // コース名
 						int chartCoin = levelData.mInLevelCoin;
+						labels["Label_Idx" + (i + 1)].Text = state.GetAllSerialIdx().ToString();
 						labels["Label_LevelCode" + (i + 1)].Text = levelCode;
 						labels["Label_LevelTitle" + (i + 1)].Text = levelName;
 						labels["Label_ChartCoin" + (i + 1)].Text = chartCoin.ToString();
@@ -345,6 +349,7 @@ namespace SMM2_RTA_AssistTool
 				}
 				if (!found)
 				{
+					labels["Label_Idx" + (i + 1)].Text = "-";
 					labels["Label_LevelCode" + (i + 1)].Text = "-";
 					labels["Label_LevelTitle" + (i + 1)].Text = "-";
 					labels["Label_ChartCoin" + (i + 1)].Text = "-";
@@ -402,6 +407,58 @@ namespace SMM2_RTA_AssistTool
 		private void Button_Reset_Click(object sender, EventArgs e)
 		{
 			ResetRun();
+		}
+
+		private void Button_CSVOutput_Click(object sender, EventArgs e)
+		{
+			string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + "SMM2AnyCoins.csv";
+			string[] header = new string[] { "Idx", "No.", "SerialIdx", "JpTitle", "EnTitle", "Reward", "Target", "Cur", "CurDiff", "Total", "TotalDiff" };
+			const int COLUMN_NUM = 11;
+
+			// ファイルを開く
+			using (StreamWriter file = new StreamWriter(fileName, false, Encoding.GetEncoding("Shift_JIS")))
+			{
+				string headerStr = "";
+				for (int i = 0; i < COLUMN_NUM; ++i)
+				{
+					if (i > 0)
+					{
+						headerStr += ",";
+					}
+					headerStr += "\"" + header[i] + "\"";
+				}
+				file.WriteLine(headerStr);
+
+				int count = 0;
+				foreach (GameState g in mGameStateHistory)
+				{
+					string str = "";
+					if (count > 0)
+					{
+						str += ",";
+					}
+					str += "\"" + g.GetAllSerialIdx() + "\"";
+					str += ",\"" + g.GetLevelData().mLevelNo + "\"";
+					str += ",\"" + g.GetSerialIdx() + "\"";
+					str += ",\"" + g.GetLevelData().mJpTitle + "\"";
+					str += ",\"" + g.GetLevelData().mEnTitle + "\"";
+					str += ",\"" + g.GetCurReward() + "\"";
+					str += ",\"" + g.GetLevelData().mInLevelCoin + "\"";
+					str += ",\"" + g.GetCurCoinNum() + "\"";
+					str += ",\"" + g.GetCurCoinDiff() + "\"";
+					str += ",\"" + g.GetCumulativeCoinNum() + "\"";
+					str += ",\"" + g.GetCumulativeCoinDiff() + "\"";
+					file.WriteLine(str);
+					++count;
+				}
+				Console.WriteLine("CSV Saved. (" + count + " Lines.)");
+			}
+		}
+
+		private void Button_CSVLoad_Click(object sender, EventArgs e)
+		{
+			// TODO: ファイル選択ウィンドウを開く
+			// TODO: 読み込んでmGameStateHistoryに反映する
 		}
 	}
 }
