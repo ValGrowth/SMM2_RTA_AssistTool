@@ -16,6 +16,7 @@ namespace SMM2_RTA_AssistTool
 		private const int X_SPAN = 20;
 		private const int SCAN_INTERVAL = 2;
 		private const int SCAN_INTERVAL2 = SCAN_INTERVAL * SCAN_INTERVAL;
+		private const double NUM_RATE_THRESH = 0.9;
 
 		private Bitmap[] mNumberImagesOriginal = new Bitmap[10];
 		private FastBitmap[] mNumberImages = new FastBitmap[10];
@@ -63,7 +64,7 @@ namespace SMM2_RTA_AssistTool
 				mNumMaxHeight = Math.Max(mNumMaxHeight, mNumberImages[i].Height);
 				mNumMaxWidth = Math.Max(mNumMaxWidth, mNumberImages[i].Width);
 				mNumTotalPixel[i] = mNumberImages[i].Height * mNumberImages[i].Width / SCAN_INTERVAL2;
-				mNumAllowPixel[i] = (int)(mNumTotalPixel[i] * (1.0 - 0.8));
+				mNumAllowPixel[i] = (int)(mNumTotalPixel[i] * NUM_RATE_THRESH);
 			}
 		}
 
