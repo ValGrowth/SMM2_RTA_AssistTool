@@ -217,7 +217,8 @@ namespace SMM2_RTA_AssistTool
 			if (mVideoChecker != null/* && mAudioChecker != null*/)
 			{
 
-				if (!CheckBox_Pause.Checked)
+				if (!CheckBox_Pause.Checked // ポーズ中でない
+					&& !(mGameStateHistory.Count >= LevelManager.Instance.GetAllLevels().Count && mGameStateHistory[mGameStateHistory.Count - 1].GetCurCoinNum() >= 0)) // 全コースプレイ完了でない
 				{
 					VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 

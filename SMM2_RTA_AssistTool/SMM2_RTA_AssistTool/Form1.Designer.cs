@@ -95,7 +95,7 @@
             this.configToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(899, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(942, 24);
 			this.menuStrip1.TabIndex = 7;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -589,7 +589,7 @@
 			// 
 			this.Label_HeaderNeeded.AutoSize = true;
 			this.Label_HeaderNeeded.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_HeaderNeeded.Location = new System.Drawing.Point(793, 32);
+			this.Label_HeaderNeeded.Location = new System.Drawing.Point(800, 32);
 			this.Label_HeaderNeeded.Name = "Label_HeaderNeeded";
 			this.Label_HeaderNeeded.Size = new System.Drawing.Size(42, 24);
 			this.Label_HeaderNeeded.TabIndex = 49;
@@ -600,7 +600,7 @@
 			// 
 			this.Label_RB2_3.AutoSize = true;
 			this.Label_RB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB2_3.Location = new System.Drawing.Point(851, 61);
+			this.Label_RB2_3.Location = new System.Drawing.Point(858, 61);
 			this.Label_RB2_3.Name = "Label_RB2_3";
 			this.Label_RB2_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB2_3.TabIndex = 52;
@@ -611,7 +611,7 @@
 			// 
 			this.Label_LB2_3.AutoSize = true;
 			this.Label_LB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB2_3.Location = new System.Drawing.Point(794, 61);
+			this.Label_LB2_3.Location = new System.Drawing.Point(801, 61);
 			this.Label_LB2_3.Name = "Label_LB2_3";
 			this.Label_LB2_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB2_3.TabIndex = 51;
@@ -622,7 +622,7 @@
 			// 
 			this.Label_NeededDiff2.AutoSize = true;
 			this.Label_NeededDiff2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_NeededDiff2.Location = new System.Drawing.Point(805, 61);
+			this.Label_NeededDiff2.Location = new System.Drawing.Point(812, 61);
 			this.Label_NeededDiff2.Name = "Label_NeededDiff2";
 			this.Label_NeededDiff2.Size = new System.Drawing.Size(43, 24);
 			this.Label_NeededDiff2.TabIndex = 50;
@@ -633,7 +633,7 @@
 			// 
 			this.Label_RB1_3.AutoSize = true;
 			this.Label_RB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB1_3.Location = new System.Drawing.Point(851, 88);
+			this.Label_RB1_3.Location = new System.Drawing.Point(858, 88);
 			this.Label_RB1_3.Name = "Label_RB1_3";
 			this.Label_RB1_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB1_3.TabIndex = 55;
@@ -644,7 +644,7 @@
 			// 
 			this.Label_LB1_3.AutoSize = true;
 			this.Label_LB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB1_3.Location = new System.Drawing.Point(794, 88);
+			this.Label_LB1_3.Location = new System.Drawing.Point(801, 88);
 			this.Label_LB1_3.Name = "Label_LB1_3";
 			this.Label_LB1_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB1_3.TabIndex = 54;
@@ -655,7 +655,7 @@
 			// 
 			this.Label_NeededDiff1.AutoSize = true;
 			this.Label_NeededDiff1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_NeededDiff1.Location = new System.Drawing.Point(805, 88);
+			this.Label_NeededDiff1.Location = new System.Drawing.Point(812, 88);
 			this.Label_NeededDiff1.Name = "Label_NeededDiff1";
 			this.Label_NeededDiff1.Size = new System.Drawing.Size(43, 24);
 			this.Label_NeededDiff1.TabIndex = 53;
@@ -666,7 +666,8 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(899, 474);
+			this.BackColor = System.Drawing.Color.PaleGoldenrod;
+			this.ClientSize = new System.Drawing.Size(942, 474);
 			this.Controls.Add(this.Label_RB1_3);
 			this.Controls.Add(this.Label_LB1_3);
 			this.Controls.Add(this.Label_NeededDiff1);
