@@ -359,6 +359,7 @@ namespace SMM2_RTA_AssistTool
 					int x = tempFoundNumbers[idx].Item1;
 					int num = tempFoundNumbers[idx].Item2;
 					foundNumbers[x] = num;
+					Console.WriteLine("Similarity of [" + num + "] is " + Math.Round(tempFoundNumbers[idx].Item3 * 100, 2) + "%");
 					++idx;
 
 					for (int dx = -X_SPAN; dx < X_SPAN; ++dx)
