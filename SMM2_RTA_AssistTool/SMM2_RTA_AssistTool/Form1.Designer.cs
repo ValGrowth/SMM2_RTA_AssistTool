@@ -78,6 +78,7 @@
 			this.Label_RB1_3 = new System.Windows.Forms.Label();
 			this.Label_LB1_3 = new System.Windows.Forms.Label();
 			this.Label_NeededDiff1 = new System.Windows.Forms.Label();
+			this.Label_Remark = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -165,7 +166,7 @@
 			// 
 			this.CheckBox_Pause.AutoSize = true;
 			this.CheckBox_Pause.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.CheckBox_Pause.Location = new System.Drawing.Point(569, 351);
+			this.CheckBox_Pause.Location = new System.Drawing.Point(662, 398);
 			this.CheckBox_Pause.Name = "CheckBox_Pause";
 			this.CheckBox_Pause.Size = new System.Drawing.Size(75, 28);
 			this.CheckBox_Pause.TabIndex = 10;
@@ -662,12 +663,24 @@
 			this.Label_NeededDiff1.Text = "+23";
 			this.Label_NeededDiff1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// Label_Remark
+			// 
+			this.Label_Remark.AutoSize = true;
+			this.Label_Remark.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_Remark.Location = new System.Drawing.Point(565, 340);
+			this.Label_Remark.Name = "Label_Remark";
+			this.Label_Remark.Size = new System.Drawing.Size(330, 24);
+			this.Label_Remark.TabIndex = 56;
+			this.Label_Remark.Text = "ゴールバーはコインが足りないときだけとる";
+			this.Label_Remark.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.PaleGoldenrod;
 			this.ClientSize = new System.Drawing.Size(942, 474);
+			this.Controls.Add(this.Label_Remark);
 			this.Controls.Add(this.Label_RB1_3);
 			this.Controls.Add(this.Label_LB1_3);
 			this.Controls.Add(this.Label_NeededDiff1);
@@ -787,6 +800,7 @@
 		private System.Windows.Forms.Label Label_RB1_3;
 		private System.Windows.Forms.Label Label_LB1_3;
 		private System.Windows.Forms.Label Label_NeededDiff1;
+		private System.Windows.Forms.Label Label_Remark;
 	}
 }
 

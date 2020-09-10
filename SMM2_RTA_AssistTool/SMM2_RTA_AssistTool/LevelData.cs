@@ -24,6 +24,7 @@ namespace SMM2_RTA_AssistTool
         public string mCastleList; // 城建設リスト（名称とコマンド）
         public string mLevelSelectCommand; // コース選択コマンド
         public int mAllowedLoss; // 許されたコインロス
+        public string mRemark; // 備考
 
         public LevelData()
         {
@@ -42,6 +43,7 @@ namespace SMM2_RTA_AssistTool
             mCastleList = "";
             mLevelSelectCommand = "";
             mAllowedLoss = 0;
+            mRemark = "";
         }
 
         public LevelData(List<string> list)
@@ -76,6 +78,7 @@ namespace SMM2_RTA_AssistTool
             string imagePath = "./Images/Levels/" + list[10];
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
+            mRemark = list[11];
         }
 
         public static string GetLevelCode(string levelNo, int serialIdx)

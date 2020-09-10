@@ -393,11 +393,13 @@ namespace SMM2_RTA_AssistTool
 				{
 					Label_CastleList.Text = levelData.mCastleList;
 					Label_LevelSelectCommand.Text = levelData.mLevelSelectCommand;
+					Label_Remark.Text = levelData.mRemark;
 				}
 				else
 				{
 					Label_CastleList.Text = "";
 					Label_LevelSelectCommand.Text = "";
+					Label_Remark.Text = "";
 				}
 			}
 		}
