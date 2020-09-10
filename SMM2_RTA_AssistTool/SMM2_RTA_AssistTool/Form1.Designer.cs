@@ -79,6 +79,9 @@
 			this.Label_LB1_3 = new System.Windows.Forms.Label();
 			this.Label_NeededDiff1 = new System.Windows.Forms.Label();
 			this.Label_Remark = new System.Windows.Forms.Label();
+			this.Label_NextLevel = new System.Windows.Forms.Label();
+			this.Label_NeededIdx2 = new System.Windows.Forms.Label();
+			this.Label_NeededIdx1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -287,15 +290,15 @@
 			this.Label_TotalCoin1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Label_TotalCoin1.Location = new System.Drawing.Point(660, 88);
 			this.Label_TotalCoin1.Name = "Label_TotalCoin1";
-			this.Label_TotalCoin1.Size = new System.Drawing.Size(40, 24);
+			this.Label_TotalCoin1.Size = new System.Drawing.Size(60, 24);
 			this.Label_TotalCoin1.TabIndex = 22;
-			this.Label_TotalCoin1.Text = "234";
+			this.Label_TotalCoin1.Text = "23456";
 			// 
 			// Label_RB1_2
 			// 
 			this.Label_RB1_2.AutoSize = true;
 			this.Label_RB1_2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB1_2.Location = new System.Drawing.Point(766, 88);
+			this.Label_RB1_2.Location = new System.Drawing.Point(777, 88);
 			this.Label_RB1_2.Name = "Label_RB1_2";
 			this.Label_RB1_2.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB1_2.TabIndex = 25;
@@ -306,7 +309,7 @@
 			// 
 			this.Label_LB1_2.AutoSize = true;
 			this.Label_LB1_2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB1_2.Location = new System.Drawing.Point(709, 88);
+			this.Label_LB1_2.Location = new System.Drawing.Point(720, 88);
 			this.Label_LB1_2.Name = "Label_LB1_2";
 			this.Label_LB1_2.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB1_2.TabIndex = 24;
@@ -317,7 +320,7 @@
 			// 
 			this.Label_TotalDiff1.AutoSize = true;
 			this.Label_TotalDiff1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_TotalDiff1.Location = new System.Drawing.Point(720, 88);
+			this.Label_TotalDiff1.Location = new System.Drawing.Point(731, 88);
 			this.Label_TotalDiff1.Name = "Label_TotalDiff1";
 			this.Label_TotalDiff1.Size = new System.Drawing.Size(43, 24);
 			this.Label_TotalDiff1.TabIndex = 23;
@@ -328,7 +331,7 @@
 			// 
 			this.Label_RB2_2.AutoSize = true;
 			this.Label_RB2_2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB2_2.Location = new System.Drawing.Point(766, 61);
+			this.Label_RB2_2.Location = new System.Drawing.Point(777, 61);
 			this.Label_RB2_2.Name = "Label_RB2_2";
 			this.Label_RB2_2.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB2_2.TabIndex = 35;
@@ -339,7 +342,7 @@
 			// 
 			this.Label_LB2_2.AutoSize = true;
 			this.Label_LB2_2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB2_2.Location = new System.Drawing.Point(709, 61);
+			this.Label_LB2_2.Location = new System.Drawing.Point(720, 61);
 			this.Label_LB2_2.Name = "Label_LB2_2";
 			this.Label_LB2_2.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB2_2.TabIndex = 34;
@@ -350,7 +353,7 @@
 			// 
 			this.Label_TotalDiff2.AutoSize = true;
 			this.Label_TotalDiff2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_TotalDiff2.Location = new System.Drawing.Point(720, 61);
+			this.Label_TotalDiff2.Location = new System.Drawing.Point(731, 61);
 			this.Label_TotalDiff2.Name = "Label_TotalDiff2";
 			this.Label_TotalDiff2.Size = new System.Drawing.Size(43, 24);
 			this.Label_TotalDiff2.TabIndex = 33;
@@ -363,9 +366,9 @@
 			this.Label_TotalCoin2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Label_TotalCoin2.Location = new System.Drawing.Point(660, 61);
 			this.Label_TotalCoin2.Name = "Label_TotalCoin2";
-			this.Label_TotalCoin2.Size = new System.Drawing.Size(40, 24);
+			this.Label_TotalCoin2.Size = new System.Drawing.Size(60, 24);
 			this.Label_TotalCoin2.TabIndex = 32;
-			this.Label_TotalCoin2.Text = "234";
+			this.Label_TotalCoin2.Text = "23456";
 			// 
 			// Label_ChartCoin2
 			// 
@@ -590,7 +593,7 @@
 			// 
 			this.Label_HeaderNeeded.AutoSize = true;
 			this.Label_HeaderNeeded.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_HeaderNeeded.Location = new System.Drawing.Point(800, 32);
+			this.Label_HeaderNeeded.Location = new System.Drawing.Point(811, 32);
 			this.Label_HeaderNeeded.Name = "Label_HeaderNeeded";
 			this.Label_HeaderNeeded.Size = new System.Drawing.Size(42, 24);
 			this.Label_HeaderNeeded.TabIndex = 49;
@@ -601,7 +604,7 @@
 			// 
 			this.Label_RB2_3.AutoSize = true;
 			this.Label_RB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB2_3.Location = new System.Drawing.Point(858, 61);
+			this.Label_RB2_3.Location = new System.Drawing.Point(869, 61);
 			this.Label_RB2_3.Name = "Label_RB2_3";
 			this.Label_RB2_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB2_3.TabIndex = 52;
@@ -612,7 +615,7 @@
 			// 
 			this.Label_LB2_3.AutoSize = true;
 			this.Label_LB2_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB2_3.Location = new System.Drawing.Point(801, 61);
+			this.Label_LB2_3.Location = new System.Drawing.Point(812, 61);
 			this.Label_LB2_3.Name = "Label_LB2_3";
 			this.Label_LB2_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB2_3.TabIndex = 51;
@@ -623,7 +626,7 @@
 			// 
 			this.Label_NeededDiff2.AutoSize = true;
 			this.Label_NeededDiff2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_NeededDiff2.Location = new System.Drawing.Point(812, 61);
+			this.Label_NeededDiff2.Location = new System.Drawing.Point(823, 61);
 			this.Label_NeededDiff2.Name = "Label_NeededDiff2";
 			this.Label_NeededDiff2.Size = new System.Drawing.Size(43, 24);
 			this.Label_NeededDiff2.TabIndex = 50;
@@ -634,7 +637,7 @@
 			// 
 			this.Label_RB1_3.AutoSize = true;
 			this.Label_RB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_RB1_3.Location = new System.Drawing.Point(858, 88);
+			this.Label_RB1_3.Location = new System.Drawing.Point(869, 88);
 			this.Label_RB1_3.Name = "Label_RB1_3";
 			this.Label_RB1_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_RB1_3.TabIndex = 55;
@@ -645,7 +648,7 @@
 			// 
 			this.Label_LB1_3.AutoSize = true;
 			this.Label_LB1_3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_LB1_3.Location = new System.Drawing.Point(801, 88);
+			this.Label_LB1_3.Location = new System.Drawing.Point(812, 88);
 			this.Label_LB1_3.Name = "Label_LB1_3";
 			this.Label_LB1_3.Size = new System.Drawing.Size(17, 24);
 			this.Label_LB1_3.TabIndex = 54;
@@ -656,7 +659,7 @@
 			// 
 			this.Label_NeededDiff1.AutoSize = true;
 			this.Label_NeededDiff1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.Label_NeededDiff1.Location = new System.Drawing.Point(812, 88);
+			this.Label_NeededDiff1.Location = new System.Drawing.Point(823, 88);
 			this.Label_NeededDiff1.Name = "Label_NeededDiff1";
 			this.Label_NeededDiff1.Size = new System.Drawing.Size(43, 24);
 			this.Label_NeededDiff1.TabIndex = 53;
@@ -674,12 +677,48 @@
 			this.Label_Remark.Text = "ゴールバーはコインが足りないときだけとる";
 			this.Label_Remark.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// Label_NextLevel
+			// 
+			this.Label_NextLevel.AutoSize = true;
+			this.Label_NextLevel.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_NextLevel.Location = new System.Drawing.Point(572, 306);
+			this.Label_NextLevel.Name = "Label_NextLevel";
+			this.Label_NextLevel.Size = new System.Drawing.Size(258, 23);
+			this.Label_NextLevel.TabIndex = 57;
+			this.Label_NextLevel.Text = "[1]（坂道をこえてゴールを目指せ）";
+			this.Label_NextLevel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_NeededIdx2
+			// 
+			this.Label_NeededIdx2.AutoSize = true;
+			this.Label_NeededIdx2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_NeededIdx2.Location = new System.Drawing.Point(887, 61);
+			this.Label_NeededIdx2.Name = "Label_NeededIdx2";
+			this.Label_NeededIdx2.Size = new System.Drawing.Size(44, 24);
+			this.Label_NeededIdx2.TabIndex = 58;
+			this.Label_NeededIdx2.Text = "[34]";
+			this.Label_NeededIdx2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// Label_NeededIdx1
+			// 
+			this.Label_NeededIdx1.AutoSize = true;
+			this.Label_NeededIdx1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Label_NeededIdx1.Location = new System.Drawing.Point(887, 88);
+			this.Label_NeededIdx1.Name = "Label_NeededIdx1";
+			this.Label_NeededIdx1.Size = new System.Drawing.Size(44, 24);
+			this.Label_NeededIdx1.TabIndex = 59;
+			this.Label_NeededIdx1.Text = "[34]";
+			this.Label_NeededIdx1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.PaleGoldenrod;
 			this.ClientSize = new System.Drawing.Size(942, 474);
+			this.Controls.Add(this.Label_NeededIdx1);
+			this.Controls.Add(this.Label_NeededIdx2);
+			this.Controls.Add(this.Label_NextLevel);
 			this.Controls.Add(this.Label_Remark);
 			this.Controls.Add(this.Label_RB1_3);
 			this.Controls.Add(this.Label_LB1_3);
@@ -801,6 +840,9 @@
 		private System.Windows.Forms.Label Label_LB1_3;
 		private System.Windows.Forms.Label Label_NeededDiff1;
 		private System.Windows.Forms.Label Label_Remark;
+		private System.Windows.Forms.Label Label_NextLevel;
+		private System.Windows.Forms.Label Label_NeededIdx2;
+		private System.Windows.Forms.Label Label_NeededIdx1;
 	}
 }
 

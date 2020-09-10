@@ -27,19 +27,30 @@ namespace SMM2_RTA_AssistTool {
 			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true, true);
 
 			int coin = 0;
+			int idx = 1;
+			LevelData lastLevelData = null;
 			foreach (List<string> line in csvData)
 			{
 				LevelData levelData = new LevelData(line);
 				mLevelDataList.Add(levelData.mLevelCode, levelData);
 				coin += levelData.mReward + levelData.mInLevelCoin - levelData.mNeededCoin;
-				levelData.mAllowedLoss = coin;
-				foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
+				levelData.mAllowedLoss = new Tuple<int, int>(9999, 9999);
+				if (coin <= 30)
 				{
-					if (pr.Value.mAllowedLoss > coin)
+					foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
 					{
-						pr.Value.mAllowedLoss = coin;
+						if (pr.Value.mAllowedLoss.Item1 > idx)
+						{
+							pr.Value.mAllowedLoss = new Tuple<int, int>(idx, coin);
+						}
 					}
 				}
+				if (lastLevelData != null)
+				{
+					lastLevelData.mNextLevel = levelData;
+				}
+				lastLevelData = levelData;
+				++idx;
 			}
 
 		}

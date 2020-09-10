@@ -85,9 +85,9 @@ namespace SMM2_RTA_AssistTool
 			return LevelData.GetLevelCode(mLevelNo, mSerialIdx);
 		}
 
-		public void UpdateLevel(string levelNo, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
+		public void UpdateLevel(string levelNo, int lastAllSerialIdx, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
 		{
-			++mAllSerialIdx;
+			mAllSerialIdx = lastAllSerialIdx + 1;
 			mLevelNo = levelNo;
 			if (levelNo == lastLevelNo)
 			{

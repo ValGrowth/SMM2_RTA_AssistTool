@@ -230,18 +230,20 @@ namespace SMM2_RTA_AssistTool
 						if (videoGameState.mLevelNo != "")
 						{
 							mGameStateHistory.Add(new GameState());
+							int lastAllSerialIdx = 0;
 							string lastLevelNo = "";
 							int lastSerialIdx = -1;
 							int lastCumulativeCoinNum = 0;
 							if (mGameStateHistory.Count >= 2)
 							{
 								GameState prev = mGameStateHistory[mGameStateHistory.Count - 2];
+								lastAllSerialIdx = prev.GetAllSerialIdx();
 								lastLevelNo = prev.GetLevelData().mLevelNo;
 								lastSerialIdx = prev.GetSerialIdx();
 								lastCumulativeCoinNum = prev.GetCumulativeCoinNum();
 							}
 							mGameStateHistory[mGameStateHistory.Count - 1].UpdateLevel(
-								videoGameState.mLevelNo, lastLevelNo, lastSerialIdx, lastCumulativeCoinNum);
+								videoGameState.mLevelNo, lastAllSerialIdx, lastLevelNo, lastSerialIdx, lastCumulativeCoinNum);
 							UpdateDisplay();
 						}
 					}
@@ -275,6 +277,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalCoin1.Name, Label_TotalCoin1);
 			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 			labels.Add(Label_NeededDiff1.Name, Label_NeededDiff1);
+			labels.Add(Label_NeededIdx1.Name, Label_NeededIdx1);
 
 			labels.Add(Label_Idx2.Name, Label_Idx2);
 			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
@@ -285,6 +288,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalCoin2.Name, Label_TotalCoin2);
 			labels.Add(Label_TotalDiff2.Name, Label_TotalDiff2);
 			labels.Add(Label_NeededDiff2.Name, Label_NeededDiff2);
+			labels.Add(Label_NeededIdx2.Name, Label_NeededIdx2);
 
 			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
@@ -313,7 +317,8 @@ namespace SMM2_RTA_AssistTool
 							int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
 							int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
 							int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
-							int neededDiff = cumulativeCoinDiff + state.GetLevelData().mAllowedLoss;
+							int neededDiff = cumulativeCoinDiff + state.GetLevelData().mAllowedLoss.Item2;
+							int neededIdx = state.GetLevelData().mAllowedLoss.Item1;
 
 							string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
 							string cumulativeCoinSign = (cumulativeCoinDiff >= 0) ? "+" : "";
@@ -323,6 +328,7 @@ namespace SMM2_RTA_AssistTool
 							labels["Label_TotalCoin" + (i + 1)].Text = gotCumulativeCoin.ToString();
 							labels["Label_TotalDiff" + (i + 1)].Text = cumulativeCoinSign + cumulativeCoinDiff.ToString();
 							labels["Label_NeededDiff" + (i + 1)].Text = neededCoinSign + neededDiff.ToString();
+							labels["Label_NeededIdx" + (i + 1)].Text = "[" + neededIdx.ToString() + "]";
 
 							if (curCoinDiff >= 0)
 							{
@@ -356,6 +362,7 @@ namespace SMM2_RTA_AssistTool
 							labels["Label_TotalCoin" + (i + 1)].Text = "-";
 							labels["Label_TotalDiff" + (i + 1)].Text = "-";
 							labels["Label_NeededDiff" + (i + 1)].Text = "-";
+							labels["Label_NeededIdx" + (i + 1)].Text = "-";
 
 							labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
 							labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
@@ -374,6 +381,7 @@ namespace SMM2_RTA_AssistTool
 					labels["Label_TotalCoin" + (i + 1)].Text = "-";
 					labels["Label_TotalDiff" + (i + 1)].Text = "-";
 					labels["Label_NeededDiff" + (i + 1)].Text = "-";
+					labels["Label_NeededIdx" + (i + 1)].Text = "-";
 
 					labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
 					labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
@@ -394,12 +402,20 @@ namespace SMM2_RTA_AssistTool
 					Label_CastleList.Text = levelData.mCastleList;
 					Label_LevelSelectCommand.Text = levelData.mLevelSelectCommand;
 					Label_Remark.Text = levelData.mRemark;
+					if (levelData.mNextLevel != null)
+					{
+						Label_NextLevel.Text = "[" + levelData.mNextLevel.mLevelCode + "]（" + levelData.mNextLevel.mJpTitle + "）";
+					} else
+					{
+						Label_NextLevel.Text = "";
+					}
 				}
 				else
 				{
 					Label_CastleList.Text = "";
 					Label_LevelSelectCommand.Text = "";
 					Label_Remark.Text = "";
+					Label_NextLevel.Text = "";
 				}
 			}
 		}

@@ -9,9 +9,9 @@ namespace SMM2_RTA_AssistTool
 {
     class LevelData
     {
-        public string mLevelNo;
-        public int mSerialIdx;
-        public string mLevelCode;
+        public string mLevelNo; // コースごとに一意の文字列
+        public int mSerialIdx; // 連続で同じコースをプレイするときのインデックス
+        public string mLevelCode; // チャート内で一意の文字列（LevelNoとSerialIdxを組み合わせたもの）
         public string mJpTitle;
         public string mEnTitle;
         public int mReward; // 報酬コイン枚数
@@ -23,8 +23,9 @@ namespace SMM2_RTA_AssistTool
         public FastBitmap mTitleImage; // タイトルが表示される画面の画像
         public string mCastleList; // 城建設リスト（名称とコマンド）
         public string mLevelSelectCommand; // コース選択コマンド
-        public int mAllowedLoss; // 許されたコインロス
+        public Tuple<int, int> mAllowedLoss; // 許されたコインロス
         public string mRemark; // 備考
+        public LevelData mNextLevel;
 
         public LevelData()
         {
@@ -42,8 +43,9 @@ namespace SMM2_RTA_AssistTool
             mTitleImage = null;
             mCastleList = "";
             mLevelSelectCommand = "";
-            mAllowedLoss = 0;
+            mAllowedLoss = new Tuple<int, int>(0, 0);
             mRemark = "";
+            mNextLevel = null;
         }
 
         public LevelData(List<string> list)
@@ -79,6 +81,7 @@ namespace SMM2_RTA_AssistTool
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
             mRemark = list[11];
+            mNextLevel = null;
         }
 
         public static string GetLevelCode(string levelNo, int serialIdx)
