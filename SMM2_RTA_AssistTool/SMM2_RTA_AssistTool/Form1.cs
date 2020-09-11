@@ -42,7 +42,8 @@ namespace SMM2_RTA_AssistTool
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-
+			SendKeyToSplit(); // テスト用
+			
 			DeathSetting.Instance.initialize();
 			MainSetting.Instance.initialize();
 			OptionSetting.Instance.initialize();
@@ -254,6 +255,7 @@ namespace SMM2_RTA_AssistTool
 						{
 							curState.UpdateCoin(videoGameState.mReward, videoGameState.mInLevelCoinNum);
 							UpdateDisplay();
+							SendKeyToSplit();
 						}
 					}
 				}
@@ -544,6 +546,30 @@ namespace SMM2_RTA_AssistTool
 				Label_CSVMessage.Text = "Loaded. " + ofd.FileName;
 			}
 
+		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetDesktopWindow();
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+		[DllImport("user32.dll")]
+		private static extern int VkKeyScan(char ch);
+
+		private void SendKeyToSplit()
+		{
+			// デスクトップのウインドウハンドル取得
+			IntPtr hwnd = GetDesktopWindow();
+			// メモ帳のウインドウハンドル取得
+			hwnd = FindWindowEx(hwnd, IntPtr.Zero, "notepad", null);
+			// メモ帳ウインドウ内の「edit」ウインドウのハンドル取得
+			hwnd = FindWindowEx(hwnd, IntPtr.Zero, "edit", null);
+
+			if (hwnd != IntPtr.Zero) {
+				// 「edit」ウインドウに「Enter」を送信
+				PostMessage(hwnd, 0x0100, 0x0D, 0);
+			}
 		}
 	}
 }
