@@ -1,6 +1,7 @@
 ﻿using DirectShowLib;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -42,8 +43,6 @@ namespace SMM2_RTA_AssistTool
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			SendKeyToSplit(); // テスト用
-			
 			DeathSetting.Instance.initialize();
 			MainSetting.Instance.initialize();
 			OptionSetting.Instance.initialize();
@@ -253,9 +252,9 @@ namespace SMM2_RTA_AssistTool
 						// 所持コイン枚数が変化した
 						if (videoGameState.mReward >= 0 || videoGameState.mInLevelCoinNum >= 0)
 						{
+							SendKeyToSplit();
 							curState.UpdateCoin(videoGameState.mReward, videoGameState.mInLevelCoinNum);
 							UpdateDisplay();
-							SendKeyToSplit();
 						}
 					}
 				}
@@ -549,27 +548,42 @@ namespace SMM2_RTA_AssistTool
 		}
 
 		[DllImport("user32.dll")]
-		private static extern IntPtr GetDesktopWindow();
-		[DllImport("user32.dll", SetLastError = true)]
-		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-		[DllImport("user32.dll", SetLastError = true)]
-		private static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-		[DllImport("user32.dll")]
-		private static extern int VkKeyScan(char ch);
+		private static extern bool SetForegroundWindow(IntPtr hWnd);
 
 		private void SendKeyToSplit()
 		{
-			// デスクトップのウインドウハンドル取得
-			IntPtr hwnd = GetDesktopWindow();
-			// メモ帳のウインドウハンドル取得
-			hwnd = FindWindowEx(hwnd, IntPtr.Zero, "notepad", null);
-			// メモ帳ウインドウ内の「edit」ウインドウのハンドル取得
-			hwnd = FindWindowEx(hwnd, IntPtr.Zero, "edit", null);
-
-			if (hwnd != IntPtr.Zero) {
-				// 「edit」ウインドウに「Enter」を送信
-				PostMessage(hwnd, 0x0100, 0x0D, 0);
+			if (!CheckBox_SplitSending.Checked)
+			{
+				Console.WriteLine("Doesn't send EnterKey. (pausing)");
+				return;
 			}
+
+			Process liveSplitProcess = null;
+
+			//すべてのプロセスを列挙する
+			foreach (Process p in Process.GetProcesses())
+			{
+				//指定された文字列がメインウィンドウのタイトルに含まれているか調べる
+				if (p.MainWindowTitle.IndexOf("LiveSplit") >= 0)
+				{
+					//含まれていたら、コレクションに追加
+					liveSplitProcess = p;
+					break;
+				}
+			}
+
+			if (liveSplitProcess == null)
+			{
+				Console.WriteLine("LiveSplit is not found.");
+				return;
+			}
+
+			// 選択しているプロセスをアクティブ
+			SetForegroundWindow(liveSplitProcess.MainWindowHandle);
+			// キーストロークを送信
+			SendKeys.Send("{Enter}");
+
+			Console.WriteLine("EnterKey was successfully send to LiveSplit.");
 		}
 	}
 }

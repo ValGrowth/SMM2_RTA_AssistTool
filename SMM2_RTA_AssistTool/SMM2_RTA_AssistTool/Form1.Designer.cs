@@ -82,6 +82,7 @@
 			this.Label_NextLevel = new System.Windows.Forms.Label();
 			this.Label_NeededIdx2 = new System.Windows.Forms.Label();
 			this.Label_NeededIdx1 = new System.Windows.Forms.Label();
+			this.CheckBox_SplitSending = new System.Windows.Forms.CheckBox();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -710,12 +711,26 @@
 			this.Label_NeededIdx1.Text = "[34]";
 			this.Label_NeededIdx1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// CheckBox_SplitSending
+			// 
+			this.CheckBox_SplitSending.AutoSize = true;
+			this.CheckBox_SplitSending.Checked = true;
+			this.CheckBox_SplitSending.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.CheckBox_SplitSending.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.CheckBox_SplitSending.Location = new System.Drawing.Point(743, 398);
+			this.CheckBox_SplitSending.Name = "CheckBox_SplitSending";
+			this.CheckBox_SplitSending.Size = new System.Drawing.Size(131, 28);
+			this.CheckBox_SplitSending.TabIndex = 60;
+			this.CheckBox_SplitSending.Text = "Split Sending";
+			this.CheckBox_SplitSending.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.PaleGoldenrod;
 			this.ClientSize = new System.Drawing.Size(942, 474);
+			this.Controls.Add(this.CheckBox_SplitSending);
 			this.Controls.Add(this.Label_NeededIdx1);
 			this.Controls.Add(this.Label_NeededIdx2);
 			this.Controls.Add(this.Label_NextLevel);
@@ -843,6 +858,7 @@
 		private System.Windows.Forms.Label Label_NextLevel;
 		private System.Windows.Forms.Label Label_NeededIdx2;
 		private System.Windows.Forms.Label Label_NeededIdx1;
+		private System.Windows.Forms.CheckBox CheckBox_SplitSending;
 	}
 }
 
