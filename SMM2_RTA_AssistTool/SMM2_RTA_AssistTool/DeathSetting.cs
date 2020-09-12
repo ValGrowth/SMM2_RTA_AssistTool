@@ -45,7 +45,7 @@ namespace SMM2_RTA_AssistTool {
 			set { mDeadAmplitudeThreshold = value; }
 		}
 
-		public void initialize() {
+		public void Initialize() {
  			if (!File.Exists(@"DeathCounter.ini")) {
 				using(StreamWriter w = new StreamWriter(@"DeathCounter.ini", false, Encoding.UTF8))
 				{
@@ -62,11 +62,11 @@ namespace SMM2_RTA_AssistTool {
 						settingList.Add(r.ReadLine());
 					}
 				}
-				loadSetting(settingList);
+				LoadSetting(settingList);
 			}
 		}
 
-		private void loadSetting(List<string> settingList) {
+		private void LoadSetting(List<string> settingList) {
 			foreach (string line in settingList) {
 				int equalIndex = line.IndexOf("=");
 				if (equalIndex < 0) {
@@ -107,7 +107,7 @@ namespace SMM2_RTA_AssistTool {
 			}
 		}
 
-		public void saveToFile() {
+		public void SaveToFile() {
 				using(StreamWriter w = new StreamWriter(@"DeathCounter.ini", false, Encoding.UTF8))
 				{
 					w.WriteLine("PAST_TIME_RANGE=" + mPastTimeRange);

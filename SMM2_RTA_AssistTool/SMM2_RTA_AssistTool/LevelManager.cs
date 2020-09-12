@@ -9,10 +9,7 @@ namespace SMM2_RTA_AssistTool {
 	class LevelManager {
 
 		private static LevelManager mInstance;
-		private LevelManager() // Private Constructor
-		{
-			Init();
-		}
+		private LevelManager() { } // Private Constructor
 		public static LevelManager Instance {
 			get {
 				if ( mInstance == null ) mInstance = new LevelManager();
@@ -22,9 +19,11 @@ namespace SMM2_RTA_AssistTool {
 
 		private IDictionary<string, LevelData> mLevelDataList = new Dictionary<string, LevelData>();
 
-		private void Init()
+		public void Initialize()
 		{
 			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true, true);
+
+			mLevelDataList.Clear();
 
 			int coin = 0;
 			int idx = 1;

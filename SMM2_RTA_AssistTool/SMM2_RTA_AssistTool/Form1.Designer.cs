@@ -31,7 +31,6 @@
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CheckBox_PreviewVideo = new System.Windows.Forms.CheckBox();
-			this.CheckBox_PlayAudio = new System.Windows.Forms.CheckBox();
 			this.CheckBox_Pause = new System.Windows.Forms.CheckBox();
 			this.Label_CurCoin1 = new System.Windows.Forms.Label();
 			this.Label_CurDiff1 = new System.Windows.Forms.Label();
@@ -83,6 +82,7 @@
 			this.Label_NeededIdx2 = new System.Windows.Forms.Label();
 			this.Label_NeededIdx1 = new System.Windows.Forms.Label();
 			this.CheckBox_SplitSending = new System.Windows.Forms.CheckBox();
+			this.CheckBox_PlayAudio = new System.Windows.Forms.CheckBox();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -130,8 +130,8 @@
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-			this.optionsToolStripMenuItem.Text = "Devices";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.optionsToolStripMenuItem.Text = "Preferences";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
 			// closeToolStripMenuItem
@@ -141,7 +141,6 @@
 			// 
 			// CheckBox_PreviewVideo
 			// 
-			this.CheckBox_PreviewVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.CheckBox_PreviewVideo.AutoSize = true;
 			this.CheckBox_PreviewVideo.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.CheckBox_PreviewVideo.Location = new System.Drawing.Point(9, 434);
@@ -151,20 +150,6 @@
 			this.CheckBox_PreviewVideo.Text = "PreviewVideo";
 			this.CheckBox_PreviewVideo.UseVisualStyleBackColor = true;
 			this.CheckBox_PreviewVideo.CheckedChanged += new System.EventHandler(this.CheckBox_PreviewVideo_CheckedChanged);
-			// 
-			// CheckBox_PlayAudio
-			// 
-			this.CheckBox_PlayAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.CheckBox_PlayAudio.AutoSize = true;
-			this.CheckBox_PlayAudio.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(9, 462);
-			this.CheckBox_PlayAudio.Name = "CheckBox_PlayAudio";
-			this.CheckBox_PlayAudio.Size = new System.Drawing.Size(106, 28);
-			this.CheckBox_PlayAudio.TabIndex = 9;
-			this.CheckBox_PlayAudio.Text = "PlayAudio";
-			this.CheckBox_PlayAudio.UseVisualStyleBackColor = true;
-			this.CheckBox_PlayAudio.Visible = false;
-			this.CheckBox_PlayAudio.CheckedChanged += new System.EventHandler(this.CheckBox_PlayAudio_CheckedChanged);
 			// 
 			// CheckBox_Pause
 			// 
@@ -724,6 +709,20 @@
 			this.CheckBox_SplitSending.Text = "Split Sending";
 			this.CheckBox_SplitSending.UseVisualStyleBackColor = true;
 			// 
+			// CheckBox_PlayAudio
+			// 
+			this.CheckBox_PlayAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.CheckBox_PlayAudio.AutoSize = true;
+			this.CheckBox_PlayAudio.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(9, 462);
+			this.CheckBox_PlayAudio.Name = "CheckBox_PlayAudio";
+			this.CheckBox_PlayAudio.Size = new System.Drawing.Size(106, 28);
+			this.CheckBox_PlayAudio.TabIndex = 9;
+			this.CheckBox_PlayAudio.Text = "PlayAudio";
+			this.CheckBox_PlayAudio.UseVisualStyleBackColor = true;
+			this.CheckBox_PlayAudio.Visible = false;
+			this.CheckBox_PlayAudio.CheckedChanged += new System.EventHandler(this.CheckBox_PlayAudio_CheckedChanged);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -806,7 +805,6 @@
 		private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem1;
 		private System.Windows.Forms.CheckBox CheckBox_PreviewVideo;
-		private System.Windows.Forms.CheckBox CheckBox_PlayAudio;
 		private System.Windows.Forms.CheckBox CheckBox_Pause;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.Label Label_CurCoin1;
@@ -859,6 +857,7 @@
 		private System.Windows.Forms.Label Label_NeededIdx2;
 		private System.Windows.Forms.Label Label_NeededIdx1;
 		private System.Windows.Forms.CheckBox CheckBox_SplitSending;
+		private System.Windows.Forms.CheckBox CheckBox_PlayAudio;
 	}
 }
 

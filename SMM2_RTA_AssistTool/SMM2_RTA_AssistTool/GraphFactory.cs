@@ -55,27 +55,25 @@ namespace SMM2_RTA_AssistTool {
 			}
 
 			// まずオプションの設定値を取得する
-			//if (OptionSetting.Instance.EnableDefaultDevices == 1) { // デフォルトのデバイス選択が有効
-				string optionDeviceName = "";
-				foreach (string deviceName in deviceNames) {
-					string defaultDeviceName = GetDefaultDeviceName(deviceType);
-					if (deviceName == defaultDeviceName) {
-						optionDeviceName = deviceName;
-						break;
-					}
+			string optionDeviceName = "";
+			foreach (string deviceName in deviceNames) {
+				string defaultDeviceName = GetDefaultDeviceName(deviceType);
+				if (deviceName == defaultDeviceName) {
+					optionDeviceName = deviceName;
+					break;
 				}
-				if (!string.IsNullOrEmpty(optionDeviceName)) {
-					DsDevice device = GetDeviceByName(FilterCategory, optionDeviceName);
-					if (device != null) {
-						return device;
-					}
+			}
+			if (!string.IsNullOrEmpty(optionDeviceName)) {
+				DsDevice device = GetDeviceByName(FilterCategory, optionDeviceName);
+				if (device != null) {
+					return device;
 				}
-			//}
+			}
 
 			// オプションの設定値が現在の選択肢に無ければ機器選択ウィンドウを表示する
 			ChooseDeviceWindow chooseDeviceWindow = new ChooseDeviceWindow(deviceNames, deviceType);
 			chooseDeviceWindow.ShowDialog();
-			string choosedDeviceName = chooseDeviceWindow.DeviceName;
+			string choosedDeviceName = chooseDeviceWindow.mDeviceName;
 
 			return GetDeviceByName(FilterCategory, choosedDeviceName);
 		}
@@ -94,10 +92,10 @@ namespace SMM2_RTA_AssistTool {
 
 		private static string GetDefaultDeviceName(DEVICE_TYPE deviceType) {
 			if (deviceType == DEVICE_TYPE.VIDEO) {
-				return OptionSetting.Instance.DefaultVideoDevice;
+				return Preferences.Instance.mVideoDeviceName;
 			}
 			if (deviceType == DEVICE_TYPE.AUDIO) {
-				return OptionSetting.Instance.DefaultAudioDevice;
+				return Preferences.Instance.mAudioDeviceName;
 			}
 			return null;
 		}

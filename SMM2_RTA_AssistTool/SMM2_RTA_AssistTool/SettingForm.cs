@@ -38,7 +38,7 @@ namespace SMM2_RTA_AssistTool {
 			s.DeadPixelValueThreshold = int.Parse(TextBox_PixelValueThreshold.Text);
 			s.DeadAmplitudeThreshold = int.Parse(TextBox_AmplitudeThreshold.Text);
 
-			s.saveToFile();
+			s.SaveToFile();
 
 			this.Close();
 		}

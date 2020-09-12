@@ -43,18 +43,17 @@ namespace SMM2_RTA_AssistTool
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			DeathSetting.Instance.initialize();
-			MainSetting.Instance.initialize();
-			OptionSetting.Instance.initialize();
+			//DeathSetting.Instance.Initialize();
+			PropertyCache.Instance.Initialize();
+			Preferences.Instance.Initialize();
+			LevelManager.Instance.Initialize();
 			bool ret = directShowInitialize();
 			if (!ret)
 			{
-				Close();
-				return;
+				CloseInterfaces();
 			}
 
 			ResetRun();
-			UpdateDisplay();
 
 			while (true)
 			{
@@ -70,82 +69,87 @@ namespace SMM2_RTA_AssistTool
 
 		private bool directShowInitialize()
 		{
-
-			mVideoChecker = new VideoChecker(this);
-			//mAudioChecker = new AudioChecker(this);
-
-			//mVideoChecker.Test();
-
-			// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
-
-			//graphBuilderを作成．
-			graphBuilder = GraphFactory.MakeGraphBuilder();
-
-			//各種インタフェースを取得．
-			mediaControl = (IMediaControl)graphBuilder;
-			videoWindow = (IVideoWindow)graphBuilder;
-			mediaEvent = (IMediaEventEx)graphBuilder;
-
-
-			// 4. キャプチャグラフビルダと，サンプルグラバフィルタ（個々のビデオデータを取得するフィルタ）を作成する．
-
-			//キャプチャグラフビルダ(captureGraphBuilder)を作成．
-			captureGraphBuilder = GraphFactory.MakeCaptureGraphBuilder();
-
-			// 5. 基本となるフィルタグラフマネージャ(graphBuilder)にキャプチャグラフビルダと各フィルタを追加する．
-
-			//captureGraphBuilder（キャプチャグラフビルダ）をgraphBuilder（フィルタグラフマネージャ）に追加．
-			result = captureGraphBuilder.SetFiltergraph(graphBuilder);
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-
-
-			// 1. デバイスを取得し、2. キャプチャデバイスをソースフィルタに対応づける．
-			// 6. 各フィルタの接続を行い，入力画像のキャプチャとプレビューの準備を行う．
-			bool ret = false;
-			ret = mVideoChecker.AddVideoFilters(graphBuilder, captureGraphBuilder);
-			if (!ret)
+			try
 			{
-				SMMMessageBox.Show("エラー：映像入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any video devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
+				mVideoChecker = new VideoChecker(this);
+				//mAudioChecker = new AudioChecker(this);
+
+				//mVideoChecker.Test();
+
+				// 3. フィルタグラフマネージャを作成し，各種操作を行うためのインタフェースを取得する．
+
+				//graphBuilderを作成．
+				graphBuilder = GraphFactory.MakeGraphBuilder();
+
+				//各種インタフェースを取得．
+				mediaControl = (IMediaControl)graphBuilder;
+				videoWindow = (IVideoWindow)graphBuilder;
+				mediaEvent = (IMediaEventEx)graphBuilder;
+
+
+				// 4. キャプチャグラフビルダと，サンプルグラバフィルタ（個々のビデオデータを取得するフィルタ）を作成する．
+
+				//キャプチャグラフビルダ(captureGraphBuilder)を作成．
+				captureGraphBuilder = GraphFactory.MakeCaptureGraphBuilder();
+
+				// 5. 基本となるフィルタグラフマネージャ(graphBuilder)にキャプチャグラフビルダと各フィルタを追加する．
+
+				//captureGraphBuilder（キャプチャグラフビルダ）をgraphBuilder（フィルタグラフマネージャ）に追加．
+				result = captureGraphBuilder.SetFiltergraph(graphBuilder);
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+
+
+				// 1. デバイスを取得し、2. キャプチャデバイスをソースフィルタに対応づける．
+				// 6. 各フィルタの接続を行い，入力画像のキャプチャとプレビューの準備を行う．
+				bool ret = mVideoChecker.AddVideoFilters(graphBuilder, captureGraphBuilder);
+				if (!ret)
+				{
+					//SMMMessageBox.Show("エラー：映像入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any video devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
+					return false;
+				}
+
+				//ret = mAudioChecker.AddAudioFilters(graphBuilder, captureGraphBuilder);
+				//if (!ret) {
+				//	SMMMessageBox.Show("エラー：音声入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any audio devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
+				//	return false;
+				//}
+
+				// 7. プレビュー映像（レンダラフィルタの出力）の出力場所を設定する.
+
+				//プレビュー映像を表示するパネルを指定．
+				result = videoWindow.put_Owner(this.panel1.Handle);
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+				//ビデオ表示領域のスタイルを指定．
+				result = videoWindow.put_WindowStyle(WindowStyle.Child | WindowStyle.ClipChildren);
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+				//ビデオパネルのサイズを変更する．
+				Rectangle rect = this.panel1.ClientRectangle;
+				videoWindow.SetWindowPosition(0, 0, rect.Right, rect.Bottom);
+
+				//レンダラフィルタの出力を可視化する．
+				result = videoWindow.put_Visible(OABool.True);
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+
+
+
+				// 8. DirectShowイベントを，Windowsメッセージを通して通知するための設定を行う．
+
+				// mediaEvent(DirectShowイベント)をWM_GRAPHNOTIFY(Windowsメッセージ)に対応付ける． 
+				result = mediaEvent.SetNotifyWindow(this.Handle, WM_GRAPHNOTIFY, IntPtr.Zero);
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+
+
+
+				// 9. プレビューを開始する．
+
+				result = mediaControl.Run();
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
+
+			} catch (Exception e)
+			{
+				SMMMessageBox.Show(e.Message, SMMMessageBoxIcon.Error);
 				return false;
 			}
-
-			//ret = mAudioChecker.AddAudioFilters(graphBuilder, captureGraphBuilder);
-			//if (!ret) {
-			//	SMMMessageBox.Show("エラー：音声入力デバイスが見つかりませんでした。\nプログラムを終了します。Error: Any audio devices are not found.\n Closing this application.", SMMMessageBoxIcon.Error);
-			//	return false;
-			//}
-
-			// 7. プレビュー映像（レンダラフィルタの出力）の出力場所を設定する.
-
-			//プレビュー映像を表示するパネルを指定．
-			result = videoWindow.put_Owner(this.panel1.Handle);
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-			//ビデオ表示領域のスタイルを指定．
-			result = videoWindow.put_WindowStyle(WindowStyle.Child | WindowStyle.ClipChildren);
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-			//ビデオパネルのサイズを変更する．
-			Rectangle rect = this.panel1.ClientRectangle;
-			videoWindow.SetWindowPosition(0, 0, rect.Right, rect.Bottom);
-
-			//レンダラフィルタの出力を可視化する．
-			result = videoWindow.put_Visible(OABool.True);
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-
-
-
-			// 8. DirectShowイベントを，Windowsメッセージを通して通知するための設定を行う．
-
-			// mediaEvent(DirectShowイベント)をWM_GRAPHNOTIFY(Windowsメッセージ)に対応付ける． 
-			result = mediaEvent.SetNotifyWindow(this.Handle, WM_GRAPHNOTIFY, IntPtr.Zero);
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-
-
-
-			// 9. プレビューを開始する．
-
-			result = mediaControl.Run();
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
-
 			return true;
 		}
 
@@ -192,9 +196,16 @@ namespace SMM2_RTA_AssistTool
 					graphBuilder = null;
 				}
 
-				mVideoChecker.CloseInterfaces();
-				//mAudioChecker.CloseInterfaces();
-
+				if (mVideoChecker != null)
+				{
+					mVideoChecker.CloseInterfaces();
+					mVideoChecker = null;
+				}
+				//if (mAudioChecker != null)
+				//{
+				//	mAudioChecker.CloseInterfaces();
+				//	mAudioChecker = null;
+				//}
 			}
 			catch (Exception e)
 			{
@@ -265,8 +276,8 @@ namespace SMM2_RTA_AssistTool
 
 		private void UpdateDisplay()
 		{
-			CheckBox_PreviewVideo.Checked = MainSetting.Instance.PreviewVideo == 1;
-			CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
+			CheckBox_PreviewVideo.Checked = PropertyCache.Instance.mPreviewVideo == 1;
+			//CheckBox_PlayAudio.Checked = MainSetting.Instance.PlayAudio == 1;
 
 			Dictionary<string, Label> labels = new Dictionary<string, Label>();
 			labels.Add(Label_Idx1.Name, Label_Idx1);
@@ -434,31 +445,40 @@ namespace SMM2_RTA_AssistTool
 
 		private void CheckBox_PreviewVideo_CheckedChanged(object sender, EventArgs e)
 		{
-			MainSetting.Instance.PreviewVideo = CheckBox_PreviewVideo.Checked ? 1 : 0;
-			MainSetting.Instance.saveToFile();
+			PropertyCache.Instance.mPreviewVideo = CheckBox_PreviewVideo.Checked ? 1 : 0;
+			PropertyCache.Instance.SaveToFile();
 
 			//レンダラフィルタの出力の可視化設定を変更．
-			if (MainSetting.Instance.PreviewVideo == 1)
+			if (videoWindow != null)
 			{
-				result = videoWindow.put_Visible(OABool.True);
+				if (PropertyCache.Instance.mPreviewVideo == 1)
+				{
+					result = videoWindow.put_Visible(OABool.True);
+				}
+				else
+				{
+					result = videoWindow.put_Visible(OABool.False);
+				}
+				if (result < 0) Marshal.ThrowExceptionForHR(result);
 			}
-			else
-			{
-				result = videoWindow.put_Visible(OABool.False);
-			}
-			if (result < 0) Marshal.ThrowExceptionForHR(result);
 		}
 
 		private void CheckBox_PlayAudio_CheckedChanged(object sender, EventArgs e)
 		{
-			MainSetting.Instance.PlayAudio = CheckBox_PlayAudio.Checked ? 1 : 0;
-			MainSetting.Instance.saveToFile();
+			//MainSetting.Instance.PlayAudio = CheckBox_PlayAudio.Checked ? 1 : 0;
+			//MainSetting.Instance.SaveToFile();
 		}
 
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OptionForm form = new OptionForm();
-			form.ShowDialog(this);
+			PreferencesForm form = new PreferencesForm();
+			DialogResult result = form.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				// リロード
+				CloseInterfaces();
+				directShowInitialize();
+			}
 		}
 
 		private void Button_Reset_Click(object sender, EventArgs e)

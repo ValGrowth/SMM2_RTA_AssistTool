@@ -11,13 +11,9 @@ using System.Windows.Forms;
 namespace SMM2_RTA_AssistTool {
 	public partial class ChooseDeviceWindow : Form {
 
-		private string mDeviceName = "";
 		private GraphFactory.DEVICE_TYPE mDeviceType;
 
-		public string DeviceName {
-			get { return mDeviceName; }
-			set { mDeviceName = value; }
-		}
+		public string mDeviceName { get; set; } = "";
 
 		public ChooseDeviceWindow(string[] deviceNames, GraphFactory.DEVICE_TYPE deviceType) {
 			InitializeComponent();
@@ -25,10 +21,10 @@ namespace SMM2_RTA_AssistTool {
 			mDeviceType = deviceType;
 			
 			if (deviceType == GraphFactory.DEVICE_TYPE.VIDEO) {
-				Label_ChooseDevice.Text = "ChooseVideoDevice";
+				Label_ChooseDevice.Text = "Choose Video Device";
 			}
 			if (deviceType == GraphFactory.DEVICE_TYPE.AUDIO) {
-				Label_ChooseDevice.Text = "ChooseAudioDevice";
+				Label_ChooseDevice.Text = "Choose Audio Device";
 			}
 			
 			ComboBox_DeviceName.Items.AddRange(deviceNames);
@@ -37,18 +33,16 @@ namespace SMM2_RTA_AssistTool {
 
 		private void Button_OK_Click(object sender, EventArgs e) {
 			if (ComboBox_DeviceName.SelectedItem != null) {
-				DeviceName = ComboBox_DeviceName.SelectedItem.ToString();
+				mDeviceName = ComboBox_DeviceName.SelectedItem.ToString();
 
-				OptionSetting option = OptionSetting.Instance;
-				if (option.EnableDefaultDevices == 1) {
-					if (mDeviceType == GraphFactory.DEVICE_TYPE.VIDEO) {
-						option.DefaultVideoDevice = DeviceName;
-					}
-					if (mDeviceType == GraphFactory.DEVICE_TYPE.AUDIO) {
-						option.DefaultAudioDevice = DeviceName;
-					}
-					option.saveToFile();
+				Preferences prefs = Preferences.Instance;
+				if (mDeviceType == GraphFactory.DEVICE_TYPE.VIDEO) {
+					prefs.mVideoDeviceName = mDeviceName;
 				}
+				if (mDeviceType == GraphFactory.DEVICE_TYPE.AUDIO) {
+					prefs.mAudioDeviceName = mDeviceName;
+				}
+				prefs.SaveToFile();
 			}
 			Close();
 		}
