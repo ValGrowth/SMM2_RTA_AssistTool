@@ -44,6 +44,13 @@ namespace SMM2_RTA_AssistTool {
 						}
 					}
 				}
+				if (idx == csvData.Count)
+				{
+					foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
+					{
+						pr.Value.mFinalAllowedLoss = new Tuple<int, int>(idx, coin);
+					}
+				}
 				if (lastLevelData != null)
 				{
 					lastLevelData.mNextLevel = levelData;

@@ -24,6 +24,7 @@ namespace SMM2_RTA_AssistTool
         public string mCastleList; // 城建設リスト（名称とコマンド）
         public string mLevelSelectCommand; // コース選択コマンド
         public Tuple<int, int> mAllowedLoss; // 許されたコインロス
+        public Tuple<int, int> mFinalAllowedLoss; // 最終コースで許されたコインロス
         public string mRemark; // 備考
         public LevelData mNextLevel;
 
@@ -44,6 +45,7 @@ namespace SMM2_RTA_AssistTool
             mCastleList = "";
             mLevelSelectCommand = "";
             mAllowedLoss = new Tuple<int, int>(0, 0);
+            mFinalAllowedLoss = new Tuple<int, int>(0, 0);
             mRemark = "";
             mNextLevel = null;
         }

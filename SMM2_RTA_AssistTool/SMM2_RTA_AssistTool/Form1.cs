@@ -290,6 +290,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalDiff1.Name, Label_TotalDiff1);
 			labels.Add(Label_NeededDiff1.Name, Label_NeededDiff1);
 			labels.Add(Label_NeededIdx1.Name, Label_NeededIdx1);
+			labels.Add(Label_FinalDiff1.Name, Label_FinalDiff1);
 
 			labels.Add(Label_Idx2.Name, Label_Idx2);
 			labels.Add(Label_LevelCode2.Name, Label_LevelCode2);
@@ -301,6 +302,7 @@ namespace SMM2_RTA_AssistTool
 			labels.Add(Label_TotalDiff2.Name, Label_TotalDiff2);
 			labels.Add(Label_NeededDiff2.Name, Label_NeededDiff2);
 			labels.Add(Label_NeededIdx2.Name, Label_NeededIdx2);
+			labels.Add(Label_FinalDiff2.Name, Label_FinalDiff2);
 
 			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
@@ -331,16 +333,19 @@ namespace SMM2_RTA_AssistTool
 							int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
 							int neededDiff = cumulativeCoinDiff + state.GetLevelData().mAllowedLoss.Item2;
 							int neededIdx = state.GetLevelData().mAllowedLoss.Item1;
+							int finalDiff = cumulativeCoinDiff + state.GetLevelData().mFinalAllowedLoss.Item2;
 
 							string curCoinSign = (curCoinDiff >= 0) ? "+" : "";
 							string cumulativeCoinSign = (cumulativeCoinDiff >= 0) ? "+" : "";
 							string neededCoinSign = (neededDiff >= 0) ? "+" : "";
+							string finalCoinSign = (finalDiff >= 0) ? "+" : "";
 							labels["Label_CurCoin" + (i + 1)].Text = curCoin.ToString();
 							labels["Label_CurDiff" + (i + 1)].Text = curCoinSign + curCoinDiff.ToString();
 							labels["Label_TotalCoin" + (i + 1)].Text = gotCumulativeCoin.ToString();
 							labels["Label_TotalDiff" + (i + 1)].Text = cumulativeCoinSign + cumulativeCoinDiff.ToString();
 							labels["Label_NeededDiff" + (i + 1)].Text = neededCoinSign + neededDiff.ToString();
 							labels["Label_NeededIdx" + (i + 1)].Text = "[" + neededIdx.ToString() + "]";
+							labels["Label_FinalDiff" + (i + 1)].Text = finalCoinSign + finalDiff.ToString();
 
 							if (curCoinDiff >= 0)
 							{
@@ -366,6 +371,14 @@ namespace SMM2_RTA_AssistTool
 							{
 								labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Red;
 							}
+							if (finalDiff >= 0)
+							{
+								labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Green;
+							}
+							else
+							{
+								labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Red;
+							}
 						}
 						else
 						{
@@ -375,10 +388,12 @@ namespace SMM2_RTA_AssistTool
 							labels["Label_TotalDiff" + (i + 1)].Text = "-";
 							labels["Label_NeededDiff" + (i + 1)].Text = "-";
 							labels["Label_NeededIdx" + (i + 1)].Text = "-";
+							labels["Label_FinalDiff" + (i + 1)].Text = "-";
 
 							labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
 							labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
 							labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Black;
+							labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Black;
 						}
 					}
 				}
@@ -394,10 +409,12 @@ namespace SMM2_RTA_AssistTool
 					labels["Label_TotalDiff" + (i + 1)].Text = "-";
 					labels["Label_NeededDiff" + (i + 1)].Text = "-";
 					labels["Label_NeededIdx" + (i + 1)].Text = "-";
+					labels["Label_FinalDiff" + (i + 1)].Text = "-";
 
 					labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
 					labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
 					labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Black;
+					labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Black;
 				}
 			}
 
