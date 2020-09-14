@@ -1,4 +1,4 @@
-﻿SMM2 RTA Assist Tool
+SMM2 RTA Assist Tool
 Copyright (C) 2020 Val JP
 
 １．本ソフトウェアはフリー・ソフトウェアです。個人利用、商用利用問わず自由に使用することを許可します。

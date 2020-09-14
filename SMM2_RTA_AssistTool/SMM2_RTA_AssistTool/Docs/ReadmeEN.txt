@@ -1,12 +1,12 @@
-﻿=========== =========== ===========
+=========== =========== ===========
    SMM2 RTA Assist Tool  Ver.1.0
 =========== =========== ===========
 
-[Application]	SMM2 RTA Assist Tool
-[Author]		Val JP
-[Environment]	Windows10
-[Version]		1.0
-[Last Updated]	Sep. 14, 2020
+[Application]   SMM2 RTA Assist Tool
+[Author]        Val JP
+[Environment]   Windows10
+[Version]       1.0
+[Last Updated]  Sep. 14, 2020
 
 [Web]			https://twitter.com/val_nvc
 [E-mail]		val.niconico@gmail.com
@@ -22,8 +22,9 @@
 
 ◇ Environment ◇
 	
-	
-	We're only able to confirm the operation under the following conditions.
+	This only works on 1920x1080 resolution video devices.
+
+	I only able to confirm the operation under the following conditions.
 	・Using the "AvarMedia GC550" on Windows10 PC.
 	・Using the "Open Broadcast Software" with "OBS-VirtualCam" plugin on Windows10 PC.
 	In other environment, I have not confirmed behavior.
