@@ -18,3 +18,6 @@ Others/実行ファイル/SMM2_RTA_AssistTool.exeを起動してください。
   
 [注意点]  
 チャートに無いコースのプレイは想定していません。  
+  
+[開発環境]  
+Visual C# (Visual Studio 2019 Community)  
