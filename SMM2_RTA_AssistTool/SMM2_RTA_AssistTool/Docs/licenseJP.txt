@@ -1,5 +1,5 @@
-﻿SMMDeathCounter
-Copyright (C) 2016 Val JP
+﻿SMM2 RTA Assist Tool
+Copyright (C) 2020 Val JP
 
 １．本ソフトウェアはフリー・ソフトウェアです。個人利用、商用利用問わず自由に使用することを許可します。
 ２．本ソフトウェアの複製、再配布を自由に行うことを許可します。ただし、改変したものを配布することは許可しません。

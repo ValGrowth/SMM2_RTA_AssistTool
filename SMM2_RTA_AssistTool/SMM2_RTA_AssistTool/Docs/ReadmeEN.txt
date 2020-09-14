@@ -1,22 +1,23 @@
-﻿========== ========== ==========
-  SMMDeathCounter  Ver.2.3
-========== ========== ==========
+﻿=========== =========== ===========
+   SMM2 RTA Assist Tool  Ver.1.0
+=========== =========== ===========
 
-[Application]	SMMDeathCounter
+[Application]	SMM2 RTA Assist Tool
 [Author]		Val JP
 [Environment]	Windows10
-[Version]		2.3
-[Last Updated]	Jan. 30, 2017
+[Version]		1.0
+[Last Updated]	Sep. 14, 2020
 
-[Web]			https://twitter.com/
+[Web]			https://twitter.com/val_nvc
 [E-mail]		val.niconico@gmail.com
 
 ---------- ----------
 ◇ Overview ◇
 	
 	
-	It is a tool to count the number of death of Super Mario Maker automatically.
-	This works for only playing mode and uploading mode.
+	This is the tool to support your run on Super Mario Maker 2 Story Mode speedrun.
+	Get the number of coins from screen and display the difference.
+	There is also a function to display the operation procedure for castle construction and course selection.
 
 
 ◇ Environment ◇
@@ -24,36 +25,32 @@
 	
 	We're only able to confirm the operation under the following conditions.
 	・Using the "AvarMedia GC550" on Windows10 PC.
-	・Using the "AmaRecTV 3.10(: Japanese video capture application) on Windows10 PC.
+	・Using the "Open Broadcast Software" with "OBS-VirtualCam" plugin on Windows10 PC.
 	In other environment, I have not confirmed behavior.
 
-	※When you access at the same time from some programs for a video and audio capture device,
-	　is may causes some errors. (ex. in my environment, my OS was crushed.)
-	　In this case, I recommend to use abstract capture device like a live function of AmaRecTV.
+	※When you access at the same time from some programs for a video capture device, is causes some errors.
+	　In this case, I recommend to use abstract capture device like a OBS-VirtualCam.
 
 
 ◇ How to use ◇
 	
-	(1) Run "SMMDeathCounter.exe"
-	(2) Select a video device
-	(3) Select a audio device
-	(4) Play SMM, the number of death will increase
-	(5) The number of death is save to the file "DeathCount.txt" in real time
-
-	It is the specification that increasing of the number of death in the loading scene.
-	If you don't like this, you can stop the increase of death by checking the Pause Button on right down of the window.
+	(1) Make LevelData/LevelData.csv
+	(2) Capture level title images and save them to directory Images/Levels/
+	(3) Run "SMM2_RTA_AssistTool.exe"
+	(4) Select a video device
+	(5) Play story mode according to the LevelData.csv, the number of coins will be displayed
 
 
 ◇ Install ◇
 	
-	Run "SMMDeathCounter.exe".
+	Run "SMM2_RTA_AssistTool.exe".
 	Installing is not required.
 	And the registry is not used.
 
 
 ◇ Uninstall ◇
 	
-	Delete Directory "SMMDeathCounter".
+	Delete Directory "SMM2_RTA_AssistTool".
 
 
 ◇ License ◇
@@ -68,5 +65,14 @@
 ◇ FAQ ◇
 
 	Q. Can I change devices to capture?
-	A. You can select devices by set [DefaultVideoDevice] and [DefaultAudioDevice] at Setting→Options.
-	　 Or to disable [EnableDefaultDevice], you can always select devices when starting up.
+	A. You can select devices at Setting→Devices.
+
+
+----------
+
+
+
+◇ Hisotry ◇
+
+Sep. 14, 2020	Ver1.0 released
+
