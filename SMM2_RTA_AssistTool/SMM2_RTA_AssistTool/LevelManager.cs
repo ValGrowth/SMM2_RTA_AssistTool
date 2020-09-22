@@ -17,12 +17,14 @@ namespace SMM2_RTA_AssistTool {
 			}
 		}
 
+		public List<List<string>> mOriginalCsvData = new List<List<string>>();
 		private IDictionary<string, LevelData> mLevelDataList = new Dictionary<string, LevelData>();
 
 		public void Initialize()
 		{
 			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true, true);
-
+			mOriginalCsvData = csvData;
+			
 			mLevelDataList.Clear();
 
 			int coin = 0;

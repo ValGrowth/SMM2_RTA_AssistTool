@@ -47,6 +47,22 @@ namespace SMM2_RTA_AssistTool
 			PropertyCache.Instance.Initialize();
 			Preferences.Instance.Initialize();
 			LevelManager.Instance.Initialize();
+			TextBox_Chart.Text = "";
+			foreach (List<string> line in LevelManager.Instance.mOriginalCsvData)
+			{
+				int count = 0;
+				foreach (string str in line)
+				{
+					if (count > 0)
+					{
+						TextBox_Chart.Text += ",";
+					}
+					TextBox_Chart.Text += str;
+					++count;
+				}
+				TextBox_Chart.Text += "\r\n";
+			}
+
 			bool ret = directShowInitialize();
 			if (!ret)
 			{

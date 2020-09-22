@@ -90,6 +90,7 @@
 			this.Label_LB2_4 = new System.Windows.Forms.Label();
 			this.Label_FinalDiff2 = new System.Windows.Forms.Label();
 			this.Label_HeaderFinal = new System.Windows.Forms.Label();
+			this.TextBox_Chart = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -720,10 +721,9 @@
 			// 
 			// CheckBox_PlayAudio
 			// 
-			this.CheckBox_PlayAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.CheckBox_PlayAudio.AutoSize = true;
 			this.CheckBox_PlayAudio.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(9, 462);
+			this.CheckBox_PlayAudio.Location = new System.Drawing.Point(9, 468);
 			this.CheckBox_PlayAudio.Name = "CheckBox_PlayAudio";
 			this.CheckBox_PlayAudio.Size = new System.Drawing.Size(106, 28);
 			this.CheckBox_PlayAudio.TabIndex = 9;
@@ -809,12 +809,25 @@
 			this.Label_HeaderFinal.Text = "最終";
 			this.Label_HeaderFinal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// TextBox_Chart
+			// 
+			this.TextBox_Chart.Location = new System.Drawing.Point(6, 502);
+			this.TextBox_Chart.MaxLength = 100000;
+			this.TextBox_Chart.Multiline = true;
+			this.TextBox_Chart.Name = "TextBox_Chart";
+			this.TextBox_Chart.ReadOnly = true;
+			this.TextBox_Chart.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.TextBox_Chart.Size = new System.Drawing.Size(924, 185);
+			this.TextBox_Chart.TabIndex = 68;
+			this.TextBox_Chart.WordWrap = false;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.PaleGoldenrod;
-			this.ClientSize = new System.Drawing.Size(942, 474);
+			this.ClientSize = new System.Drawing.Size(942, 475);
+			this.Controls.Add(this.TextBox_Chart);
 			this.Controls.Add(this.Label_RB1_4);
 			this.Controls.Add(this.Label_LB1_4);
 			this.Controls.Add(this.Label_FinalDiff1);
@@ -958,6 +971,7 @@
 		private System.Windows.Forms.Label Label_LB2_4;
 		private System.Windows.Forms.Label Label_FinalDiff2;
 		private System.Windows.Forms.Label Label_HeaderFinal;
+		private System.Windows.Forms.TextBox TextBox_Chart;
 	}
 }
 
