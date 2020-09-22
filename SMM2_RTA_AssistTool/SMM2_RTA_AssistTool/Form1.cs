@@ -35,6 +35,8 @@ namespace SMM2_RTA_AssistTool
 
 		public const int WM_GRAPHNOTIFY = 0x00008001;//DirectShowイベントの発生を表すWindows メッセージ.
 
+		public Color FONT_COLOR = Color.White;
+
 
 		public Form1()
 		{
@@ -363,37 +365,43 @@ namespace SMM2_RTA_AssistTool
 							labels["Label_NeededIdx" + (i + 1)].Text = "[" + neededIdx.ToString() + "]";
 							labels["Label_FinalDiff" + (i + 1)].Text = finalCoinSign + finalDiff.ToString();
 
+							//Color greenColor = Color.FromArgb(0, 175, 52);
+							//Color redColor = Color.FromArgb(193, 41, 10);
+
+							Color greenColor = Color.FromArgb(0, 210, 62);
+							Color redColor = Color.FromArgb(231, 49, 12);
+
 							if (curCoinDiff >= 0)
 							{
-								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Green;
+								labels["Label_CurDiff" + (i + 1)].ForeColor = greenColor;
 							}
 							else
 							{
-								labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Red;
+								labels["Label_CurDiff" + (i + 1)].ForeColor = redColor;
 							}
 							if (cumulativeCoinDiff >= 0)
 							{
-								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Green;
+								labels["Label_TotalDiff" + (i + 1)].ForeColor = greenColor;
 							}
 							else
 							{
-								labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Red;
+								labels["Label_TotalDiff" + (i + 1)].ForeColor = redColor;
 							}
 							if (neededDiff >= 0)
 							{
-								labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Green;
+								labels["Label_NeededDiff" + (i + 1)].ForeColor = greenColor;
 							}
 							else
 							{
-								labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Red;
+								labels["Label_NeededDiff" + (i + 1)].ForeColor = redColor;
 							}
 							if (finalDiff >= 0)
 							{
-								labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Green;
+								labels["Label_FinalDiff" + (i + 1)].ForeColor = greenColor;
 							}
 							else
 							{
-								labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Red;
+								labels["Label_FinalDiff" + (i + 1)].ForeColor = redColor;
 							}
 						}
 						else
@@ -406,10 +414,10 @@ namespace SMM2_RTA_AssistTool
 							labels["Label_NeededIdx" + (i + 1)].Text = "-";
 							labels["Label_FinalDiff" + (i + 1)].Text = "-";
 
-							labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
-							labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
-							labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Black;
-							labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Black;
+							labels["Label_CurDiff" + (i + 1)].ForeColor = FONT_COLOR;
+							labels["Label_TotalDiff" + (i + 1)].ForeColor = FONT_COLOR;
+							labels["Label_NeededDiff" + (i + 1)].ForeColor = FONT_COLOR;
+							labels["Label_FinalDiff" + (i + 1)].ForeColor = FONT_COLOR;
 						}
 					}
 				}
@@ -427,10 +435,10 @@ namespace SMM2_RTA_AssistTool
 					labels["Label_NeededIdx" + (i + 1)].Text = "-";
 					labels["Label_FinalDiff" + (i + 1)].Text = "-";
 
-					labels["Label_CurDiff" + (i + 1)].ForeColor = Color.Black;
-					labels["Label_TotalDiff" + (i + 1)].ForeColor = Color.Black;
-					labels["Label_NeededDiff" + (i + 1)].ForeColor = Color.Black;
-					labels["Label_FinalDiff" + (i + 1)].ForeColor = Color.Black;
+					labels["Label_CurDiff" + (i + 1)].ForeColor = FONT_COLOR;
+					labels["Label_TotalDiff" + (i + 1)].ForeColor = FONT_COLOR;
+					labels["Label_NeededDiff" + (i + 1)].ForeColor = FONT_COLOR;
+					labels["Label_FinalDiff" + (i + 1)].ForeColor = FONT_COLOR;
 				}
 			}
 
