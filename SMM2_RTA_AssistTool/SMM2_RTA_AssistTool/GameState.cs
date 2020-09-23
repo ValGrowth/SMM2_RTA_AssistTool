@@ -17,7 +17,7 @@ namespace SMM2_RTA_AssistTool
 
 		private int mAllSerialIdx;
 		private string mLevelNo;
-		private int mSerialIdx;
+		private Dictionary<string, int> mSerialIdx = new Dictionary<string, int>();
 		private int mCurReward;
 		private int mCurCoinNum;
 		private int mCumulativeCoinNum;
@@ -27,7 +27,7 @@ namespace SMM2_RTA_AssistTool
 		public int GetCurReward() { return mCurReward; }
 		public int GetCurCoinNum() { return mCurCoinNum; }
 		public int GetCumulativeCoinNum() { return mCumulativeCoinNum; }
-		public int GetSerialIdx() { return mSerialIdx; }
+		public Dictionary<string, int> GetSerialIdx() { return mSerialIdx; }
 		public STATE GetState() { return mState; }
 
 		public GameState()
@@ -39,7 +39,7 @@ namespace SMM2_RTA_AssistTool
 		{
 			mAllSerialIdx = 0;
 			mLevelNo = "";
-			mSerialIdx = 0;
+			mSerialIdx.Clear();
 			mCurReward = 0;
 			mCurCoinNum = 0;
 			mCumulativeCoinNum = 0;
@@ -55,9 +55,23 @@ namespace SMM2_RTA_AssistTool
 				mAllSerialIdx = -1;
 			}
 			mLevelNo = list[1];
-			if (!int.TryParse(list[2], out mSerialIdx))
+			mSerialIdx.Clear();
+			if (!string.IsNullOrEmpty(list[2]))
 			{
-				mSerialIdx = -1;
+				string[] strList = list[2].Split(':');
+				foreach (string str in strList)
+				{
+					string[] strList2 = str.Split('_');
+					int serialIdx;
+					if (!int.TryParse(strList2[1], out serialIdx))
+					{
+						serialIdx = -1;
+					}
+					if (serialIdx != -1)
+					{
+						mSerialIdx.Add(strList2[0], serialIdx);
+					}
+				}
 			}
 			if (!int.TryParse(list[5], out mCurReward))
 			{
@@ -82,19 +96,24 @@ namespace SMM2_RTA_AssistTool
 
 		private string GetLevelCode()
 		{
-			return LevelData.GetLevelCode(mLevelNo, mSerialIdx);
+			return LevelData.GetLevelCode(mLevelNo, mSerialIdx.ContainsKey(mLevelNo) ? mSerialIdx[mLevelNo] : 1);
 		}
 
-		public void UpdateLevel(string levelNo, int lastAllSerialIdx, string lastLevelNo, int lastSerialIdx, int cumulativeCoinNum)
+		public void UpdateLevel(string levelNo, int lastAllSerialIdx, Dictionary<string, int> lastSerialIdx, int cumulativeCoinNum)
 		{
 			mAllSerialIdx = lastAllSerialIdx + 1;
 			mLevelNo = levelNo;
-			if (levelNo == lastLevelNo)
+			mSerialIdx.Clear();
+			foreach (KeyValuePair<string, int> pr in lastSerialIdx)
 			{
-				mSerialIdx = lastSerialIdx + 1;
+				mSerialIdx[pr.Key] = pr.Value;
+			}
+			if (mSerialIdx.ContainsKey(mLevelNo))
+			{
+				mSerialIdx[mLevelNo] += 1;
 			} else
 			{
-				mSerialIdx = 1;
+				mSerialIdx[mLevelNo] = 1;
 			}
 			mCurReward = -1; // コースプレイ中は-1
 			mCurCoinNum = -1; // コースプレイ中は-1

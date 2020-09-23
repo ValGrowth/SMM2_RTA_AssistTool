@@ -49,6 +49,23 @@ namespace SMM2_RTA_AssistTool
 			PropertyCache.Instance.Initialize();
 			Preferences.Instance.Initialize();
 			LevelManager.Instance.Initialize();
+			UpdateChartText();
+			bool ret = directShowInitialize();
+			if (!ret)
+			{
+				CloseInterfaces();
+			}
+
+			ResetRun();
+
+			while (true)
+			{
+				await update();
+			}
+		}
+
+		private void UpdateChartText()
+		{
 			TextBox_Chart.Text = "";
 			foreach (List<string> line in LevelManager.Instance.mOriginalCsvData)
 			{
@@ -63,19 +80,6 @@ namespace SMM2_RTA_AssistTool
 					++count;
 				}
 				TextBox_Chart.Text += "\r\n";
-			}
-
-			bool ret = directShowInitialize();
-			if (!ret)
-			{
-				CloseInterfaces();
-			}
-
-			ResetRun();
-
-			while (true)
-			{
-				await update();
 			}
 		}
 
@@ -260,19 +264,17 @@ namespace SMM2_RTA_AssistTool
 						{
 							mGameStateHistory.Add(new GameState());
 							int lastAllSerialIdx = 0;
-							string lastLevelNo = "";
-							int lastSerialIdx = -1;
+							Dictionary<string, int> lastSerialIdx = new Dictionary<string, int>();
 							int lastCumulativeCoinNum = 0;
 							if (mGameStateHistory.Count >= 2)
 							{
 								GameState prev = mGameStateHistory[mGameStateHistory.Count - 2];
 								lastAllSerialIdx = prev.GetAllSerialIdx();
-								lastLevelNo = prev.GetLevelData().mLevelNo;
 								lastSerialIdx = prev.GetSerialIdx();
 								lastCumulativeCoinNum = prev.GetCumulativeCoinNum();
 							}
 							mGameStateHistory[mGameStateHistory.Count - 1].UpdateLevel(
-								videoGameState.mLevelNo, lastAllSerialIdx, lastLevelNo, lastSerialIdx, lastCumulativeCoinNum);
+								videoGameState.mLevelNo, lastAllSerialIdx, lastSerialIdx, lastCumulativeCoinNum);
 							UpdateDisplay();
 						}
 					}
@@ -553,7 +555,19 @@ namespace SMM2_RTA_AssistTool
 					string str = "";
 					str += "\"" + g.GetAllSerialIdx() + "\"";
 					str += ",\"" + g.GetLevelData().mLevelNo + "\"";
-					str += ",\"" + g.GetSerialIdx() + "\"";
+					
+					str += ",\"";
+					int c = 0;
+					foreach (KeyValuePair<string, int> serialIdxPr in g.GetSerialIdx()) {
+						if (c > 0)
+						{
+							str += ":";
+						}
+						str += serialIdxPr.Key + "_" + serialIdxPr.Value;
+						++c;
+					}
+					str += "\"";
+
 					str += ",\"" + g.GetLevelData().mJpTitle + "\"";
 					str += ",\"" + g.GetLevelData().mEnTitle + "\"";
 					str += ",\"" + g.GetCurReward() + "\"";
