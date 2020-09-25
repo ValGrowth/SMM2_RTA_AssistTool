@@ -1,4 +1,4 @@
-LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand,TitlePictPath,Remark
+LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand(Next),TitlePictPath,Remark(Next)
 1,1,â“¹‚±‚¦‚ÄƒS[ƒ‹‚ğ–Úw‚¹I,A Downhill Battle,100,51,151,100,“y‘ä,‰º‚Q,1.png,
 3,1,"Hello, 3DWorld!","Hello, 3D World!",100,83,334,,,‰º‚P,3.png,
 4,1,‚³‚Î‚­‚Ì‘¾—z ‚ ‚Á‚¿‚±‚Á‚¿,Under the Angry Sun,150,101,585,400,¼‚PF,‰º‚P,4.png,
@@ -17,7 +17,7 @@ Dog,1,‚Â‚é‚Â‚é‚É‚°Ø‚ê ƒuƒ‰ƒ“ƒRƒNƒŒ[ƒ“,Swinging Claw Escape,200,97,2026,400,“Œ‚
 20,1,‚½‚ñ‚¯‚ñI ƒtƒ@ƒCƒAƒNƒbƒpƒNƒ‰ƒEƒ“,Fire Koopa Clown Carnage,150,60,3721,,,—ÎƒLƒm,20.png,
 Green,1,ƒWƒ…ƒQƒ€‚Ì‰_‚Å ‹C•ª‚Íƒwƒ”ƒ“,Head in the Clouds,0,27,3748,,,ÔƒLƒm,Green.png,
 Red,1,d‚½‚¢ÎŞ ‚æ‚Á‚±‚ç‚µ‚å,Heavy Stone Heave-Ho,0,22,3770,,,ÂƒLƒm,Red.png,
-Blue,1,‚Ü‚¢‚²‚ÌƒLƒIƒsƒI‚ğ‚³‚ª‚µ‚Ä,Little Toad Lost,0,41,3811,1100,“Œ‚QFi‰E’[j,‰º‚Q,Blue.png,
+Blue,1,‚Ü‚¢‚²‚ÌƒLƒmƒsƒI‚ğ‚³‚ª‚µ‚Ä,Little Toad Lost,0,41,3811,1100,“Œ‚QFi‰E’[j,‰º‚Q,Blue.png,
 21,1,ƒXƒl[ƒNƒuƒƒbƒN‚Å‹ó‚Ì—·,Snake Blocks in the Sky,150,24,3985,,,‰º‚Q,21.png,10ƒRƒCƒ“‚Æ‚ç‚È‚¢
 35,1,–Ø‚Ì‚Ú‚èƒ}ƒXƒ^[‚Ö‚Ì“¹,Master of the Trees,100,36,4121,,,R‚P‰º‚P,35.png,
 38,1,‚¢‚»‚¢‚Åi‚ßI ƒAƒŠ‚Ö‚¢ƒ‰ƒ“ƒh,Ant Trooper March,150,82,4353,,,‰º‚P,38.png,ƒAƒCƒeƒ€ã‚RƒRƒCƒ“–³‹
@@ -37,11 +37,11 @@ Blue,1,‚Ü‚¢‚²‚ÌƒLƒIƒsƒI‚ğ‚³‚ª‚µ‚Ä,Little Toad Lost,0,41,3811,1100,“Œ‚QFi‰E’[j,
 56,13,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,7548,,,‚È‚µ,56.png,ƒ‹ƒC[ƒWg—p
 56,14,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,7765,,,‚È‚µ,56.png,ƒ‹ƒC[ƒWg—p
 56,15,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,7982,,,‚È‚µ,56.png,ƒ‹ƒC[ƒWg—p
-56,16,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,8199,1100,¼‚QF,‰º‚Q,56.png,
-33,1,ƒ_ƒbƒVƒ…‚ÅON/OFFƒXƒCƒbƒ`,"Dash on, Dash off",300,25,9248,,,R‚P‰º‚R,33.png,ƒ‹ƒC[ƒWg—p
+56,16,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,8199,1100,¼‚QF,R‚P‰º‚R,56.png,ƒ‹ƒC[ƒWg—p
 56,17,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,8416,,,‚È‚µ,56.png,ƒ‹ƒC[ƒWg—p
-56,18,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,8633,1300,–{‚RF,H(L2‰º‚THj,56.png,
-30,1,‘«Œ³’ˆÓI ‚Ä‚ñ‚ß‚ÂƒuƒƒbƒN,Blink Blank Blunk,150,140,8923,1400,¼ƒLƒƒ‰üs“ŒƒLƒƒi‰E’[j,H(R2Hj,30.png,
+56,18,ç‚Á‚ÄI ƒƒbƒgEƒUEƒ‰ƒCƒh,Buzzy: The Movie: The Book: The Ride,0,217,8633,,,L‚P‰º‚Q,56.png,
+33,1,ƒ_ƒbƒVƒ…‚ÅON/OFFƒXƒCƒbƒ`,"Dash on, Dash off",300,25,8958,1300,–{‚RF,‰º‚T,33.png,
+30,1,‘«Œ³’ˆÓI ‚Ä‚ñ‚ß‚ÂƒuƒƒbƒN,Blink Blank Blunk,150,140,9248,1400,¼ƒLƒƒ‰üs“ŒƒLƒƒi‰E’[j,R‚R,30.png,
 43,1,ƒ‰ƒ“ƒ^ƒ“‚Æ‹¤‚É,With a Lantern,200,76,9524,500,¼ƒhƒA,‰º‚P,43.png,
 44,1,‚İ‚ñ‚È‚Åƒ{ƒˆƒˆƒ“ ‰_‚Ì’†,Bouncing Through the Clouds,200,56,9780,,,‰º‚P,44.png,
 45,1,‚É‚°Ø‚êI ‚¹‚è‚ ‚ª‚é—nŠâ,Lava Rising,200,159,10139,,,‰º‚R,45.png,
@@ -55,8 +55,8 @@ Rescue,1,ƒLƒmƒsƒI‚Æƒ‰ƒ“ƒfƒu[,Toad Rescue,0,74,10374,,,R‚P,Rescue.png,
 67,1,ƒuƒ“ƒuƒ“‚Ì –é‚È–é‚Èƒp[ƒeƒB[,Boom Boom Rager,200,121,12035,,,‰º‚P,67.png,
 68,1,’Ç‚Á‚Ä’Ç‚í‚ê‚Ä ƒ}ƒOƒiƒ€ƒLƒ‰[,Banzai Bill Chase Scene,200,123,12358,2000,¼‰®ª‰üs“Œ‰®ª,‰º‚P,68.png,10ƒRƒCƒ“‚Ì¶‚Æ‚ç‚È‚¢AÅŒã‚Ì‚Ù‚¤‚Æ‚ç‚È‚¢
 69,1,ƒJƒxƒLƒbƒNƒ}ƒXƒ^[‚Ö‚Ì“¹,The Road to Wall Jump Mastery,200,72,12630,,,‰º‚P,69.png,
-70,1,ƒcƒ‰ƒ‰‚Ì‰J‚ğ ‚©‚¯‚Ê‚¯‚Ä,Freezing Rain,200,80,12910,,,‰º‚P,70.png,
-74,1,ƒQƒbƒ\[‰Ô‰Î10˜A”­,Blooper Barrage,200,24,13134,,,R‚P‰º‚P,74.png,
+70,1,ƒcƒ‰ƒ‰‚Ì‰J‚ğ ‚©‚¯‚Ê‚¯‚Ä,Freezing Rain,200,80,12910,,,R‚P‰º‚P,70.png,
+74,1,ƒQƒbƒ\[‰Ô‰Î10˜A”­,Blooper Barrage,200,24,13134,,,‰º‚Q,74.png,
 76,1,‘Å‚¿ã‚°ƒ{ƒ€‚Ö‚¢‚ÅƒRƒCƒ“W‚ß,"Launching Bob-ombs, Collecting Co-coins",100,88,13322,,,‚È‚µ,76.png,
 Eclipse,1,ƒLƒmƒsƒI‘SˆõA˜A‚ê‚à‚Ç‚¹,Operation: Toadal Eclipse,0,140,13462,,,‰º‚S,Eclipse.png,ƒ‹ƒC[ƒWˆË—Š
 77,1,‰^–½‚ÍÎŞ‚Æ‹¤‚É,Stone of Destiny,300,0,13762,,,R‚P‰º‚P,77.png,
