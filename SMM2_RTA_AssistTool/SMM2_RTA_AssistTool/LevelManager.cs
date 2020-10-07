@@ -18,14 +18,19 @@ namespace SMM2_RTA_AssistTool {
 		}
 
 		public List<List<string>> mOriginalCsvData = new List<List<string>>();
-		private IDictionary<string, LevelData> mLevelDataList = new Dictionary<string, LevelData>();
+		private IDictionary<string, LevelData> mLevelDataList = new Dictionary<string, LevelData>(); // チャートのコースリスト
+		private IDictionary<string, LevelData> mLevelDataMinimumList = new Dictionary<string, LevelData>(); // LevelNo, コース名のみのリスト
+		public int mFinalNeededCoin = 0;
 
 		public void Initialize()
 		{
+			InitLevelDataMinimum();
+
 			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData.csv", true, true);
 			mOriginalCsvData = csvData;
 			
 			mLevelDataList.Clear();
+			mFinalNeededCoin = 0;
 
 			int coin = 0;
 			int idx = 1;
@@ -36,6 +41,7 @@ namespace SMM2_RTA_AssistTool {
 				mLevelDataList.Add(levelData.mLevelCode, levelData);
 				coin += levelData.mReward + levelData.mInLevelCoin - levelData.mNeededCoin;
 				levelData.mAllowedLoss = new Tuple<int, int>(9999, 9999);
+				mFinalNeededCoin = Math.Max(mFinalNeededCoin, levelData.mCumulativeCoin);
 				if (coin <= 30)
 				{
 					foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
@@ -63,6 +69,20 @@ namespace SMM2_RTA_AssistTool {
 
 		}
 
+		private void InitLevelDataMinimum()
+		{
+			List<List<string>> csvData = CsvReader.ReadCsv("./LevelData/LevelData_Minimum.csv", true, true);
+
+			mLevelDataMinimumList.Clear();
+
+			foreach (List<string> line in csvData)
+			{
+				LevelData levelData = new LevelData();
+				levelData.LoadAsMinimum(line);
+				mLevelDataMinimumList.Add(levelData.mLevelNo, levelData);
+			}
+		}
+
 		public LevelData GetLevelData(string levelCode)
 		{
 			if (!mLevelDataList.ContainsKey(levelCode))
@@ -70,6 +90,15 @@ namespace SMM2_RTA_AssistTool {
 				return null;
             }
 			return mLevelDataList[levelCode];
+		}
+
+		public LevelData GetLevelDataMinimum(string levelNo)
+		{
+			if (!mLevelDataMinimumList.ContainsKey(levelNo))
+			{
+				return null;
+			}
+			return mLevelDataMinimumList[levelNo];
 		}
 
 		public ICollection<LevelData> GetAllLevels()

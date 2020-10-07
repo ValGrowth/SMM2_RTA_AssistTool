@@ -29,8 +29,6 @@ namespace SMM2_RTA_AssistTool
         public string mRemark; // 備考
         public LevelData mNextLevel;
 
-        public static string[] CSV_HEADER = new string[] { "Idx", "No.", "SerialIdx", "JpTitle", "EnTitle", "Reward", "Target", "Cur", "CurDiff", "Total", "TotalDiff" };
-
         public LevelData()
         {
             mLevelNo = "";
@@ -50,6 +48,30 @@ namespace SMM2_RTA_AssistTool
             mAllowedLoss = new Tuple<int, int>(0, 0);
             mFinalAllowedLoss = new Tuple<int, int>(0, 0);
             mAdditionalCoin = 0;
+            mRemark = "";
+            mNextLevel = null;
+        }
+
+        public void LoadAsMinimum(List<string> list)
+		{
+            mLevelNo = list[0];
+            mJpTitle = list[1];
+            mEnTitle = list[2];
+
+            mSerialIdx = -1;
+            mLevelCode = "";
+            mReward = -1;
+            mInLevelCoin = -1;
+            mTotalCoin = -1;
+            mCumulativeCoin = -1;
+            mNeededCoin = -1;
+            mImage = null;
+            mTitleImage = null;
+            mCastleList = "";
+            mLevelSelectCommand = "";
+            mAllowedLoss = new Tuple<int, int>(-1, -1);
+            mFinalAllowedLoss = new Tuple<int, int>(-1, -1);
+            mAdditionalCoin = -1;
             mRemark = "";
             mNextLevel = null;
         }

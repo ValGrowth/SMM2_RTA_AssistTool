@@ -71,6 +71,7 @@ namespace SMM2_RTA_AssistTool
 		// コースNo.を取得する。
 		public string DetectLevelNo(FastBitmap gameImage)
 		{
+			// 黄色い範囲をチェック
 			int chxmin = 150;
 			int chxmax = 500;
 			int chymin = 100;
@@ -87,6 +88,7 @@ namespace SMM2_RTA_AssistTool
 				}
 			}
 
+			// 数秒待つ
 			long nowTime = Timer.GetUnixTime(DateTime.Now);
 			if (nowTime - mLastLevelNoCheckTime > 5000)
 			{
@@ -109,6 +111,7 @@ namespace SMM2_RTA_AssistTool
 				return "";
 			}
 
+			// 黒い範囲をチェック
 			int ch2xmin = 100;
 			int ch2xmax = 600;
 			int ch2ymin = 400;
@@ -125,7 +128,7 @@ namespace SMM2_RTA_AssistTool
 				}
 			}
 
-			// タイトル文字の場所だけ比較すればよい
+			// タイトル文字の場所だけ比較する
 			int xmin = 800;
 			int xmax = 1100;
 			int ymin = 150;
@@ -163,6 +166,7 @@ namespace SMM2_RTA_AssistTool
 				}
 				++levelIdx;
 			}
+
 			string ret = "";
 			int minCount = 99999999;
 			levelIdx = 0;
@@ -181,10 +185,13 @@ namespace SMM2_RTA_AssistTool
 		// 獲得コイン枚数を取得する
 		public Tuple<int, int> DetectCoinNum(FastBitmap gameImage)
 		{
+			// 解像度チェック
 			if (gameImage.Height != 1080 || gameImage.Width != 1920)
 			{
 				return new Tuple<int, int>(-1, -1);
 			}
+
+			// 黄色い範囲をチェック
 			int chxmin = 500;
 			int chxmax = 550;
 			int chymin = 500;
@@ -201,6 +208,7 @@ namespace SMM2_RTA_AssistTool
 				}
 			}
 
+			// 数秒待つ
 			long nowTime = Timer.GetUnixTime(DateTime.Now);
 			if (nowTime - mLastCoinCheckTime > 5000)
 			{

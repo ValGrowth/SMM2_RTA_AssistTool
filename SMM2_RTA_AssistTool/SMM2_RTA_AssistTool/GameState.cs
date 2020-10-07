@@ -11,8 +11,25 @@ namespace SMM2_RTA_AssistTool
 	{
 
 		public enum STATE { 
-			CASTLE,
-			LEVEL_PLAYING,
+			PLAYING,
+			PLAYED,
+
+			NONE,
+		};
+
+		public static string[] CSV_HEADER = new string[] {
+			"Idx",
+			"No.",
+			"SerialIdx",
+			"JpTitle",
+			"EnTitle",
+			"Reward",
+			"Target",
+			"Cur",
+			"CurDiff",
+			"Total",
+			"TotalDiff",
+			"PlayState",
 		};
 
 		private int mAllSerialIdx;
@@ -43,7 +60,7 @@ namespace SMM2_RTA_AssistTool
 			mCurReward = 0;
 			mCurCoinNum = 0;
 			mCumulativeCoinNum = 0;
-			mState = STATE.CASTLE;
+			mState = STATE.NONE;
 		}
 
 		public void SetFromCSVLine(List<string> list)
@@ -85,20 +102,20 @@ namespace SMM2_RTA_AssistTool
 			{
 				mCumulativeCoinNum = -1;
 			}
-			if (mCurReward == -1)
+			int playState;
+			if (!int.TryParse(list[11], out playState))
 			{
-				mState = STATE.LEVEL_PLAYING;
-			} else
-			{
-				mState = STATE.CASTLE;
+				playState = (int)STATE.NONE;
 			}
+			mState = (STATE)playState;
 		}
 
 		public string MakeCSVLine()
 		{
+			LevelData levelData = GetLevelData();
 			string str = "";
 			str += "\"" + mAllSerialIdx + "\"";
-			str += ",\"" + GetLevelData().mLevelNo + "\"";
+			str += ",\"" + (levelData == null ? "" : levelData.mLevelNo) + "\"";
 
 			str += ",\"";
 			int c = 0;
@@ -113,14 +130,15 @@ namespace SMM2_RTA_AssistTool
 			}
 			str += "\"";
 
-			str += ",\"" + GetLevelData().mJpTitle + "\"";
-			str += ",\"" + GetLevelData().mEnTitle + "\"";
+			str += ",\"" + (levelData == null ? "" : levelData.mJpTitle) + "\"";
+			str += ",\"" + (levelData == null ? "" : levelData.mEnTitle) + "\"";
 			str += ",\"" + mCurReward + "\"";
-			str += ",\"" + GetLevelData().mInLevelCoin + "\"";
+			str += ",\"" + (levelData == null ? -1 : levelData.mInLevelCoin) + "\"";
 			str += ",\"" + mCurCoinNum + "\"";
 			str += ",\"" + GetCurCoinDiff() + "\"";
 			str += ",\"" + mCumulativeCoinNum + "\"";
 			str += ",\"" + GetCumulativeCoinDiff() + "\"";
+			str += ",\"" + (int)mState + "\"";
 			return str;
 		}
 
@@ -141,14 +159,15 @@ namespace SMM2_RTA_AssistTool
 			if (mSerialIdx.ContainsKey(mLevelNo))
 			{
 				mSerialIdx[mLevelNo] += 1;
-			} else
+			}
+			else
 			{
 				mSerialIdx[mLevelNo] = 1;
 			}
 			mCurReward = -1; // コースプレイ中は-1
 			mCurCoinNum = -1; // コースプレイ中は-1
 			mCumulativeCoinNum = cumulativeCoinNum;
-			mState = STATE.LEVEL_PLAYING;
+			mState = STATE.PLAYING;
 		}
 
 		public void UpdateCoin(int reward, int inLevelCoin)
@@ -156,7 +175,7 @@ namespace SMM2_RTA_AssistTool
 			mCurReward = reward;
 			mCurCoinNum = inLevelCoin;
 			mCumulativeCoinNum += reward + inLevelCoin + GetAdditionalCoin();
-			mState = STATE.CASTLE;
+			mState = STATE.PLAYED;
 		}
 
 		public int GetCurCoinDiff()
@@ -201,6 +220,22 @@ namespace SMM2_RTA_AssistTool
 				return null;
 			}
 			LevelData levelData = LevelManager.Instance.GetLevelData(curLevelCode);
+			return levelData;
+		}
+
+		// LevelNoとタイトルのみ取得する。SerialIdxは現実のRunの状態が入る。
+		public LevelData GetLevelDataMinimum()
+		{
+			if (mLevelNo == "")
+			{
+				return null;
+			}
+			LevelData levelData = LevelManager.Instance.GetLevelDataMinimum(mLevelNo);
+
+			// 正しいSerialIdxのLevelCodeをセットする
+			levelData.mLevelNo = mLevelNo;
+			levelData.mSerialIdx = mSerialIdx.ContainsKey(mLevelNo) ? mSerialIdx[mLevelNo] : 1;
+			levelData.mLevelCode = GetLevelCode();
 			return levelData;
 		}
 

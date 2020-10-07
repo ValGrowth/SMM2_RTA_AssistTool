@@ -251,14 +251,14 @@ namespace SMM2_RTA_AssistTool
 			{
 
 				if (!CheckBox_Pause.Checked // ポーズ中でない
-					&& !(mGameStateHistory.Count >= LevelManager.Instance.GetAllLevels().Count && mGameStateHistory[mGameStateHistory.Count - 1].GetCurCoinNum() >= 0)) // 全コースプレイ完了でない
+					&& mGameStateHistory[mGameStateHistory.Count - 1].GetCumulativeCoinNum() < LevelManager.Instance.mFinalNeededCoin) // コインが足りない
 				{
 					VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 
 					GameState curState = mGameStateHistory.Count == 0 ? null : mGameStateHistory[mGameStateHistory.Count - 1];
 
 					// コースのプレイ開始を検出した
-					if (curState == null || curState.GetState() == GameState.STATE.CASTLE)
+					if (curState == null || curState.GetState() == GameState.STATE.PLAYED)
 					{
 						if (videoGameState.mLevelNo != "")
 						{
@@ -278,7 +278,7 @@ namespace SMM2_RTA_AssistTool
 							UpdateDisplay();
 						}
 					}
-					else if (curState != null && curState.GetState() == GameState.STATE.LEVEL_PLAYING)
+					else if (curState != null && curState.GetState() == GameState.STATE.PLAYING)
 					{
 						// 所持コイン枚数が変化した
 						if (videoGameState.mReward >= 0 || videoGameState.mInLevelCoinNum >= 0)
@@ -327,27 +327,64 @@ namespace SMM2_RTA_AssistTool
 			const int DISP_NUM = 2;
 			for (int i = 0; i < DISP_NUM; ++i)
 			{
+				// 初期化
+				labels["Label_Idx" + (i + 1)].Text = "-";
+				labels["Label_LevelCode" + (i + 1)].Text = "-";
+				labels["Label_LevelTitle" + (i + 1)].Text = "-";
+				labels["Label_ChartCoin" + (i + 1)].Text = "-";
+				labels["Label_CurCoin" + (i + 1)].Text = "-";
+				labels["Label_CurDiff" + (i + 1)].Text = "-";
+				labels["Label_TotalCoin" + (i + 1)].Text = "-";
+				labels["Label_TotalDiff" + (i + 1)].Text = "-";
+				labels["Label_NeededDiff" + (i + 1)].Text = "-";
+				labels["Label_NeededIdx" + (i + 1)].Text = "-";
+				labels["Label_FinalDiff" + (i + 1)].Text = "-";
+
+				labels["Label_CurDiff" + (i + 1)].ForeColor = FONT_COLOR;
+				labels["Label_TotalDiff" + (i + 1)].ForeColor = FONT_COLOR;
+				labels["Label_NeededDiff" + (i + 1)].ForeColor = FONT_COLOR;
+				labels["Label_FinalDiff" + (i + 1)].ForeColor = FONT_COLOR;
+
+				// コースデータ取得
+				bool chartFound = false; // チャートにあった
+				GameState state = null;
+				LevelData levelData = null;
 				int index = mGameStateHistory.Count - DISP_NUM + i;
-				bool found = false;
 				if (index >= 0)
 				{
-					GameState state = mGameStateHistory[index];
-					LevelData levelData = state.GetLevelData();
+					state = mGameStateHistory[index];
+					levelData = state.GetLevelData();
 					if (levelData != null)
 					{
-						found = true;
+						chartFound = true;
+					}
+					else
+					{
+						// チャートに無かったのでコースタイトルのみを検索
+						levelData = state.GetLevelDataMinimum();
+					}
+				}
 
-						string levelCode = levelData.mLevelCode;
-						string levelName = levelData.mJpTitle; // コース名
+				// コースデータが見つかった場合、画面更新
+				if (levelData != null)
+				{
+					// コース番号、コース名を表示
+					string levelCode = levelData.mLevelCode;
+					string levelName = levelData.mJpTitle; // コース名
+					labels["Label_Idx" + (i + 1)].Text = state.GetAllSerialIdx().ToString();
+					labels["Label_LevelCode" + (i + 1)].Text = levelCode;
+					labels["Label_LevelTitle" + (i + 1)].Text = levelName;
+
+					if (chartFound)
+					{
+						// チャートの目標枚数も表示
 						int chartCoin = levelData.mInLevelCoin;
-						labels["Label_Idx" + (i + 1)].Text = state.GetAllSerialIdx().ToString();
-						labels["Label_LevelCode" + (i + 1)].Text = levelCode;
-						labels["Label_LevelTitle" + (i + 1)].Text = levelName;
 						labels["Label_ChartCoin" + (i + 1)].Text = chartCoin.ToString();
 
-						int curCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
-						if (curCoin >= 0)
+						if (state.GetState() == GameState.STATE.PLAYED)
 						{
+							// コインの差分も表示
+							int curCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
 							int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
 							int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
 							int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
@@ -406,41 +443,7 @@ namespace SMM2_RTA_AssistTool
 								labels["Label_FinalDiff" + (i + 1)].ForeColor = redColor;
 							}
 						}
-						else
-						{
-							labels["Label_CurCoin" + (i + 1)].Text = "-";
-							labels["Label_CurDiff" + (i + 1)].Text = "-";
-							labels["Label_TotalCoin" + (i + 1)].Text = "-";
-							labels["Label_TotalDiff" + (i + 1)].Text = "-";
-							labels["Label_NeededDiff" + (i + 1)].Text = "-";
-							labels["Label_NeededIdx" + (i + 1)].Text = "-";
-							labels["Label_FinalDiff" + (i + 1)].Text = "-";
-
-							labels["Label_CurDiff" + (i + 1)].ForeColor = FONT_COLOR;
-							labels["Label_TotalDiff" + (i + 1)].ForeColor = FONT_COLOR;
-							labels["Label_NeededDiff" + (i + 1)].ForeColor = FONT_COLOR;
-							labels["Label_FinalDiff" + (i + 1)].ForeColor = FONT_COLOR;
-						}
 					}
-				}
-				if (!found)
-				{
-					labels["Label_Idx" + (i + 1)].Text = "-";
-					labels["Label_LevelCode" + (i + 1)].Text = "-";
-					labels["Label_LevelTitle" + (i + 1)].Text = "-";
-					labels["Label_ChartCoin" + (i + 1)].Text = "-";
-					labels["Label_CurCoin" + (i + 1)].Text = "-";
-					labels["Label_CurDiff" + (i + 1)].Text = "-";
-					labels["Label_TotalCoin" + (i + 1)].Text = "-";
-					labels["Label_TotalDiff" + (i + 1)].Text = "-";
-					labels["Label_NeededDiff" + (i + 1)].Text = "-";
-					labels["Label_NeededIdx" + (i + 1)].Text = "-";
-					labels["Label_FinalDiff" + (i + 1)].Text = "-";
-
-					labels["Label_CurDiff" + (i + 1)].ForeColor = FONT_COLOR;
-					labels["Label_TotalDiff" + (i + 1)].ForeColor = FONT_COLOR;
-					labels["Label_NeededDiff" + (i + 1)].ForeColor = FONT_COLOR;
-					labels["Label_FinalDiff" + (i + 1)].ForeColor = FONT_COLOR;
 				}
 			}
 
@@ -532,7 +535,7 @@ namespace SMM2_RTA_AssistTool
 		private void Button_CSVOutput_Click(object sender, EventArgs e)
 		{
 			string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + "SMM2AnyCoins.csv";
-			string[] header = LevelData.CSV_HEADER;
+			string[] header = GameState.CSV_HEADER;
 			int COLUMN_NUM = header.Length;
 
 			// ファイルを開く
