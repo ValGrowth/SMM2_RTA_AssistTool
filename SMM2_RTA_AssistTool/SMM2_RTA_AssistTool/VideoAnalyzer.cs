@@ -12,11 +12,14 @@ namespace SMM2_RTA_AssistTool
 {
 	class VideoAnalyzer
 	{
-		private const int BIN_THRESH = 128;
-		private const int X_SPAN = 20;
-		private const int SCAN_INTERVAL = 2;
+		private const int ORIGINAL_WIDTH = 1920;
+		private const int ORIGINAL_HEIGHT = 1080;
+		private const int BIN_THRESH = 128; // ２値画像で１になるしきい値
+		private const int X_SPAN = 20; // 数字同士のX座標の間隔の画素数
+		private const int SCAN_INTERVAL = 2; // 数字画像の一致チェックでスキャンするときの１ステップでの移動距離
 		private const int SCAN_INTERVAL2 = SCAN_INTERVAL * SCAN_INTERVAL;
-		private const double NUM_RATE_THRESH = 0.9;
+		private const double NUM_RATE_THRESH = 0.9; // コインの数字検出で検出される一致度の下限
+		private const int ALLOWED_DIFF = 150; // 一致とみなされるための画素値の差の合計の上限(RGB画像を比較するとき)
 
 		private Bitmap[] mNumberImagesOriginal = new Bitmap[10];
 		private FastBitmap[] mNumberImages = new FastBitmap[10];
@@ -71,17 +74,21 @@ namespace SMM2_RTA_AssistTool
 		// コースNo.を取得する。
 		public string DetectLevelNo(FastBitmap gameImage)
 		{
+			// 解像度チェック
+			double xRate = (double)gameImage.Width / ORIGINAL_WIDTH;
+			double yRate = (double)gameImage.Height / ORIGINAL_HEIGHT;
+
 			// 黄色い範囲をチェック
-			int chxmin = 150;
-			int chxmax = 500;
-			int chymin = 100;
-			int chymax = 200;
-			for (int y = chymin; y < chymax; y += 5)
+			int chxmin = (int)(150 * xRate);
+			int chxmax = (int)(500 * xRate);
+			int chymin = (int)(100 * yRate);
+			int chymax = (int)(200 * yRate);
+			for (int y = chymin; y < chymax; y += (int)(5 * yRate))
 			{
-				for (int x = chxmin; x < chxmax; x += 5)
+				for (int x = chxmin; x < chxmax; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
-					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
 					{
 						return "";
 					}
@@ -112,16 +119,16 @@ namespace SMM2_RTA_AssistTool
 			}
 
 			// 黒い範囲をチェック
-			int ch2xmin = 100;
-			int ch2xmax = 600;
-			int ch2ymin = 400;
-			int ch2ymax = 700;
-			for (int y = ch2ymin; y < ch2ymax; y += 5)
+			int ch2xmin = (int)(100 * xRate);
+			int ch2xmax = (int)(600 * xRate);
+			int ch2ymin = (int)(400 * yRate);
+			int ch2ymax = (int)(700 * yRate);
+			for (int y = ch2ymin; y < ch2ymax; y += (int)(5 * yRate))
 			{
-				for (int x = ch2xmin; x < ch2xmax; x += 5)
+				for (int x = ch2xmin; x < ch2xmax; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
-					if (Math.Abs(color.R - 0) + Math.Abs(color.G - 0) + Math.Abs(color.B - 0) > 150)
+					if (Math.Abs(color.R - 0) + Math.Abs(color.G - 0) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
 					{
 						return "";
 					}
@@ -129,10 +136,10 @@ namespace SMM2_RTA_AssistTool
 			}
 
 			// タイトル文字の場所だけ比較する
-			int xmin = 800;
-			int xmax = 1100;
-			int ymin = 150;
-			int ymax = 200;
+			int xmin = (int)(800 * xRate);
+			int xmax = (int)(1100 * xRate);
+			int ymin = (int)(150 * yRate);
+			int ymax = (int)(200 * yRate);
 
 			List<int> diffs = new List<int>();
 			int levelIdx = 0;
@@ -146,9 +153,9 @@ namespace SMM2_RTA_AssistTool
 				} else
 				{
 					int count = 0;
-					for (int y = ymin; y < ymax; y += 2)
+					for (int y = ymin; y < ymax; y += (int)(2 * yRate))
 					{
-						for (int x = xmin; x < xmax; x += 2)
+						for (int x = xmin; x < xmax; x += (int)(2 * xRate))
 						{
 							int diff = 0;
 							Color ac = levelImage.GetPixel(x, y);
@@ -156,7 +163,7 @@ namespace SMM2_RTA_AssistTool
 							diff += Math.Abs(ac.R - bc.R);
 							diff += Math.Abs(ac.G - bc.G);
 							diff += Math.Abs(ac.B - bc.B);
-							if (diff >= 150)
+							if (diff >= ALLOWED_DIFF)
 							{
 								++count;
 							}
@@ -186,22 +193,20 @@ namespace SMM2_RTA_AssistTool
 		public Tuple<int, int> DetectCoinNum(FastBitmap gameImage)
 		{
 			// 解像度チェック
-			if (gameImage.Height != 1080 || gameImage.Width != 1920)
-			{
-				return new Tuple<int, int>(-1, -1);
-			}
+			double xRate = (double)gameImage.Width / ORIGINAL_WIDTH;
+			double yRate = (double)gameImage.Height / ORIGINAL_HEIGHT;
 
 			// 黄色い範囲をチェック
-			int chxmin = 500;
-			int chxmax = 550;
-			int chymin = 500;
-			int chymax = 600;
-			for (int y = chymin; y < chymax; y += 5)
+			int chxmin = (int)(500 * xRate);
+			int chxmax = (int)(550 * xRate);
+			int chymin = (int)(500 * yRate);
+			int chymax = (int)(600 * yRate);
+			for (int y = chymin; y < chymax; y += (int)(5 * yRate))
 			{
-				for (int x = chxmin; x < chxmax; x += 5)
+				for (int x = chxmin; x < chxmax; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
-					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
 					{
 						return new Tuple<int, int>(-1, -1);
 					}
@@ -235,16 +240,16 @@ namespace SMM2_RTA_AssistTool
 			// 先にRewardがあるかどうかを検出する
 
 			bool hasReward = true;
-			int chrxmin = 600;
-			int chrxmax = 1200;
-			int chrymin = 250;
-			int chrymax = 300;
-			for (int y = chrymin; y < chrymax; y += 5)
+			int chrxmin = (int)(600 * xRate);
+			int chrxmax = (int)(1200 * xRate);
+			int chrymin = (int)(250 * yRate);
+			int chrymax = (int)(300 * yRate);
+			for (int y = chrymin; y < chrymax; y += (int)(5 * yRate))
 			{
-				for (int x = chrxmin; x < chrxmax; x += 5)
+				for (int x = chrxmin; x < chrxmax; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
-					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > 150)
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
 					{
 						hasReward = false;
 						break;
@@ -267,10 +272,10 @@ namespace SMM2_RTA_AssistTool
 			{
 				// コイン枚数表示部付近だけ調べれば良い
 				// 報酬コイン
-				int rxmin = 900;
-				int rxmax = 1100;
-				int rymin = 600;
-				int rymax = 650;
+				int rxmin = (int)(900 * xRate);
+				int rxmax = (int)(1100 * xRate);
+				int rymin = (int)(600 * yRate);
+				int rymax = (int)(650 * yRate);
 
 				reward = IdentifyNumbers(gameImage, rxmin, rxmax, rymin, rymax);
 				if (reward >= 0)
@@ -282,10 +287,10 @@ namespace SMM2_RTA_AssistTool
 				}
 
 				// 報酬ありの場合のコース内コイン
-				int ixmin1 = 900;
-				int ixmax1 = 1100;
-				int iymin1 = 375;
-				int iymax1 = 425;
+				int ixmin1 = (int)(900 * xRate);
+				int ixmax1 = (int)(1100 * xRate);
+				int iymin1 = (int)(375 * yRate);
+				int iymax1 = (int)(425 * yRate);
 
 				coinInLevel = IdentifyNumbers(gameImage, ixmin1, ixmax1, iymin1, iymax1);
 				if (coinInLevel >= 0)
@@ -301,10 +306,10 @@ namespace SMM2_RTA_AssistTool
 			else
 			{
 				// 報酬なしの場合のコース内コイン
-				int ixmin2 = 900;
-				int ixmax2 = 1100;
-				int iymin2 = 525;
-				int iymax2 = 575;
+				int ixmin2 = (int)(900 * xRate);
+				int ixmax2 = (int)(1100 * xRate);
+				int iymin2 = (int)(525 * yRate);
+				int iymax2 = (int)(575 * yRate);
 
 				coinInLevel = IdentifyNumbers(gameImage, ixmin2, ixmax2, iymin2, iymax2);
 				if (coinInLevel >= 0)
@@ -332,12 +337,17 @@ namespace SMM2_RTA_AssistTool
 		// 数字列を識別する
 		private int IdentifyNumbers(FastBitmap gameImage, int xmin, int xmax, int ymin, int ymax)
 		{
+			double xRate = (double)gameImage.Width / ORIGINAL_WIDTH;
+			double yRate = (double)gameImage.Height / ORIGINAL_HEIGHT;
+			int xSpan = (int)(X_SPAN * xRate);
+			int scanInterval = (int)(SCAN_INTERVAL * (xRate + yRate) / 2.0);
+
 			List<Tuple<int, int, double>> tempFoundNumbers = new List<Tuple<int, int, double>>(); // x座標、数字、一致度
 			for (int ax = xmin; ax < xmax; ++ax)
 			{
 				for (int ay = ymin; ay < ymax; ++ay)
 				{
-					Tuple<int, double> numInfo = TestNumber(gameImage, ax, ay);
+					Tuple<int, double> numInfo = TestNumber(gameImage, ax, ay, scanInterval);
 					if (numInfo.Item1 != -1)
 					{
 						tempFoundNumbers.Add(new Tuple<int, int, double>(ax, numInfo.Item1, numInfo.Item2));
@@ -370,7 +380,7 @@ namespace SMM2_RTA_AssistTool
 					Console.WriteLine("Similarity of [" + num + "] is " + Math.Round(tempFoundNumbers[idx].Item3 * 100, 2) + "%");
 					++idx;
 
-					for (int dx = -X_SPAN; dx < X_SPAN; ++dx)
+					for (int dx = -xSpan; dx < xSpan; ++dx)
 					{
 						if (x + dx < xmin || x + dx >= xmax)
 						{
@@ -398,7 +408,7 @@ namespace SMM2_RTA_AssistTool
 
 		// 最も一致度の高い数字を検出する
 		// ２値画像で比較するバージョン
-		private Tuple<int, double> TestNumber(FastBitmap image, int ax, int ay)
+		private Tuple<int, double> TestNumber(FastBitmap image, int ax, int ay, int scanInterval)
 		{
 			int[] counts = new int[10];
 			List<int> numbers = new List<int>();
@@ -407,9 +417,9 @@ namespace SMM2_RTA_AssistTool
 				counts[i] = 0;
 				numbers.Add(i);
 			}
-			for (int dy = 0; dy < mNumMaxHeight; dy += SCAN_INTERVAL)
+			for (int dy = 0; dy < mNumMaxHeight; dy += scanInterval)
 			{
-				for (int dx = 0; dx < mNumMaxWidth; dx += SCAN_INTERVAL)
+				for (int dx = 0; dx < mNumMaxWidth; dx += scanInterval)
 				{
 					Color ac = image.GetPixel(ax + dx, ay + dy);
 					bool acFlg = CalcBinFlg(ac);
@@ -475,7 +485,7 @@ namespace SMM2_RTA_AssistTool
 		//				diff += Math.Abs(ac.R - bc.R);
 		//				diff += Math.Abs(ac.G - bc.G);
 		//				diff += Math.Abs(ac.B - bc.B);
-		//				if (diff >= 150)
+		//				if (diff >= ALLOWED_DIFF)
 		//				{
 		//					++counts[num];
 		//				}
