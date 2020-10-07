@@ -380,13 +380,20 @@ namespace SMM2_RTA_AssistTool
 						// チャートの目標枚数も表示
 						int chartCoin = levelData.mInLevelCoin;
 						labels["Label_ChartCoin" + (i + 1)].Text = chartCoin.ToString();
+					}
+					if (state.GetState() == GameState.STATE.PLAYED)
+					{
+						// コインの取得枚数を表示
+						int curCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
+						int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
 
-						if (state.GetState() == GameState.STATE.PLAYED)
+						labels["Label_CurCoin" + (i + 1)].Text = curCoin.ToString();
+						labels["Label_TotalCoin" + (i + 1)].Text = gotCumulativeCoin.ToString();
+
+						if (chartFound)
 						{
 							// コインの差分も表示
-							int curCoin = state.GetCurCoinNum(); // 実際に獲得したコイン
 							int curCoinDiff = state.GetCurCoinDiff(); // チャートとの差
-							int gotCumulativeCoin = state.GetCumulativeCoinNum(); // 実際に獲得したコイン（累計）
 							int cumulativeCoinDiff = state.GetCumulativeCoinDiff(); // チャートとの差（累計）
 							int neededDiff = cumulativeCoinDiff + state.GetLevelData().mAllowedLoss.Item2;
 							int neededIdx = state.GetLevelData().mAllowedLoss.Item1;
@@ -396,9 +403,7 @@ namespace SMM2_RTA_AssistTool
 							string cumulativeCoinSign = (cumulativeCoinDiff >= 0) ? "+" : "";
 							string neededCoinSign = (neededDiff >= 0) ? "+" : "";
 							string finalCoinSign = (finalDiff >= 0) ? "+" : "";
-							labels["Label_CurCoin" + (i + 1)].Text = curCoin.ToString();
 							labels["Label_CurDiff" + (i + 1)].Text = curCoinSign + curCoinDiff.ToString();
-							labels["Label_TotalCoin" + (i + 1)].Text = gotCumulativeCoin.ToString();
 							labels["Label_TotalDiff" + (i + 1)].Text = cumulativeCoinSign + cumulativeCoinDiff.ToString();
 							labels["Label_NeededDiff" + (i + 1)].Text = neededCoinSign + neededDiff.ToString();
 							labels["Label_NeededIdx" + (i + 1)].Text = "[" + neededIdx.ToString() + "]";
