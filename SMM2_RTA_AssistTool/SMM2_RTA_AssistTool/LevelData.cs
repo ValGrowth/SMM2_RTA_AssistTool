@@ -25,8 +25,11 @@ namespace SMM2_RTA_AssistTool
         public string mLevelSelectCommand; // コース選択コマンド
         public Tuple<int, int> mAllowedLoss; // 許されたコインロス
         public Tuple<int, int> mFinalAllowedLoss; // 最終コースで許されたコインロス
+        public int mAdditionalCoin; // ピーチ城パートで取得するコイン
         public string mRemark; // 備考
         public LevelData mNextLevel;
+
+        public static string[] CSV_HEADER = new string[] { "Idx", "No.", "SerialIdx", "JpTitle", "EnTitle", "Reward", "Target", "Cur", "CurDiff", "Total", "TotalDiff" };
 
         public LevelData()
         {
@@ -46,6 +49,7 @@ namespace SMM2_RTA_AssistTool
             mLevelSelectCommand = "";
             mAllowedLoss = new Tuple<int, int>(0, 0);
             mFinalAllowedLoss = new Tuple<int, int>(0, 0);
+            mAdditionalCoin = 0;
             mRemark = "";
             mNextLevel = null;
         }
@@ -82,7 +86,11 @@ namespace SMM2_RTA_AssistTool
             string imagePath = "./Images/Levels/" + list[10];
             mImage = new Bitmap(imagePath);
             mTitleImage = new FastBitmap(mImage);
-            mRemark = list[11];
+            if (!int.TryParse(list[11], out mAdditionalCoin))
+            {
+                mAdditionalCoin = 0;
+            }
+            mRemark = list[12];
             mNextLevel = null;
         }
 

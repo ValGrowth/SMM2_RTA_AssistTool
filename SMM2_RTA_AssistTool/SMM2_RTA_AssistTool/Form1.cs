@@ -532,8 +532,8 @@ namespace SMM2_RTA_AssistTool
 		private void Button_CSVOutput_Click(object sender, EventArgs e)
 		{
 			string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + "SMM2AnyCoins.csv";
-			string[] header = new string[] { "Idx", "No.", "SerialIdx", "JpTitle", "EnTitle", "Reward", "Target", "Cur", "CurDiff", "Total", "TotalDiff" };
-			const int COLUMN_NUM = 11;
+			string[] header = LevelData.CSV_HEADER;
+			int COLUMN_NUM = header.Length;
 
 			// ファイルを開く
 			using (StreamWriter file = new StreamWriter(fileName, false, Encoding.GetEncoding("Shift_JIS")))
@@ -552,30 +552,7 @@ namespace SMM2_RTA_AssistTool
 				int count = 0;
 				foreach (GameState g in mGameStateHistory)
 				{
-					string str = "";
-					str += "\"" + g.GetAllSerialIdx() + "\"";
-					str += ",\"" + g.GetLevelData().mLevelNo + "\"";
-					
-					str += ",\"";
-					int c = 0;
-					foreach (KeyValuePair<string, int> serialIdxPr in g.GetSerialIdx()) {
-						if (c > 0)
-						{
-							str += ":";
-						}
-						str += serialIdxPr.Key + "_" + serialIdxPr.Value;
-						++c;
-					}
-					str += "\"";
-
-					str += ",\"" + g.GetLevelData().mJpTitle + "\"";
-					str += ",\"" + g.GetLevelData().mEnTitle + "\"";
-					str += ",\"" + g.GetCurReward() + "\"";
-					str += ",\"" + g.GetLevelData().mInLevelCoin + "\"";
-					str += ",\"" + g.GetCurCoinNum() + "\"";
-					str += ",\"" + g.GetCurCoinDiff() + "\"";
-					str += ",\"" + g.GetCumulativeCoinNum() + "\"";
-					str += ",\"" + g.GetCumulativeCoinDiff() + "\"";
+					string str = g.MakeCSVLine();
 					file.WriteLine(str);
 					++count;
 				}

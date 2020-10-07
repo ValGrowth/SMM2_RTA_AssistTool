@@ -94,6 +94,36 @@ namespace SMM2_RTA_AssistTool
 			}
 		}
 
+		public string MakeCSVLine()
+		{
+			string str = "";
+			str += "\"" + mAllSerialIdx + "\"";
+			str += ",\"" + GetLevelData().mLevelNo + "\"";
+
+			str += ",\"";
+			int c = 0;
+			foreach (KeyValuePair<string, int> serialIdxPr in mSerialIdx)
+			{
+				if (c > 0)
+				{
+					str += ":";
+				}
+				str += serialIdxPr.Key + "_" + serialIdxPr.Value;
+				++c;
+			}
+			str += "\"";
+
+			str += ",\"" + GetLevelData().mJpTitle + "\"";
+			str += ",\"" + GetLevelData().mEnTitle + "\"";
+			str += ",\"" + mCurReward + "\"";
+			str += ",\"" + GetLevelData().mInLevelCoin + "\"";
+			str += ",\"" + mCurCoinNum + "\"";
+			str += ",\"" + GetCurCoinDiff() + "\"";
+			str += ",\"" + mCumulativeCoinNum + "\"";
+			str += ",\"" + GetCumulativeCoinDiff() + "\"";
+			return str;
+		}
+
 		private string GetLevelCode()
 		{
 			return LevelData.GetLevelCode(mLevelNo, mSerialIdx.ContainsKey(mLevelNo) ? mSerialIdx[mLevelNo] : 1);
@@ -125,7 +155,7 @@ namespace SMM2_RTA_AssistTool
 		{
 			mCurReward = reward;
 			mCurCoinNum = inLevelCoin;
-			mCumulativeCoinNum += reward + inLevelCoin;
+			mCumulativeCoinNum += reward + inLevelCoin + GetAdditionalCoin();
 			mState = STATE.CASTLE;
 		}
 
@@ -172,6 +202,16 @@ namespace SMM2_RTA_AssistTool
 			}
 			LevelData levelData = LevelManager.Instance.GetLevelData(curLevelCode);
 			return levelData;
+		}
+
+		private int GetAdditionalCoin()
+		{
+			LevelData levelData = GetLevelData();
+			if (levelData == null)
+			{
+				return 0;
+			}
+			return levelData.mAdditionalCoin;
 		}
 
 	}
