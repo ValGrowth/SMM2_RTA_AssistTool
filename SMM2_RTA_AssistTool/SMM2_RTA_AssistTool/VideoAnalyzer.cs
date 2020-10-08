@@ -245,27 +245,56 @@ namespace SMM2_RTA_AssistTool
 				return new Tuple<int, int>(-1, -1);
 			}
 
-			// 先にRewardがあるかどうかを検出する
+			// 先にRewardやアイテムがあるかどうかを検出する
 
-			bool hasReward = true;
-			int chrxmin = (int)(600 * xRate);
-			int chrxmax = (int)(1200 * xRate);
-			int chrymin = (int)(250 * yRate);
-			int chrymax = (int)(300 * yRate);
-			for (int y = chrymin; y < chrymax; y += (int)(5 * yRate))
+			bool hasItem = true;
+			int chixmin = (int)(600 * xRate);
+			int chixmax = (int)(1200 * xRate);
+			int chiymin = (int)(170 * yRate);
+			int chiymax = (int)(220 * yRate);
+			for (int y = chiymin; y < chiymax; y += (int)(5 * yRate))
 			{
-				for (int x = chrxmin; x < chrxmax; x += (int)(5 * xRate))
+				for (int x = chixmin; x < chixmax; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
 					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
 					{
-						hasReward = false;
+						hasItem = false;
 						break;
 					}
 				}
-				if (!hasReward)
+				if (!hasItem)
 				{
 					break;
+				}
+			}
+			Console.WriteLine("HasItem: " + hasItem.ToString());
+
+			bool hasReward = true;
+			if (hasItem)
+			{
+				hasReward = false;
+			} else
+			{
+				int chrxmin = (int)(600 * xRate);
+				int chrxmax = (int)(1200 * xRate);
+				int chrymin = (int)(250 * yRate);
+				int chrymax = (int)(300 * yRate);
+				for (int y = chrymin; y < chrymax; y += (int)(5 * yRate))
+				{
+					for (int x = chrxmin; x < chrxmax; x += (int)(5 * xRate))
+					{
+						Color color = gameImage.GetPixel(x, y);
+						if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
+						{
+							hasReward = false;
+							break;
+						}
+					}
+					if (!hasReward)
+					{
+						break;
+					}
 				}
 			}
 			Console.WriteLine("HasReward: " + hasReward.ToString());
@@ -276,7 +305,26 @@ namespace SMM2_RTA_AssistTool
 			bool rewardFound = false;
 			bool coinInLevelFound = false;
 
-			if (hasReward)
+			if (hasItem)
+			{
+				// 報酬なしの場合のコース内コイン
+				int ixmin2 = (int)(900 * xRate);
+				int ixmax2 = (int)(1100 * xRate);
+				int iymin2 = (int)(285 * yRate);
+				int iymax2 = (int)(335 * yRate);
+
+				coinInLevel = IdentifyNumbers(gameImage, ixmin2, ixmax2, iymin2, iymax2);
+				if (coinInLevel >= 0)
+				{
+					coinInLevelFound = true;
+				}
+				else
+				{
+					coinInLevel = 0;
+				}
+
+			}
+			else if (hasReward)
 			{
 				// コイン枚数表示部付近だけ調べれば良い
 				// 報酬コイン
