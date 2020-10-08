@@ -143,8 +143,12 @@ namespace SMM2_RTA_AssistTool
 
 			List<int> diffs = new List<int>();
 			int levelIdx = 0;
-			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
+			foreach (LevelData level in LevelManager.Instance.GetAllMinimumLevels())
 			{
+				if (level.mTitleImage == null)
+				{
+					continue;
+				}
 				diffs.Add(0);
 				FastBitmap levelImage = level.mTitleImage;
 				if (levelImage.Height != gameImage.Height || levelImage.Width != gameImage.Width)
@@ -177,8 +181,12 @@ namespace SMM2_RTA_AssistTool
 			string ret = "";
 			int minCount = 99999999;
 			levelIdx = 0;
-			foreach (LevelData level in LevelManager.Instance.GetAllLevels())
+			foreach (LevelData level in LevelManager.Instance.GetAllMinimumLevels())
 			{
+				if (level.mTitleImage == null)
+				{
+					continue;
+				}
 				if (diffs[levelIdx] < minCount)
 				{
 					minCount = diffs[levelIdx];

@@ -105,5 +105,10 @@ namespace SMM2_RTA_AssistTool {
         {
 			return mLevelDataList.Values;
         }
+
+		public ICollection<LevelData> GetAllMinimumLevels()
+		{
+			return mLevelDataMinimumList.Values;
+		}
 	}
 }

@@ -1,4 +1,4 @@
-LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand,TitlePictPath,AdditionalCoin,Remark
+LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand(Next),TitlePictPath,AdditionalCoin,Remark(Next)
 1,1,â“¹‚±‚¦‚ÄƒS[ƒ‹‚ğ–Úw‚¹I,A Downhill Battle,100,51,151,100,“y‘ä,‰º‚Q,1.png,,
 3,1,"Hello, 3DWorld!","Hello, 3D World!",100,83,334,,,‰º‚P,3.png,,
 4,1,‚³‚Î‚­‚Ì‘¾—z ‚ ‚Á‚¿‚±‚Á‚¿,Under the Angry Sun,150,101,585,400,¼‚PF,‰º‚P,4.png,,

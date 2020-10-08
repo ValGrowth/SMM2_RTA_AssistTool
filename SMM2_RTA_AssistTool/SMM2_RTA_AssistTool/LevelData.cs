@@ -57,6 +57,16 @@ namespace SMM2_RTA_AssistTool
             mLevelNo = list[0];
             mJpTitle = list[1];
             mEnTitle = list[2];
+            string imagePath = "./Images/Levels/" + list[3];
+            try
+			{
+                mImage = new Bitmap(imagePath);
+                mTitleImage = new FastBitmap(mImage);
+            } catch (Exception e)
+			{
+                mImage = null;
+                mTitleImage = null;
+            }
 
             mSerialIdx = -1;
             mLevelCode = "";
@@ -65,8 +75,6 @@ namespace SMM2_RTA_AssistTool
             mTotalCoin = -1;
             mCumulativeCoin = -1;
             mNeededCoin = -1;
-            mImage = null;
-            mTitleImage = null;
             mCastleList = "";
             mLevelSelectCommand = "";
             mAllowedLoss = new Tuple<int, int>(-1, -1);

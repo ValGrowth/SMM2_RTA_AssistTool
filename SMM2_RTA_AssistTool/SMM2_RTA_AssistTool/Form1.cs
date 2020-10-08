@@ -251,7 +251,7 @@ namespace SMM2_RTA_AssistTool
 			{
 
 				if (!CheckBox_Pause.Checked // ポーズ中でない
-					&& mGameStateHistory[mGameStateHistory.Count - 1].GetCumulativeCoinNum() < LevelManager.Instance.mFinalNeededCoin) // コインが足りない
+					&& (mGameStateHistory.Count == 0 || mGameStateHistory[mGameStateHistory.Count - 1].GetCumulativeCoinNum() < LevelManager.Instance.mFinalNeededCoin)) // コインが足りない
 				{
 					VideoGameState videoGameState = mVideoChecker.GetVideoGameState();
 
