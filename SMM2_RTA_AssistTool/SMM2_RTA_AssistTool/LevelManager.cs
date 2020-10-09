@@ -56,7 +56,14 @@ namespace SMM2_RTA_AssistTool {
 				{
 					foreach (KeyValuePair<string, LevelData> pr in mLevelDataList)
 					{
+						// 最終許容ロスをセット
 						pr.Value.mFinalAllowedLoss = new Tuple<int, int>(idx, coin);
+
+						// 必須が計測されていない場合は最終許容ロスと同じにする
+						if (pr.Value.mAllowedLoss.Item1 == 9999)
+						{
+							pr.Value.mAllowedLoss = new Tuple<int, int>(idx, coin);
+						}
 					}
 				}
 				if (lastLevelData != null)
@@ -66,7 +73,6 @@ namespace SMM2_RTA_AssistTool {
 				lastLevelData = levelData;
 				++idx;
 			}
-
 		}
 
 		private void InitLevelDataMinimum()

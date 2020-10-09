@@ -412,8 +412,11 @@ namespace SMM2_RTA_AssistTool
 							//Color greenColor = Color.FromArgb(0, 175, 52);
 							//Color redColor = Color.FromArgb(193, 41, 10);
 
-							Color greenColor = Color.FromArgb(0, 210, 62);
-							Color redColor = Color.FromArgb(231, 49, 12);
+							//Color greenColor = Color.FromArgb(0, 210, 62);
+							//Color redColor = Color.FromArgb(231, 49, 12);
+
+							Color greenColor = Color.FromArgb(0, 231, 68);
+							Color redColor = Color.FromArgb(254, 53, 13);
 
 							if (curCoinDiff >= 0)
 							{

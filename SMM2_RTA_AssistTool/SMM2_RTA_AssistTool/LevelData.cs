@@ -64,6 +64,7 @@ namespace SMM2_RTA_AssistTool
                 mTitleImage = new FastBitmap(mImage);
             } catch (Exception e)
 			{
+                Console.WriteLine("画像ファイルが見つかりませんでした。[" + list[3] + "]")
                 mImage = null;
                 mTitleImage = null;
             }
