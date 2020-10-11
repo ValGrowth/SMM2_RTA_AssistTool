@@ -115,8 +115,17 @@ namespace SMM2_RTA_AssistTool
             mCastleList = list[8];
             mLevelSelectCommand = list[9];
             string imagePath = "./Images/Levels/" + list[10];
-            mImage = new Bitmap(imagePath);
-            mTitleImage = new FastBitmap(mImage);
+            try
+            {
+                mImage = new Bitmap(imagePath);
+                mTitleImage = new FastBitmap(mImage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("画像ファイルが見つかりませんでした。[" + list[3] + "]");
+                mImage = null;
+                mTitleImage = null;
+            }
             if (!int.TryParse(list[11], out mAdditionalCoin))
             {
                 mAdditionalCoin = 0;
