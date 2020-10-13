@@ -466,13 +466,14 @@ namespace SMM2_RTA_AssistTool
 				if (levelData != null)
 				{
 					Label_CastleList.Text = levelData.mCastleList;
-					Label_LevelSelectCommand.Text = levelData.mLevelSelectCommand;
 					Label_Remark.Text = levelData.mRemark;
 					if (levelData.mNextLevel != null)
 					{
+						Label_LevelSelectCommand.Text = levelData.mNextLevel.mLevelSelectCommand;
 						Label_NextLevel.Text = "[" + levelData.mNextLevel.mLevelCode + "]（" + levelData.mNextLevel.mJpTitle + "）";
 					} else
 					{
+						Label_LevelSelectCommand.Text = "";
 						Label_NextLevel.Text = "";
 					}
 				}

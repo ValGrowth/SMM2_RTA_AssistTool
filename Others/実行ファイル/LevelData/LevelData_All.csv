@@ -1,4 +1,4 @@
-LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand(Next),TitlePictPath,AdditionalCoin,Remark(Next)
+LevelNo,SerialIdx,JpTitle,EnTitle,Reward,InLevelCoin,Cumulative,NeededCoin,Castle,LevelCommand(Next),TitlePictPath,AdditionalCoin,Remark
 1,1,坂道こえてゴールを目指せ！,A Downhill Battle,100,51,151,100,土台,下１,1.png,,
 2,1,使いこなせ！ON/OFFスイッチ,ON/OFF Switch Research Expedition,100,54,305,,,下１,2.png,,
 3,1,"Hello, 3DWorld!","Hello, 3D World!",100,83,488,,,下１,3.png,,
