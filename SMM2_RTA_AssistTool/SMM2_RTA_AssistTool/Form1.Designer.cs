@@ -91,6 +91,7 @@
 			this.Label_FinalDiff2 = new System.Windows.Forms.Label();
 			this.Label_HeaderFinal = new System.Windows.Forms.Label();
 			this.TextBox_Chart = new System.Windows.Forms.TextBox();
+			this.Button_Undo = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -165,7 +166,7 @@
 			this.CheckBox_Pause.AutoSize = true;
 			this.CheckBox_Pause.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.CheckBox_Pause.ForeColor = System.Drawing.Color.White;
-			this.CheckBox_Pause.Location = new System.Drawing.Point(662, 398);
+			this.CheckBox_Pause.Location = new System.Drawing.Point(723, 398);
 			this.CheckBox_Pause.Name = "CheckBox_Pause";
 			this.CheckBox_Pause.Size = new System.Drawing.Size(75, 28);
 			this.CheckBox_Pause.TabIndex = 10;
@@ -461,9 +462,9 @@
 			this.Button_Reset.AutoSize = true;
 			this.Button_Reset.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Button_Reset.ForeColor = System.Drawing.Color.Black;
-			this.Button_Reset.Location = new System.Drawing.Point(569, 394);
+			this.Button_Reset.Location = new System.Drawing.Point(573, 394);
 			this.Button_Reset.Name = "Button_Reset";
-			this.Button_Reset.Size = new System.Drawing.Size(75, 34);
+			this.Button_Reset.Size = new System.Drawing.Size(66, 34);
 			this.Button_Reset.TabIndex = 36;
 			this.Button_Reset.Text = "Reset";
 			this.Button_Reset.UseVisualStyleBackColor = true;
@@ -764,7 +765,7 @@
 			this.CheckBox_SplitSending.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.CheckBox_SplitSending.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.CheckBox_SplitSending.ForeColor = System.Drawing.Color.White;
-			this.CheckBox_SplitSending.Location = new System.Drawing.Point(743, 398);
+			this.CheckBox_SplitSending.Location = new System.Drawing.Point(804, 398);
 			this.CheckBox_SplitSending.Name = "CheckBox_SplitSending";
 			this.CheckBox_SplitSending.Size = new System.Drawing.Size(131, 28);
 			this.CheckBox_SplitSending.TabIndex = 60;
@@ -883,12 +884,24 @@
 			this.TextBox_Chart.Text = "テストテキスト";
 			this.TextBox_Chart.WordWrap = false;
 			// 
+			// Button_Undo
+			// 
+			this.Button_Undo.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.Button_Undo.Location = new System.Drawing.Point(649, 397);
+			this.Button_Undo.Name = "Button_Undo";
+			this.Button_Undo.Size = new System.Drawing.Size(66, 29);
+			this.Button_Undo.TabIndex = 0;
+			this.Button_Undo.Text = "Undo";
+			this.Button_Undo.UseVisualStyleBackColor = true;
+			this.Button_Undo.Click += new System.EventHandler(this.Button_Undo_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
 			this.ClientSize = new System.Drawing.Size(942, 475);
+			this.Controls.Add(this.Button_Undo);
 			this.Controls.Add(this.TextBox_Chart);
 			this.Controls.Add(this.Label_RB1_4);
 			this.Controls.Add(this.Label_LB1_4);
@@ -956,6 +969,7 @@
 			this.MinimumSize = new System.Drawing.Size(317, 249);
 			this.Name = "Form1";
 			this.Text = "SMM2_RTA_AssistTool";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed_1);
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
@@ -1034,6 +1048,7 @@
 		private System.Windows.Forms.Label Label_FinalDiff2;
 		private System.Windows.Forms.Label Label_HeaderFinal;
 		private System.Windows.Forms.TextBox TextBox_Chart;
+		private System.Windows.Forms.Button Button_Undo;
 	}
 }
 

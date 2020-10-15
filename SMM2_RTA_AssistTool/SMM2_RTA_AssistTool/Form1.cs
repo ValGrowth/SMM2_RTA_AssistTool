@@ -539,10 +539,18 @@ namespace SMM2_RTA_AssistTool
 
 		private void Button_Reset_Click(object sender, EventArgs e)
 		{
-			ResetRun();
+			// CSV出力の確認
+			if (mGameStateHistory.Count > 0)
+			{
+				DialogResult result = MessageBox.Show("Reset run?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					ResetRun();
+				}
+			}
 		}
 
-		private void Button_CSVOutput_Click(object sender, EventArgs e)
+		private void OutputCSV()
 		{
 			string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + "SMM2AnyCoins.csv";
 			string[] header = GameState.CSV_HEADER;
@@ -574,7 +582,7 @@ namespace SMM2_RTA_AssistTool
 			}
 		}
 
-		private void Button_CSVLoad_Click(object sender, EventArgs e)
+		private void LoadCSV()
 		{
 			// ファイル選択ウィンドウを開く
 
@@ -609,7 +617,16 @@ namespace SMM2_RTA_AssistTool
 
 				Label_CSVMessage.Text = "Loaded. " + ofd.FileName;
 			}
+		}
 
+		private void Button_CSVOutput_Click(object sender, EventArgs e)
+		{
+			OutputCSV();
+		}
+
+		private void Button_CSVLoad_Click(object sender, EventArgs e)
+		{
+			LoadCSV();
 		}
 
 		[DllImport("user32.dll")]
@@ -649,6 +666,30 @@ namespace SMM2_RTA_AssistTool
 			SendKeys.Send("{Enter}");
 
 			Console.WriteLine("EnterKey was successfully send to LiveSplit.");
+		}
+
+		private void Button_Undo_Click(object sender, EventArgs e)
+		{
+			// 履歴を１つ削除する
+			if (mGameStateHistory.Count == 0)
+			{
+				return;
+			}
+			mGameStateHistory.RemoveAt(mGameStateHistory.Count - 1);
+			UpdateDisplay();
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			// CSV出力の確認
+			if (mGameStateHistory.Count > 0)
+			{
+				DialogResult result = MessageBox.Show("終了する前にCSV出力しますか？", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					OutputCSV();
+				}
+			}
 		}
 	}
 }
