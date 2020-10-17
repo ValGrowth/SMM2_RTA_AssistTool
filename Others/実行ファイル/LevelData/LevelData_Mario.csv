@@ -18,8 +18,8 @@ Dog1,1,つるつるにげ切れ ブランコクレーン,Swinging Claw Escape,200,97,2029,400,東
 Green,1,ジュゲムの雲で 気分はヘヴン,Head in the Clouds,0,27,3737,,,赤キノ,Green.png,,
 Red,1,重たい石材 よっこらしょ,Heavy Stone Heave-Ho,0,22,3759,,,青キノ,Red.png,,最後1up
 Blue,1,まいごのキノピオをさがして,Little Toad Lost,0,41,3800,1100,東２F（右端）,下２,Blue.png,,15枚までリカバリ可能(きのこヒップと最後)
-21,1,スネークブロックで空の旅,Snake Blocks in the Sky,150,24,3974,,,R１,21.png,,
-35,1,木のぼりマスターへの道,Master of the Trees,100,49,4123,,,下１,37.png,,10コインとる、木の右の２コイン無視、ブロック１コイン無視
+21,1,スネークブロックで空の旅,Snake Blocks in the Sky,150,24,3974,,,下２,21.png,,
+35,1,木のぼりマスターへの道,Master of the Trees,100,49,4123,,,R１下１,37.png,,10コインとる、木の右の２コイン無視、ブロック１コイン無視
 38,1,いそいで進め！ アリへいランド,Ant Trooper March,150,82,4355,,,下１,38.png,,
 39,1,ファイアクッパJr.クラウンの 夜間飛行,Fly-by-Night Clown Car,150,77,4582,500,東ドア（右から２番目）,下１,39.png,,アイテム上３コインとる
 56,1,守って！ メット・ザ・ライド,Buzzy: The Movie: The Book: The Ride,150,200,4932,,,なし,56.png,,
@@ -58,4 +58,4 @@ Yamamura2,1,無人飛行船でコイン集め,Coin Collecting on an Unmanned Airship,200,55
 64,1,こうそくスネークブロックでどこまでも,Fast Snake Block Frontier,200,63,13482,,,下２,64.png,,ヒップ10コイン無し
 66,1,パタメットを 乗りついで,Para-Beetle Transfer,300,23,13805,,,なし,66.png,,
 Eclipse,1,キノピオ全員、連れもどせ,Operation: Toadal Eclipse,0,140,13945,,,Y 下５,Eclipse.png,,
-22,1,森の川の魚達,River Fish in the Forest,100,55,14100,2000,ステンドグラス,Y ZR 下２,22.png,,十字コイン無し、１枚許容
+22,1,森の川の魚達,River Fish in the Forest,100,55,14100,2000,ステンドグラス,Y ZR L1下４,22.png,,十字コイン無し、１枚許容
