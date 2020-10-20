@@ -39,7 +39,7 @@ namespace SMM2_RTA_AssistTool {
 			{
 				LevelData levelData = new LevelData(line);
 				mLevelDataList.Add(levelData.mLevelCode, levelData);
-				coin += levelData.mReward + levelData.mInLevelCoin - levelData.mNeededCoin;
+				coin += levelData.mReward + levelData.mInLevelCoin + levelData.mAdditionalCoin - levelData.mNeededCoin;
 				levelData.mAllowedLoss = new Tuple<int, int>(9999, 9999);
 				mFinalNeededCoin = Math.Max(mFinalNeededCoin, levelData.mCumulativeCoin);
 				if (coin <= 30)
