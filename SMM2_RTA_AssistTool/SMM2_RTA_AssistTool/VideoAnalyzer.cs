@@ -78,14 +78,30 @@ namespace SMM2_RTA_AssistTool
 			double xRate = (double)gameImage.Width / ORIGINAL_WIDTH;
 			double yRate = (double)gameImage.Height / ORIGINAL_HEIGHT;
 
-			// 黄色い範囲をチェック
+			// 黄色い範囲をチェック(左側)
 			int chxmin = (int)(150 * xRate);
-			int chxmax = (int)(500 * xRate);
+			int chxmax = (int)(400 * xRate);
 			int chymin = (int)(100 * yRate);
 			int chymax = (int)(200 * yRate);
 			for (int y = chymin; y < chymax; y += (int)(5 * yRate))
 			{
 				for (int x = chxmin; x < chxmax; x += (int)(5 * xRate))
+				{
+					Color color = gameImage.GetPixel(x, y);
+					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
+					{
+						return "";
+					}
+				}
+			}
+			// 黄色い範囲をチェック(右側)
+			int chxmin2 = (int)(1600 * xRate);
+			int chxmax2 = (int)(1700 * xRate);
+			int chymin2 = (int)(100 * yRate);
+			int chymax2 = (int)(200 * yRate);
+			for (int y = chymin2; y < chymax2; y += (int)(5 * yRate))
+			{
+				for (int x = chxmin2; x < chxmax2; x += (int)(5 * xRate))
 				{
 					Color color = gameImage.GetPixel(x, y);
 					if (Math.Abs(color.R - 255) + Math.Abs(color.G - 205) + Math.Abs(color.B - 0) > ALLOWED_DIFF)
